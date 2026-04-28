@@ -1,0 +1,16 @@
+{
+  "files.associations": {
+    "mx": "php",
+    "install": "php",
+    "deploy": "php"
+  },
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "intelephense.files.exclude": ["library/**"],
+  "explorer.fileNesting.patterns": {
+    "composer.json": "composer.lock",
+    "mx": "install, deploy",
+    "README.md": "LICENSE, CLAUDE.md",
+    "index.php": ".htaccess"
+  }
+}

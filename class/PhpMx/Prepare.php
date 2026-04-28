@@ -1,0 +1,205 @@
+<?php
+
+namespace PhpMx;
+
+/**
+ * Classe utilitária para substituição de templates em textos. 
+ * @example Prepare::prepare("Olá [#user.name]", ['user' => ['name' => 'Danilo']]) -> "Olá Danilo"
+ * @example Prepare::prepare("Soma: [#sum:10,20]", ['sum' => fn($a, $b) => $a + $b]) -> "Soma: 30"
+ * @example Prepare::prepare("Valor: [#]", [100]) -> "Valor: 100"
+ */
+abstract class Prepare
+{
+    /**
+     * Prepara um texto substituindo ocorrências do template pelos dados fornecidos.
+     * Aceita:
+     * - Sequencial: `[#]`
+     * - Referência: `[#key]` ou `[#user.name]` (Dot Notation)
+     * - Funções: `[#key:param1,param2]` (Executa closures no array de dados)
+     * @param string|null $string Texto base contendo as tags.
+     * @param array|string $prepare Dados para substituição.
+     * @return string Texto processado.
+     */
+    static function prepare(?string $string, array|string $prepare = []): string
+    {
+        if (!empty($prepare)) {
+            $string = strval($string ?? '');
+            if (!is_blank($string)) {
+                $tags = self::getPrepareTags($string);
+                if (!empty($tags)) {
+                    $prepare = self::combinePrepare($prepare);
+                    $string = self::resolve($string, $tags, $prepare);
+                }
+            }
+        }
+        return $string;
+    }
+
+    /** 
+     * Retorna as tags prepare existentes em uma string (sem os colchetes).
+     * @param string $string O texto a ser analisado.
+     * @return array Lista de tags únicas encontradas.
+     */
+    static function tags($string): array
+    {
+        $tags = self::getPrepareTags($string);
+        $tags = array_map(fn($v) => substr($v, 2, -1), $tags);
+        return array_unique($tags);
+    }
+
+    /** 
+     * Retorna as chaves disponíveis em um array de prepare processado.
+     * @param array|string $prepare Os dados de prepare a serem analisados.
+     * @return array Lista de chaves (incluindo dot notation de subarrays).
+     */
+    static function keys($prepare): array
+    {
+        $keys = self::combinePrepare($prepare);
+        return array_keys($keys);
+    }
+
+    /** 
+     * Escapa as tags prepare para evitar que sejam processadas.
+     * @param string $string Texto original.
+     * @param array|null $prepare Se informado, escapa apenas chaves específicas.
+     * @return string Texto escapado.
+     */
+    static function scape($string, ?array $prepare = null): string
+    {
+        if ($prepare) {
+            $prepare = self::combinePrepare($prepare);
+            $prepare = array_keys($prepare);
+
+            $replace = array_map(fn($value) => "[&#35$value]", $prepare);
+            $prepare = array_map(fn($value) => "[#$value]", $prepare);
+
+            return str_replace($prepare, $replace, $string);
+        } else {
+            return str_replace('[#', "[&#35", $string);
+        }
+    }
+
+    /**
+     * Executa as substituições de todas as tags encontradas no texto.
+     * @param string $string Texto com as tags a serem substituídas.
+     * @param array $tags Lista de tags encontradas no texto.
+     * @param array $prepare Dados de substituição já normalizados.
+     * @return string Texto com todas as substituições aplicadas.
+     */
+    protected static function resolve($string, $tags, $prepare): string
+    {
+        list($ppN, $ppR) = self::separePrepare($prepare);
+
+        foreach ($tags as $tag) {
+            $tag = substr($tag, 1, -1);
+            $value = self::getTagValue($tag, $ppN, $ppR) ?? "[%$tag]";
+            $string = str_replace_first("[$tag]", $value, $string);
+        }
+
+        $string = str_replace("[%#", '[#', $string);
+        $string = str_replace('\#', "&#35", $string);
+
+        return $string;
+    }
+
+    /**
+     * Resolve o valor correspondente a uma tag individual (sequencial, por referência ou função closure).
+     * @param string $tag Nome da tag sem os colchetes.
+     * @param array $ppN Referência ao array de valores sequenciais (consumidos por posição).
+     * @param array $ppR Array de valores por referência (chave nomeada).
+     * @param bool $runClosure Se deve executar closures automaticamente ao resolver.
+     * @return mixed Valor resolvido ou null se não encontrado.
+     */
+    protected static function getTagValue($tag, &$ppN, $ppR, bool $runClosure = true): mixed
+    {
+        if ($tag == '#') {
+            $value = array_shift($ppN) ?? null;
+            if ($runClosure && is_closure($value))
+                $value = $value();
+            return $value;
+        }
+
+        if (strpos($tag, ':') === false) {
+            $tag = substr($tag, 1);
+            $value = $ppR[$tag] ?? null;
+            if ($runClosure && is_closure($value))
+                $value = $value();
+            return $value;
+        } else {
+            $paramns = explode(":", $tag);
+            $function = array_shift($paramns);
+            $paramns = implode(":", $paramns);
+            $paramns = explode(",", $paramns);
+
+            $function = self::getTagValue($function, $ppN, $ppR, false);
+
+            if (is_closure($function)) {
+                foreach ($paramns as &$param) {
+                    if (intval($param) == $param) {
+                        $param = intval($param);
+                    } else if (strtolower($param) == 'false') {
+                        $param = false;
+                    } else if (strtolower($param) == 'true') {
+                        $param = true;
+                    } else {
+                        $param = str_replace('\#', "&#35", $param);
+                        $param = self::getTagValue($param, $ppN, $ppR) ?? $param;
+                    }
+                }
+                return $function(...$paramns);
+            }
+            return null;
+        }
+    }
+
+    /**
+     * Separa um array de dados em dois grupos: sequenciais (chaves numéricas) e por referência (chaves string).
+     * @param array $prepare Array de dados a separar.
+     * @return array Par [$sequenciais, $referências].
+     */
+    protected static function separePrepare($prepare): array
+    {
+        $sequence = [];
+        $reference = [];
+        foreach ($prepare as $key => $value) {
+            if (is_numeric($key)) {
+                $sequence[] = $value;
+            } else {
+                $reference[$key] = $value;
+            }
+        }
+        return [$sequence, $reference];
+    }
+
+    /**
+     * Normaliza e expande o array de dados, convertendo subarrays em entradas com chaves dot notation.
+     * @param array|string $prepare Dados de entrada a normalizar.
+     * @return array Array expandido com chaves planas e dot notation.
+     */
+    protected static function combinePrepare(array|string $prepare): array
+    {
+        $prepare = is_array($prepare) ? $prepare : [$prepare];
+        foreach ($prepare as $key => $value) {
+            if (is_array($value)) {
+                $prepare[$key] = json_encode($value);
+                foreach (self::combinePrepare($value) as $subKey => $subValue) {
+                    $newKey = $subKey == '.' ? $key : "$key.$subKey";
+                    $prepare[$newKey] = $subValue;
+                }
+            }
+        }
+        return $prepare;
+    }
+
+    /**
+     * Extrai todas as tags [#...] presentes em uma string usando regex.
+     * @param string $string Texto a ser analisado.
+     * @return array Lista de tags encontradas (com os colchetes).
+     */
+    protected static function getPrepareTags(string $string): array
+    {
+        preg_match_all("#\[[\#\>][^\]]*+\]#i", $string, $tags);
+        $tags = array_shift($tags);
+        return $tags;
+    }
+}
