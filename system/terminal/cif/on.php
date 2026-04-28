@@ -5,7 +5,7 @@ use PhpMx\Terminal;
 
 /**
  * Criptografa uma string ou um conjunto de argumentos utilizando o motor Cif.
- * @param array<string> ...$content Texto ou termos que serão cifrados.
+ * @param string[] ...$content Texto ou termos que serão cifrados.
  */
 return new class {
 

@@ -17,6 +17,6 @@
 !/system/router/MxServer.php
 
 /class/Model
-/sqlite/sqlite
+/library/sqlite
 /system/datalayer
 

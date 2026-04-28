@@ -9,4 +9,6 @@ class [#recordClass] extends \[#namespace]\Driver\Driver[#recordClass]
     protected function _onUpdate() {}
 
     protected function _onDelete() {}
+
+    protected function _onUndelete() {}
 }

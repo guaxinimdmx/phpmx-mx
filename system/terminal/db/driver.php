@@ -83,6 +83,7 @@ return new class {
             'start' => implode('', $start),
             'method' => implode('', $method),
             'varTable' => implode('', $varTable),
+            'dbClass' => strToPascalCase("db $this->dbName"),
         ];
 
         $content = $this->template('driver/main/class', $data);
@@ -186,11 +187,22 @@ return new class {
                     'blob' => 'string',
                 };
 
+                $fieldMap['inputPhpType'] = match ($fieldMap['type']) {
+                    'tinyint', 'smallint', 'mediumint', 'int', 'bigint' => '?int',
+                    'idx' => 'null|int',
+                    'decimal', 'float', 'double' => 'null|float|string',
+                    'boolean' => '?bool',
+                    'char', 'varchar', 'email', 'md5', 'password', 'text', 'date', 'time', 'datetime', 'timestamp' => '?string',
+                    'json' => '?array',
+                    'blob' => '?string',
+                };
+
                 $data = [
                     'fieldMethod' => $feildMethod,
                     'fieldComment' => $fieldMap['comment'],
                     'fieldType' => ucfirst($fieldMap['type']),
                     'fieldPhpType' => $fieldMap['phpType'],
+                    'inputPhpType' => $fieldMap['inputPhpType'],
                     'fieldValue' => $value,
                     'fieldUseNull' => $fieldMap['null'] ? 'true' : 'false',
                     'fieldSettings' => $this->arrayToDeclarationString($settings)

@@ -8,14 +8,14 @@
 namespace [#namespace]\Driver;
 
 /**
- * @method \[#namespace]\Record\[#recordClass] active Retorna o registro marcado como ativo
- * @method \[#namespace]\Record\[#recordClass][] getAll Retorna um array de registros
- * @method \[#namespace]\Record\[#recordClass] getOne Retorna um registro
- * @method \[#namespace]\Record\[#recordClass] getOneKey Retorna um registro baseando-se em uma idkey
- * @method \[#namespace]\Record\[#recordClass] getNew Retorna um registro novo
- * @method \[#namespace]\Record\[#recordClass] getNull Retorna um registro nulo
+ * @method \[#namespace]\Record\[#recordClass] active(?\[#namespace]\Record\[#recordClass] $record = null) Retorna o registro marcado como ativo
+ * @method \[#namespace]\Record\[#recordClass][] getAll(...$args) Retorna um array de registros
+ * @method \[#namespace]\Record\[#recordClass] getOne(...$args) Retorna um registro
+ * @method \[#namespace]\Record\[#recordClass] getOneKey(?string $idKey = null, ?string $errMessage = null, int $errCode = 404) Retorna um registro baseando-se em uma idkey
+ * @method \[#namespace]\Record\[#recordClass] getNew() Retorna um registro novo
+ * @method \[#namespace]\Record\[#recordClass] getNull() Retorna um registro nulo
  *
- * @method \[#namespace]\Record\[#recordClass][] _convert Converte um array de consula em um array de objetos de registro
+ * @method \[#namespace]\Record\[#recordClass][] _convert(array $arrayRecord) Converte um array de consula em um array de objetos de registro
  */
 abstract class Driver[#tableClass] extends \PhpMx\Datalayer\Driver\Table
 {

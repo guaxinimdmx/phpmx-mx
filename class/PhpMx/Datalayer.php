@@ -18,7 +18,7 @@ abstract class Datalayer
     /** @var BaseConnection[] */
     protected static $instance = [];
 
-    /** @var array<string, class-string<BaseConnection>> */
+    /** @var array[] */
     protected static array $type = [
         'MYSQL' => Mysql::class,
         'MARIADB' => Mariadb::class,

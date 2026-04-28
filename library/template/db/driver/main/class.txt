@@ -10,11 +10,10 @@ namespace [#namespace]\Driver;
 use PhpMx\Snap;
 
 abstract class [#mainClass]
-{[#varTable]    [#method]
-}
+{[#varTable]    [#method]}
 
 [#start]
-Snap::register([#mainClass]::class, [#mainClass]::class);
+Snap::register(\[#namespace]\[#dbClass]::class, \[#namespace]\[#dbClass]::class);
 
 /***************************************************\
 |* Arquivo de driver gerado por PhpMx              *|

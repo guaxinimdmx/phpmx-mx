@@ -16,7 +16,7 @@ class Snap
      * Registra uma ou mais classes em um grupo de snap.
      *
      * @param string $snap Nome do snap
-     * @param string|array<string> ...$classes Classes a registrar
+     * @param string|string[] ...$classes Classes a registrar
      */
     static function register(string $snap, string|array ...$classes): void
     {
@@ -36,7 +36,7 @@ class Snap
      * Opcionalmente registra classes antes de capturar.
      *
      * @param string $snap Nome do snap a criar
-     * @param string|array<string> ...$classes Classes a registrar antes de capturar (opcional)
+     * @param string|string[] ...$classes Classes a registrar antes de capturar (opcional)
      */
     static function capture(string $snap, string|array ...$classes): void
     {
