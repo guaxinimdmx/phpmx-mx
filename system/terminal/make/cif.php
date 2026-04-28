@@ -5,14 +5,14 @@ use PhpMx\File;
 use PhpMx\Terminal;
 
 /**
- * Gera um novo arquivo de certificado (.crt) para o motor de criptografia Cif em storage/certificate
+ * Gera um novo arquivo de certificado (.crt) para o motor de criptografia Cif em library/certificate
  * @param string $cifName Nome do arquivo de certificado sem extensão.
  */
 return new class {
 
     function __invoke(string $cifName)
     {
-        $file = path("storage/certificate/$cifName");
+        $file = path("library/certificate/$cifName");
         $file = File::setEx($file, 'crt');
 
         if (File::check($file))

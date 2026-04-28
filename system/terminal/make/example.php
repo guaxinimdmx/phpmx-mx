@@ -4,7 +4,7 @@ use PhpMx\File;
 use PhpMx\Terminal;
 
 /**
- * Gera um novo arquivo de exemplo em storage/example.
+ * Gera um novo arquivo de exemplo em library/example.
  * @param string $fileName Nome do arquivo.
  */
 return new class {
@@ -13,7 +13,7 @@ return new class {
     {
         $fileName = strToCamelCase($fileName);
 
-        $file = path('storage/example', "$fileName.php");
+        $file = path('library/example', "$fileName.php");
 
         if (File::check($file))
             throw new Exception("File [$file] already exists");

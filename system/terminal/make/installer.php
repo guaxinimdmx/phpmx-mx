@@ -13,7 +13,7 @@ return new class {
         if (File::check('install'))
             throw new Exception("Install already exists in project");
 
-        $template = Path::seekForFile('storage/template/terminal/installer.txt');
+        $template = Path::seekForFile('library/template/terminal/installer.txt');
         $template = Import::content($template);
 
         File::create('install', $template);

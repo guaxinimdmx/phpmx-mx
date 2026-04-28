@@ -4,7 +4,7 @@ use PhpMx\Dir;
 use PhpMx\Trait\TerminalHelperTrait;
 
 /**
- * Lista todos os arquivos e recursos registrados no diretório storage do projeto.
+ * Lista todos os arquivos e recursos registrados no diretório library do projeto.
  * @param string $filter Parte do nome ou caminho do arquivo para filtrar a busca.
  */
 return new class {
@@ -13,7 +13,7 @@ return new class {
 
     function __invoke(?string $filter = null)
     {
-        $this->handle('storage', $filter, '   [#c:p,#name] [#c:sd,#_file]');
+        $this->handle('library', $filter, '   [#c:p,#name] [#c:sd,#_file]');
     }
 
     protected function scan(string $path)

@@ -8,29 +8,39 @@ return new class {
 
     function __invoke()
     {
-        self::createDir('source');
-        self::createDir('storage');
+        self::createDir('class');
+        self::createDir('library');
         self::createDir('system');
         self::createDir('system/helper');
         self::createDir('system/helper/function');
         self::createDir('system/helper/constant');
         self::createDir('system/helper/script');
 
+        self::createDir('class/Controller');
+        self::createDir('library/assets');
+        self::createDir('library/download');
+        self::createDir('system/middleware');
+        self::createDir('system/router');
+
         self::promote('.vscode/settings.json');
         self::promote('system/helper/script/path.php');
 
-        self::blockFile('.env', 'MX-CORE', [
+        self::promote('index.php');
+        self::promote('.htaccess');
+
+        self::blockFile('.env', 'MX', [
             'DEV = true',
+            'FORCE_SSL = false'
         ]);
 
-        self::blockFile('.gitignore', 'MX-CORE', [
+        self::blockFile('.gitignore', 'MX', [
             '/.env',
             '/vendor',
             '/.claude',
             '/.vscode',
             '/CLAUDE.md',
-            '/storage/cache',
-            '/storage/certificate',
+            '/library/cache',
+            '/library/certificate',
         ]);
 
         self::createFile('.conf', [

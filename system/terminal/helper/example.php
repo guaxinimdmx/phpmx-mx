@@ -22,7 +22,7 @@ return new class {
         };
 
         $this->handle(
-            'storage/example',
+            'library/example',
             $filter,
             $show,
             $show,

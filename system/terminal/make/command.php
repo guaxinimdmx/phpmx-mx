@@ -24,7 +24,7 @@ return new class {
         if (File::check($file))
             throw new Exception("Command [$command] already exists in project");
 
-        $template = Path::seekForFile('storage/template/terminal/command.txt');
+        $template = Path::seekForFile('library/template/terminal/command.txt');
         $template = Import::content($template, ['command' => $command]);
 
         File::create($file, $template);

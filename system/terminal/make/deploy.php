@@ -13,7 +13,7 @@ return new class {
         if (File::check('deploy'))
             throw new Exception("Deploy already exists in project");
 
-        $template = Path::seekForFile('storage/template/terminal/deploy.txt');
+        $template = Path::seekForFile('library/template/terminal/deploy.txt');
         $template = Import::content($template);
 
         File::create('deploy', $template);
