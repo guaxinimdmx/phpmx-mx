@@ -28,9 +28,11 @@ class InputFieldCaptcha extends InputField
         $this->validate(function ($recived) {
             try {
                 $captcha = explode('|', "$recived|");
-                $key = Cif::off($captcha[0]);
+                $data = Cif::off($captcha[0]);
+                $key = $data[0];
+                $time = time() - $data[1];
                 $value = mx5(strtoupper($captcha[1]));
-                return Mx5::compare($key, $value);
+                return Mx5::compare($key, $value) && $time <= env('CAPTCHA_TIME');
             } catch (Throwable $e) {
                 return false;
             }

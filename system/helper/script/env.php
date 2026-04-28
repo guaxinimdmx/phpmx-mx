@@ -56,6 +56,9 @@ Env::default('CACHE_MP3', '+30 days');
 /** Tempo de cache no navegador para arquivos de vídeo MP4 */
 Env::default('CACHE_MP4', '+30 days');
 
+/** Tempo em segudos que um captcha é válido */
+Env::default('CAPTCHA_TIME', '60');
+
 /** Mensagem padrão para status HTTP 200 (Success) */
 Env::default('STM_200', 'ok');
 

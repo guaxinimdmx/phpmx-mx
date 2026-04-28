@@ -34,7 +34,7 @@ class Captcha
 
     protected function getKey(string $captcha): string
     {
-        return Cif::on(mx5($captcha));
+        return Cif::on([mx5($captcha), time()]);
     }
 
     protected function getImage(string $captcha, string $fg, string $bg): string
