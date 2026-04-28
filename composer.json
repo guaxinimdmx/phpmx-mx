@@ -1,6 +1,6 @@
 {
-    "name": "phpmx/core",
-    "description": "Núcleo para aplicações modernas em PHP",
+    "name": "phpmx/mx",
+    "description": "Framework base para aplicações modernas em PHP",
     "license": "MIT",
     "authors": [
         {

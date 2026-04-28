@@ -1,8 +1,8 @@
-# PHPMX CORE
+# PHPMX MX
 
-Núcleo para aplicações modernas em PHP
+Framework base para aplicações modernas em PHP
 
 ```bash
-composer require phpmx/core
+composer require phpmx/mx
 ./vendor/bin/mx install
 ```
