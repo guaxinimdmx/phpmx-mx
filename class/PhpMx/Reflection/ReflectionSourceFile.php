@@ -38,7 +38,7 @@ class ReflectionSourceFile extends BaseReflectionFile
         $methods = self::extractMethodsReflection($reflection, $docScheme['methods'] ?? []);
 
         return array_filter([
-            '_key' => md5("source:$sourceName"),
+            '_key' => md5("class:$sourceName"),
             '_type' => $type,
             '_file' => path($reflection->getFileName()),
             '_line' => $reflection->getStartLine(),

@@ -30,7 +30,8 @@ return new class {
 
         self::blockFile('.env', 'MX', [
             'DEV = true',
-            'FORCE_SSL = false'
+            'FORCE_SSL = false',
+            'DB_MAIN_TYPE = sqlite',
         ]);
 
         self::blockFile('.gitignore', 'MX', [
@@ -41,6 +42,9 @@ return new class {
             '/CLAUDE.md',
             '/library/cache',
             '/library/certificate',
+            '/source/Model/Db*/Driver',
+            '/storage/sqlite',
+            '/system/datalayer/*/scheme',
         ]);
 
         self::createFile('.conf', [

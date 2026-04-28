@@ -22,6 +22,7 @@
             "system/helper/function/dbug.php",
             "system/helper/function/env.php",
             "system/helper/function/htmlToInlineCss.php",
+            "system/helper/function/idkey.php",
             "system/helper/function/is.php",
             "system/helper/function/mdToHtml.php",
             "system/helper/function/mx5.php",

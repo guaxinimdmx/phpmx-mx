@@ -1,0 +1,22 @@
+<?php
+
+/***************************************************\
+|* Arquivo de driver gerado por PhpMx              *|
+|* ALTERAÇÕES REALIZADAS AQUI SERÃO PERDIDAS       *|
+\***************************************************/
+
+namespace [#namespace]\Driver;
+
+use PhpMx\Snap;
+
+abstract class [#mainClass]
+{[#varTable]    [#method]
+}
+
+[#start]
+Snap::register('db.[#dbName]', [#mainClass]::class);
+
+/***************************************************\
+|* Arquivo de driver gerado por PhpMx              *|
+|* ALTERAÇÕES REALIZADAS AQUI SERÃO PERDIDAS       *|
+\***************************************************/

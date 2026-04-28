@@ -33,7 +33,7 @@ return new class {
         if (File::check($file))
             return Terminal::echol("[#c:wd,ignored] [#c:dd,file] [#c:pd,$file] [#c:dd,already exists]");
 
-        $template = "library/template/terminal/$ex.txt";
+        $template = "library/template/view/$ex.txt";
 
         $content = Path::seekForFile($template);
 
