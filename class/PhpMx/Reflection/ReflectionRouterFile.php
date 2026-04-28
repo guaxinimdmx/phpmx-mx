@@ -83,7 +83,7 @@ abstract class ReflectionRouterFile extends BaseReflectionFile
         $method = array_shift($parts) ?? '__invoke';
 
         $info = [
-            '_key' => md5("class:$controller"),
+            '_key' => md5("source:$controller"),
             '_type' => 'class',
             '_file' => null,
             '_line' => null,
