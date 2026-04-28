@@ -14,7 +14,7 @@ abstract class [#mainClass]
 }
 
 [#start]
-Snap::register('db.[#dbName]', [#mainClass]::class);
+Snap::register([#mainClass]::class, [#mainClass]::class);
 
 /***************************************************\
 |* Arquivo de driver gerado por PhpMx              *|

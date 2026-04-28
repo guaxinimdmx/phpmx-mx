@@ -84,7 +84,6 @@ abstract class Datalayer
             Trace::add('datalayer.unregister', self::externalName($dbName, 'Db'), function () use ($dbName) {
                 $dbName = self::internalName($dbName);
                 unset(self::$instance[$dbName]);
-                Snap::restore("db.$dbName");
             });
     }
 
