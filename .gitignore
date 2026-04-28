@@ -10,3 +10,13 @@
 /library/certificate/*
 !/library/certificate/base.crt
 
+/source/Controller/*
+!/source/Controller/MxServer
+
+/system/router/*
+!/system/router/MxServer.php
+
+/class/Model
+/sqlite/sqlite
+/system/datalayer
+

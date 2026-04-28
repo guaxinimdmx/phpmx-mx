@@ -29,19 +29,19 @@ abstract class Terminal
         $commandLine = implode(' ', $commandLine);
         $commandLine = explode(' ', $commandLine);
 
-        $showLog = false;
+        $showTrace = false;
 
         $commandLine = array_map(fn($v) => trim($v), $commandLine);
         $commandLine = array_filter($commandLine, fn($v) => boolval($v));
 
         if (!empty($commandLine) && str_starts_with($commandLine[0], '+')) {
-            $showLog = true;
+            $showTrace = true;
             $commandLine[0] = substr($commandLine[0], 1);
             if (empty($commandLine[0])) unset($commandLine[0]);
         }
 
         if (empty($commandLine)) $commandLine = ['logo'];
-        $result = Log::add('mx', 'terminal ' . implode(' ', $commandLine), function () use ($commandLine) {
+        $result = Trace::add('mx', 'terminal ' . implode(' ', $commandLine), function () use ($commandLine) {
             try {
                 $command = array_shift($commandLine);
                 $params = $commandLine;
@@ -90,14 +90,14 @@ abstract class Terminal
                 foreach ($trace as $traceLine)
                     self::echol(' [#c:dd,#][#c:dd,:][#c:dd,#]', [$traceLine['file'], $traceLine['line']]);
 
-                Log::exception($e);
+                Trace::exception($e);
                 return false;
             }
         });
 
-        if (env('DEV') && $showLog) {
+        if (env('DEV') && $showTrace) {
             self::echo();
-            self::echo(Log::getString());
+            self::echo(Trace::getString());
         }
 
         return $result;

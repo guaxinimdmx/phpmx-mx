@@ -6,34 +6,34 @@ use Closure;
 use Throwable;
 
 /** 
- * Classe utilitária para registro estruturado de logs e escopos.
+ * Classe utilitária para registro estruturado de traces e escopos.
  */
-abstract class Log
+abstract class Trace
 {
-    protected static array $log = [];
+    protected static array $trace = [];
     protected static array $scope = [];
-    protected static bool $useLog = true;
+    protected static bool $useTrace = true;
 
     /**
-     * Habilita ou desabilita o registro de logs.
-     * @param bool $useLog True para habilitar, false para desabilitar.
+     * Habilita ou desabilita o registro de traces.
+     * @param bool $useTrace True para habilitar, false para desabilitar.
      * @return void
      */
-    static function useLog(bool $useLog): void
+    static function useTrace(bool $useTrace): void
     {
-        self::$useLog = $useLog;
+        self::$useTrace = $useTrace;
     }
 
     /**
-     * Adiciona uma linha de log ou abre um escopo de execução via Closure.
-     * @param string $type Categoria do log.
-     * @param string $message Mensagem do log.
-     * @param Closure|null $scope Closure opcional para criar um escopo de log.
-     * @return mixed Retorno do Closure ou o resultado do log.
+     * Adiciona uma linha de trace ou abre um escopo de execução via Closure.
+     * @param string $type Categoria do trace.
+     * @param string $message Mensagem do trace.
+     * @param Closure|null $scope Closure opcional para criar um escopo de trace.
+     * @return mixed Retorno do Closure ou o resultado do trace.
      */
     static function add(string $type, string $message, ?Closure $scope = null): mixed
     {
-        if (!self::$useLog)
+        if (!self::$useTrace)
             return $scope();
 
         if (is_null($scope)) {
@@ -61,23 +61,23 @@ abstract class Log
      */
     static function changeScope(string $type, string $message): void
     {
-        if (!self::$useLog) return;
+        if (!self::$useTrace) return;
 
         if (count(self::$scope)) {
             $scopeKey = end(self::$scope);
-            self::$log[$scopeKey][0] = $type;
-            self::$log[$scopeKey][1] = $message;
+            self::$trace[$scopeKey][0] = $type;
+            self::$trace[$scopeKey][1] = $message;
         }
     }
 
     /**
-     * Registra uma exceção detalhada no log.
+     * Registra uma exceção detalhada no trace.
      * @param Throwable $e A exceção a ser registrada.
      * @return void
      */
     static function exception(Throwable $e): void
     {
-        if (!self::$useLog) return;
+        if (!self::$useTrace) return;
 
         $type = $e::class;
         $message = $e->getMessage();
@@ -88,24 +88,24 @@ abstract class Log
     }
 
     /**
-     * Retorna o log processado com contadores de categorias.
-     * @return array ['log' => array, 'count' => array]
+     * Retorna o trace processado com contadores de categorias.
+     * @return array ['trace' => array, 'count' => array]
      */
     static function get(): array
     {
-        $currentLog = self::$log;
+        $currentTrace = self::$trace;
         $currentScope = self::$scope;
-        $encapsLine = ['mx', 'log', -1, memory_get_peak_usage(true)];
+        $encapsLine = ['mx', 'trace', -1, memory_get_peak_usage(true)];
 
         while (count($currentScope)) {
             $scopeKey = array_pop($currentScope);
-            self::closeLine($currentLog[$scopeKey]);
+            self::closeLine($currentTrace[$scopeKey]);
         }
 
-        array_unshift($currentLog, $encapsLine);
+        array_unshift($currentTrace, $encapsLine);
         $count = [];
 
-        foreach ($currentLog as $pos => $line) {
+        foreach ($currentTrace as $pos => $line) {
             list($type, $message, $scope, $memory) = $line;
             $type = strToCamelCase($type);
             $message = str_replace('\\', '.', $message);
@@ -114,7 +114,7 @@ abstract class Log
             $count[$type] = $count[$type] ?? 0;
             $count[$type]++;
 
-            $currentLog[$pos] = [
+            $currentTrace[$pos] = [
                 $type,
                 $message,
                 $scope,
@@ -128,20 +128,20 @@ abstract class Log
         }
 
         return [
-            'log' => $currentLog,
+            'trace' => $currentTrace,
             'count' => $count
         ];
     }
 
     /**
-     * Retorna o log formatado em um array de strings.
+     * Retorna o trace formatado em um array de strings.
      * @return array
      */
     static function getArray(): array
     {
-        $logData = self::get();
-        $lines = $logData['log'];
-        $count = $logData['count'];
+        $traceData = self::get();
+        $lines = $traceData['trace'];
+        $count = $traceData['count'];
         $output = [];
 
         foreach ($lines as $line) {
@@ -161,14 +161,14 @@ abstract class Log
     }
 
     /**
-     * Retorna o log formatado como uma string completa.
+     * Retorna o trace formatado como uma string completa.
      * @return string
      */
     static function getString(): string
     {
-        $logData = self::get();
-        $lines = $logData['log'];
-        $count = $logData['count'];
+        $traceData = self::get();
+        $lines = $traceData['trace'];
+        $count = $traceData['count'];
         $output = "-------------------------\n";
 
         foreach ($lines as $line) {
@@ -194,7 +194,7 @@ abstract class Log
     }
 
     /**
-     * Registra uma entrada bruta no array interno de log.
+     * Registra uma entrada bruta no array interno de trace.
      * @param string $type Categoria da entrada.
      * @param string|null $message Mensagem da entrada.
      * @param bool $isScope Indica se a entrada representa um escopo.
@@ -202,19 +202,19 @@ abstract class Log
     protected static function set(string $type, ?string $message = null, bool $isScope = false)
     {
         $scope = count(self::$scope);
-        self::$log[] = [$type, $message, $scope, null];
+        self::$trace[] = [$type, $message, $scope, null];
     }
 
     /**
-     * Adiciona uma entrada ao log e abre um escopo, registrando o pico de memória inicial.
+     * Adiciona uma entrada ao trace e abre um escopo, registrando o pico de memória inicial.
      * @param string $type Categoria do escopo.
      * @param string|null $message Mensagem do escopo.
      */
     protected static function openScope(string $type, ?string $message = null)
     {
         self::set($type, $message);
-        $index = count(self::$log) - 1;
-        self::$log[$index][3] = memory_get_peak_usage(true);
+        $index = count(self::$trace) - 1;
+        self::$trace[$index][3] = memory_get_peak_usage(true);
         self::$scope[] = $index;
     }
 
@@ -225,13 +225,13 @@ abstract class Log
     {
         if (count(self::$scope)) {
             $scopeKey = array_pop(self::$scope);
-            self::closeLine(self::$log[$scopeKey]);
+            self::closeLine(self::$trace[$scopeKey]);
         }
     }
 
     /**
      * Calcula e atualiza o delta de memória pico de uma entrada de escopo.
-     * @param array $line Referência à entrada do log a ser finalizada.
+     * @param array $line Referência à entrada do trace a ser finalizada.
      */
     protected static function closeLine(&$line)
     {

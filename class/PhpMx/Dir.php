@@ -18,7 +18,7 @@ abstract class Dir
 
         if (empty($path)) return null;
 
-        return Log::add('dir', "create $path", function () use ($path) {
+        return Trace::add('dir', "create $path", function () use ($path) {
             if (!is_dir($path)) {
                 $createList = explode('/', $path);
                 $createPath = '';
@@ -43,7 +43,7 @@ abstract class Dir
     {
         $path = self::getOnly($path);
 
-        return Log::add('dir', "remove $path", function () use ($path, $recursive) {
+        return Trace::add('dir', "remove $path", function () use ($path, $recursive) {
             if (is_dir($path)) {
                 if ($recursive || empty(self::seekForAll($path))) {
                     $drop = function ($path, $function) {
@@ -76,7 +76,7 @@ abstract class Dir
         $path_from = path($path_from);
         $path_to = path($path_to);
 
-        return Log::add('dir', "copy $path_from to $path_to", function () use ($path_from, $path_to, $replace) {
+        return Trace::add('dir', "copy $path_from to $path_to", function () use ($path_from, $path_to, $replace) {
             if (self::check($path_from)) {
                 self::create($path_to);
                 $copy = function ($from, $to, $replace, $function) {
@@ -103,7 +103,7 @@ abstract class Dir
         $path_from = path($path_from);
         $path_to = path($path_to);
 
-        return Log::add('dir', "move $path_from to $path_to", function () use ($path_from, $path_to) {
+        return Trace::add('dir', "move $path_from to $path_to", function () use ($path_from, $path_to) {
             if (!self::check($path_to) && self::check($path_from)) {
                 $path_from = path($path_from);
                 $path_to = path($path_to);
@@ -123,7 +123,7 @@ abstract class Dir
     {
         $path = path($path);
 
-        return Log::add('dir', "seek for file in $path", function () use ($path, $recursive) {
+        return Trace::add('dir', "seek for file in $path", function () use ($path, $recursive) {
             $return = [];
             foreach (self::seekForAll($path, $recursive) as $item)
                 if (File::check("$path/$item"))
@@ -142,7 +142,7 @@ abstract class Dir
     {
         $path = path($path);
 
-        return Log::add('dir', "seek for dir in $path", function () use ($path, $recursive) {
+        return Trace::add('dir', "seek for dir in $path", function () use ($path, $recursive) {
             $return = [];
             foreach (self::seekForAll($path, $recursive) as $item)
                 if (self::check("$path/$item"))

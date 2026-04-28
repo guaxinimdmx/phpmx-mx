@@ -52,7 +52,7 @@ abstract class Datalayer
 
         self::unregister($dbName);
 
-        Log::add('datalayer.register', self::externalName($dbName, 'Db'), function () use ($dbName, $data) {
+        Trace::add('datalayer.register', self::externalName($dbName, 'Db'), function () use ($dbName, $data) {
             $envName = strtoupper($dbName);
 
             $data['type'] = $data['type'] ?? env("DB_{$envName}_TYPE");
@@ -81,7 +81,7 @@ abstract class Datalayer
     static function unregister(string $dbName): void
     {
         if (isset(self::$instance[$dbName]))
-            Log::add('datalayer.unregister', self::externalName($dbName, 'Db'), function () use ($dbName) {
+            Trace::add('datalayer.unregister', self::externalName($dbName, 'Db'), function () use ($dbName) {
                 $dbName = self::internalName($dbName);
                 unset(self::$instance[$dbName]);
                 Snap::restore("db.$dbName");

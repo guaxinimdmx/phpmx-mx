@@ -1,7 +1,7 @@
 <?php
 
 use PhpMx\Json;
-use PhpMx\Log;
+use PhpMx\Trace;
 
 if (!function_exists('cache')) {
 
@@ -14,7 +14,7 @@ if (!function_exists('cache')) {
     function cache(string $cacheName, Closure $action): mixed
     {
         $cacheName = strToCamelCase($cacheName);
-        return Log::add('cache', $cacheName, function () use ($cacheName, $action) {
+        return Trace::add('cache', $cacheName, function () use ($cacheName, $action) {
             $file = path('library/cache', $cacheName);
 
             if (!env('USE_CACHE_FILE'))
@@ -57,7 +57,7 @@ if (!function_exists('cacheTime')) {
     {
         $cacheName = strToCamelCase($cacheName) . '_time';
 
-        return Log::add('cacheTime', $cacheName, function () use ($cacheName, $action, $seconds) {
+        return Trace::add('cacheTime', $cacheName, function () use ($cacheName, $action, $seconds) {
 
             if (!env('USE_CACHE_FILE'))
                 return $action();

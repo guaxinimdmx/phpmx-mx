@@ -1,6 +1,6 @@
 <?php
 
-use PhpMx\Log;
+use PhpMx\Trace;
 use PhpMx\Path;
 use PhpMx\Terminal;
 use PhpMx\Trait\TerminalInstallTrait;
@@ -15,7 +15,7 @@ return new class {
             $origin = Path::origin($installFile);
 
             if ($origin != 'current-project') {
-                Log::add('mx', "Install [$origin]", function () use ($installFile, $origin) {
+                Trace::add('mx', "Install [$origin]", function () use ($installFile, $origin) {
                     ob_start();
                     $script = require $installFile;
                     ob_end_clean();

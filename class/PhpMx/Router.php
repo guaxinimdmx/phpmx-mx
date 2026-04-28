@@ -133,7 +133,7 @@ abstract class Router
      */
     static function solve(array $GLOBAL_MIDDLEWARES = [])
     {
-        list($middlewares, $wrapper) = Log::add('mx', 'router solve', function () {
+        list($middlewares, $wrapper) = Trace::add('mx', 'router solve', function () {
             $routes = self::scan(Request::type());
 
             $routeMatch = self::getRouteMatch(Request::path(), $routes);
@@ -150,8 +150,8 @@ abstract class Router
             return [$middlewares, $wrapper];
         });
 
-        Log::add('mx', 'route dispatch', function () use ($middlewares, $wrapper, $GLOBAL_MIDDLEWARES) {
-            $wrapper = fn() => Log::add('mx', 'route action', $wrapper);
+        Trace::add('mx', 'route dispatch', function () use ($middlewares, $wrapper, $GLOBAL_MIDDLEWARES) {
+            $wrapper = fn() => Trace::add('mx', 'route action', $wrapper);
 
             $response = Middleware::run([...$GLOBAL_MIDDLEWARES, ...$middlewares], $wrapper);
 
@@ -165,7 +165,7 @@ abstract class Router
         foreach ($routes as $template => $route)
             if (self::checkRouteMatch($path, $template))
                 return $route;
-        Log::add('mx', 'route matching not found');
+        Trace::add('mx', 'route matching not found');
         return null;
     }
 

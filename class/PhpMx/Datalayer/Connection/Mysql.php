@@ -7,7 +7,7 @@ use PDO;
 use PhpMx\Cif;
 use PhpMx\Datalayer;
 use PhpMx\Datalayer\Query;
-use PhpMx\Log;
+use PhpMx\Trace;
 
 /**
  * Driver de conexão para MySQL via PDO.
@@ -50,7 +50,7 @@ class Mysql extends BaseConnection
     protected function &pdo(): PDO
     {
         if (is_array($this->instancePDO)) {
-            Log::add('datalayer.start', prepare('[#] mysql', Datalayer::externalName($this->dbName, 'Db')), function () {
+            Trace::add('datalayer.start', prepare('[#] mysql', Datalayer::externalName($this->dbName, 'Db')), function () {
                 $this->instancePDO = new PDO(...$this->instancePDO);
             });
         }

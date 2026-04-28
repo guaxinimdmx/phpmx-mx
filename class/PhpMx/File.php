@@ -18,7 +18,7 @@ abstract class File
     {
         $path = path($path);
 
-        return Log::add('file', "create $path", function () use ($path, $content, $recreate) {
+        return Trace::add('file', "create $path", function () use ($path, $content, $recreate) {
             if ($recreate || !self::check($path)) {
                 $path = path($path);
                 if (File::getOnly($path) != Dir::getOnly($path))
@@ -41,7 +41,7 @@ abstract class File
     {
         $path = path($path);
 
-        return Log::add('file', "remove $path", function () use ($path) {
+        return Trace::add('file', "remove $path", function () use ($path) {
             if (self::check($path)) {
                 $path = path($path);
                 unlink($path);
@@ -63,7 +63,7 @@ abstract class File
         $path_from = path($path_from);
         $path_to = path($path_to);
 
-        return Log::add('file', "copy $path_from to $path_to", function () use ($path_from, $path_to, $replace) {
+        return Trace::add('file', "copy $path_from to $path_to", function () use ($path_from, $path_to, $replace) {
             if ($replace || !self::check($path_to)) {
                 if (self::check($path_from)) {
                     Dir::create($path_to);
@@ -86,7 +86,7 @@ abstract class File
         $path_from = path($path_from);
         $path_to = path($path_to);
 
-        return Log::add('file', "move $path_from to $path_to", function () use ($path_from, $path_to, $replace) {
+        return Trace::add('file', "move $path_from to $path_to", function () use ($path_from, $path_to, $replace) {
             if ($replace || !self::check($path_to)) {
                 if (self::check($path_from)) {
                     Dir::create($path_to);

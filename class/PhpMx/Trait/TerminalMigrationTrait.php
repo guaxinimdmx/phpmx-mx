@@ -6,7 +6,7 @@ use PhpMx\Datalayer;
 use PhpMx\Dir;
 use PhpMx\File;
 use PhpMx\Import;
-use PhpMx\Log;
+use PhpMx\Trace;
 use PhpMx\Terminal;
 
 /** Trait com a lógica de execução de migrações usada pelos comandos de terminal (migration:up, down, lock, etc.). */
@@ -182,10 +182,10 @@ trait TerminalMigrationTrait
      */
     protected static function executeMigration(string $file, bool $mode)
     {
-        $logAction = $mode ? 'up' : 'down';
-        $logDdName = Datalayer::externalName(self::$dbName, 'db');
+        $traceAction = $mode ? 'up' : 'down';
+        $traceDdName = Datalayer::externalName(self::$dbName, 'db');
 
-        Log::add("migration.$logAction", "$logDdName [$file]", function () use ($file, $mode) {
+        Trace::add("migration.$traceAction", "$traceDdName [$file]", function () use ($file, $mode) {
 
             if ($mode)
                 Terminal::echol("run [#c:s,up] [#c:p,#]", $file);

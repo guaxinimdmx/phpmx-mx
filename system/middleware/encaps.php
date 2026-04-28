@@ -1,6 +1,6 @@
 <?php
 
-use PhpMx\Log;
+use PhpMx\Trace;
 use PhpMx\Response;
 
 /** Padroniza a saída da API, encapsulando respostas e exceções em um formato JSON estruturado. */
@@ -39,7 +39,7 @@ return new class {
 
         Response::status($status);
 
-        if (env('DEV')) $response['log'] = Log::getArray();
+        if (env('DEV')) $response['trace'] = Trace::getArray();
 
         Response::content($response);
     }
@@ -86,7 +86,7 @@ return new class {
 
             Response::cache(false);
 
-            if (env('DEV')) $response['log'] = Log::getArray();
+            if (env('DEV')) $response['trace'] = Trace::getArray();
 
             Response::content($response);
         }

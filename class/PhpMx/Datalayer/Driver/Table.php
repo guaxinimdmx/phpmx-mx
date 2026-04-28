@@ -8,7 +8,7 @@ use PhpMx\Datalayer\Query\Select;
 use PhpMx\Datalayer\Driver\Record;
 use Error;
 use Exception;
-use PhpMx\Log;
+use PhpMx\Trace;
 
 /** @ignore */
 abstract class Table
@@ -113,7 +113,7 @@ abstract class Table
     {
         if (func_num_args()) {
             $make = is_class($make, $this->CLASS_RECORD) ? $make : $this->getOne(...func_get_args());
-            $this->ACTIVE = Log::add('driver.make.active', prepare('[#].[#]([#])', [
+            $this->ACTIVE = Trace::add('driver.make.active', prepare('[#].[#]([#])', [
                 strToPascalCase("db $this->DATALAYER"),
                 strToCamelCase($this->TABLE),
                 str_get_var($make->id())
@@ -179,13 +179,13 @@ abstract class Table
             return $this->getOneKey($args[0]);
 
         if ($this->typeQuery(...$args) == 2 && $this->inCache($args[0]))
-            return Log::add('driver.select.ignored', prepare('[#].[#]([#]) has already been loaded', [
+            return Trace::add('driver.select.ignored', prepare('[#].[#]([#]) has already been loaded', [
                 strToPascalCase("db $this->DATALAYER"),
                 strToCamelCase($this->TABLE),
                 $args[0]
             ]), fn() => $this->recordCache(['id' => $args[0]]));
 
-        $result = Log::add('driver.select', [
+        $result = Trace::add('driver.select', [
             'unknown',
             'by query',
             'by id',

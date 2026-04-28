@@ -8,7 +8,7 @@ use PhpMx\Datalayer;
 use PhpMx\Datalayer\Query;
 use PhpMx\Dir;
 use PhpMx\File;
-use PhpMx\Log;
+use PhpMx\Trace;
 
 /** Driver de conexão para SQLite via PDO. ALTER TABLE é emulado por drop/recriação com migração de dados. */
 class Sqlite extends BaseConnection
@@ -51,7 +51,7 @@ class Sqlite extends BaseConnection
     protected function &pdo(): PDO
     {
         if (is_array($this->instancePDO)) {
-            Log::add('datalayer.start', prepare('[#] sqlite', Datalayer::externalName($this->dbName, 'Db')), function () {
+            Trace::add('datalayer.start', prepare('[#] sqlite', Datalayer::externalName($this->dbName, 'Db')), function () {
                 if (!File::check($this->data['file']))
                     Dir::create($this->data['file']);
                 $this->instancePDO = new PDO(...(array) $this->instancePDO);

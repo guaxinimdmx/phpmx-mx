@@ -6,7 +6,7 @@ use Exception;
 use PDO;
 use PhpMx\Datalayer\Query;
 use PhpMx\Datalayer\Query\BaseQuery;
-use PhpMx\Log;
+use PhpMx\Trace;
 use Throwable;
 
 /** Base para drivers de conexão. */
@@ -143,7 +143,7 @@ abstract class BaseConnection
         if (is_class($query, BaseQuery::class))
             list($query, $data) = $query->query();
 
-        return Log::add('datalayer.query', $query, function () use ($query, $data) {
+        return Trace::add('datalayer.query', $query, function () use ($query, $data) {
 
             $pdoQuery = $this->pdo()->prepare($query);
 

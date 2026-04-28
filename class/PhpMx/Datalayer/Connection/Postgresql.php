@@ -8,7 +8,7 @@ use PhpMx\Cif;
 use PhpMx\Datalayer;
 use PhpMx\Datalayer\Query;
 use PhpMx\Datalayer\Query\BaseQuery;
-use PhpMx\Log;
+use PhpMx\Trace;
 
 /** Driver de conexão para PostgreSQL via PDO. Converte backticks para aspas duplas e suporta schemas. */
 class Postgresql extends BaseConnection
@@ -76,7 +76,7 @@ class Postgresql extends BaseConnection
     protected function &pdo(): \PDO
     {
         if (is_array($this->instancePDO)) {
-            Log::add('datalayer.start', prepare('[#] postgresql', Datalayer::externalName($this->dbName, 'Db')), function () {
+            Trace::add('datalayer.start', prepare('[#] postgresql', Datalayer::externalName($this->dbName, 'Db')), function () {
                 $scheme = array_pop($this->instancePDO);
                 $this->instancePDO = new \PDO(...$this->instancePDO);
                 $this->instancePDO->exec("SET search_path TO $scheme");

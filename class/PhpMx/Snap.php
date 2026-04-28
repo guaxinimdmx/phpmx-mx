@@ -24,7 +24,7 @@ class Snap
 
         foreach ($classes as $class)
             foreach ((array) $class as $c)
-                Log::add('snap.register', "$snap $class", function () use ($snap, $c) {
+                Trace::add('snap.register', "$snap $class", function () use ($snap, $c) {
                     if (!in_array($c, self::$groups[$snap]))
                         self::$groups[$snap][] = $c;
                 });
@@ -43,12 +43,12 @@ class Snap
         if ($classes)
             self::register($snap, ...$classes);
 
-        Log::add('snap.capture', $snap, function () use ($snap) {
+        Trace::add('snap.capture', $snap, function () use ($snap) {
             self::$snaps[$snap] = [];
             self::$props[$snap] = [];
 
             foreach (self::$groups[$snap] ?? [] as $class) {
-                Log::add('class', $class, function () use ($snap, $class) {
+                Trace::add('class', $class, function () use ($snap, $class) {
                     $state = [];
                     $props = [];
 
@@ -73,7 +73,7 @@ class Snap
      */
     static function restore(string $snap): void
     {
-        Log::add('snap.restore', $snap, function () use ($snap) {
+        Trace::add('snap.restore', $snap, function () use ($snap) {
             foreach (self::$props[$snap] ?? [] as $class => $props)
                 foreach ($props as $name => $prop)
                     $prop->setValue(null, unserialize(self::$snaps[$snap][$class][$name]));

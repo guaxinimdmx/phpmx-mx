@@ -4,11 +4,11 @@ namespace PhpMx\Datalayer\Connection;
 
 use PDO;
 use PhpMx\Datalayer;
-use PhpMx\Log;
+use PhpMx\Trace;
 
 /**
  * Driver de conexão para MariaDB via PDO.
- * Estende Mysql, sobrescrevendo apenas o log de inicialização da conexão.
+ * Estende Mysql, sobrescrevendo apenas o trace de inicialização da conexão.
  * @ignore
  */
 class Mariadb extends Mysql
@@ -17,7 +17,7 @@ class Mariadb extends Mysql
     protected function &pdo(): PDO
     {
         if (is_array($this->instancePDO)) {
-            Log::add('datalayer.start', prepare('[#] mariadb', Datalayer::externalName($this->dbName, 'Db')), function () {
+            Trace::add('datalayer.start', prepare('[#] mariadb', Datalayer::externalName($this->dbName, 'Db')), function () {
                 $this->instancePDO = new PDO(...$this->instancePDO);
             });
         }

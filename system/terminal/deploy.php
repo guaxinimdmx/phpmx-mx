@@ -1,6 +1,6 @@
 <?php
 
-use PhpMx\Log;
+use PhpMx\Trace;
 use PhpMx\Path;
 use PhpMx\Terminal;
 
@@ -21,7 +21,7 @@ return new class {
 
             $origin = Path::origin($deployFile);
 
-            Log::add('mx', "Deploy [$origin]", function () use ($deployFile, $origin) {
+            Trace::add('mx', "Deploy [$origin]", function () use ($deployFile, $origin) {
                 ob_start();
                 $script = require $deployFile;
                 ob_end_clean();
