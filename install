@@ -9,18 +9,18 @@ return new class {
     function __invoke()
     {
         self::createDir('class');
+        self::createDir('class/Controller');
         self::createDir('library');
+        self::createDir('library/assets');
+        self::createDir('library/download');
         self::createDir('system');
         self::createDir('system/helper');
         self::createDir('system/helper/function');
         self::createDir('system/helper/constant');
         self::createDir('system/helper/script');
-
-        self::createDir('class/Controller');
-        self::createDir('library/assets');
-        self::createDir('library/download');
         self::createDir('system/middleware');
         self::createDir('system/router');
+        $this->createDir('system/view');
 
         self::promote('.vscode/settings.json');
         self::promote('system/helper/script/path.php');
