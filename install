@@ -40,10 +40,10 @@ return new class {
             '/.claude',
             '/.vscode',
             '/CLAUDE.md',
+            '/class/Model/Db*/Driver',
             '/library/cache',
             '/library/certificate',
-            '/source/Model/Db*/Driver',
-            '/storage/sqlite',
+            '/library/sqlite',
             '/system/datalayer/*/scheme',
         ]);
 
