@@ -89,13 +89,13 @@ abstract class Request
     /**
      * Retorna um ou todos os segmentos de caminho da URI da requisição atual.
      * @param ?int $index Índice do segmento (opcional).
-     * @return array|string
+     * @return null|array|string
      */
-    static function path(?int $index = null): array|string
+    static function path(?int $index = null): null|array|string
     {
         self::$PATH = self::$PATH ?? self::current_path();
 
-        if (is_null($index)) return self::$PATH[$index] ?? null;
+        if (!is_null($index)) return self::$PATH[$index] ?? null;
 
         return self::$PATH;
     }
