@@ -17,7 +17,7 @@ return new class {
         Response::send();
     }
 
-    function encapsResponse($response): void
+    function encapsResponse(mixed $response): void
     {
         if (is_httpStatus($response))
             throw new Exception('', $response);

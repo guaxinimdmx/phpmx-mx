@@ -7,13 +7,13 @@ use PhpMx\Datalayer;
 /** @ignore */
 class SchemeTable
 {
-    protected $name;
-    protected $map;
+    protected string $name;
+    protected array $map;
 
     /** @var SchemeField[] */
     protected $fields = [];
 
-    protected $isDroped = false;
+    protected bool $isDroped = false;
 
     /** @ignore */
     function __construct(string $name, array $map = [], ?array $realMap = null)

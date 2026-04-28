@@ -233,7 +233,7 @@ class Select extends BaseQuery
      * @param mixed ...$values Valores a substituir os placeholders '?' da expressão.
      * @return static
      */
-    function where(): static
+    function where($expression, ...$values): static
     {
         if (func_num_args())
             $this->where[] = func_get_args();

@@ -300,7 +300,7 @@ abstract class View
         });
     }
 
-    protected static function resolveViewRef($ref): string
+    protected static function resolveViewRef(string $ref): string
     {
         $currentFile = self::__currentGet('importing_file');
 
@@ -330,7 +330,7 @@ abstract class View
         return $ref;
     }
 
-    protected static function importViewFilePhp($__FILEPATH__, $__DATA): array
+    protected static function importViewFilePhp(string $__FILEPATH__, array $__DATA): array
     {
         foreach (array_keys($__DATA) as $__KEY__)
             if (!is_numeric($__KEY__))

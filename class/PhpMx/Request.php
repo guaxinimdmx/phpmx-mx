@@ -22,56 +22,56 @@ abstract class Request
 
     /**
      * Retorna um ou todos os parâmetros server da requisição atual.
-     * @param string $name Nome do parâmetro (opcional).
+     * @param ?string $parameter Nome do parâmetro (opcional).
      * @return mixed
      */
-    static function server(): mixed
+    static function server(?string $parameter = null): mixed
     {
         self::$SERVER = self::$SERVER ?? self::current_server();
 
-        if (func_num_args()) return self::$SERVER[func_get_arg(0)] ?? null;
+        if (!is_null($parameter)) return self::$SERVER[$parameter] ?? null;
 
         return self::$SERVER;
     }
 
     /**
      * Retorna ou compara o tipo da requisição atual (GET, POST, PUT, DELETE, OPTIONS).
-     * @param string $type Tipo a comparar (opcional). Retorna bool quando informado.
+     * @param ?string $type Tipo a comparar (opcional). Retorna bool quando informado.
      * @return string|bool
      */
-    static function type(): string|bool
+    static function type(?string $type = null): string|bool
     {
         self::$TYPE = self::$TYPE ?? self::current_type();
 
-        if (func_num_args()) return self::$TYPE == strtoupper(func_get_arg(0));
+        if (!is_null($type)) return self::$TYPE == strtoupper($type);
 
         return self::$TYPE;
     }
 
     /**
      * Retorna um ou todos os parâmetros header da requisição atual.
-     * @param string $name Nome do parâmetro (opcional).
+     * @param string $parameter Nome do parâmetro (opcional).
      * @return mixed
      */
-    static function header(): mixed
+    static function header(?string $parameter = null): mixed
     {
         self::$HEADER = self::$HEADER ?? self::current_header();
 
-        if (func_num_args()) return self::$HEADER[func_get_arg(0)] ?? null;
+        if (!is_null($parameter)) return self::$HEADER[$parameter] ?? null;
 
         return self::$HEADER;
     }
 
     /**
      * Retorna ou compara o status de utilização SSL da requisição atual.
-     * @param bool $ssl Valor a comparar (opcional). Retorna bool quando informado.
+     * @param ?bool $ssl Valor a comparar (opcional). Retorna bool quando informado.
      * @return bool
      */
-    static function ssl(): bool
+    static function ssl(?bool $ssl = null): bool
     {
         self::$SSL = self::$SSL ?? self::current_ssl();
 
-        if (func_num_args()) return self::$SSL == func_get_arg(0);
+        if (!is_null($ssl)) return self::$SSL == $ssl;
 
         return self::$SSL;
     }
@@ -88,84 +88,84 @@ abstract class Request
 
     /**
      * Retorna um ou todos os segmentos de caminho da URI da requisição atual.
-     * @param int $index Índice do segmento (opcional).
+     * @param ?int $index Índice do segmento (opcional).
      * @return array|string
      */
-    static function path(): array|string
+    static function path(?int $index = null): array|string
     {
         self::$PATH = self::$PATH ?? self::current_path();
 
-        if (func_num_args()) return self::$PATH[func_get_arg(0)] ?? null;
+        if (is_null($index)) return self::$PATH[$index] ?? null;
 
         return self::$PATH;
     }
 
     /**
      * Retorna um ou todos os parâmetros passados via query string na requisição atual.
-     * @param string $name Nome do parâmetro (opcional).
+     * @param ?string $parameter Nome do parâmetro (opcional).
      * @return mixed
      */
-    static function query(): mixed
+    static function query(?string $parameter = null): mixed
     {
         self::$QUERY = self::$QUERY ?? self::current_query();
 
-        if (func_num_args() == 1) return self::$QUERY[func_get_arg(0)] ?? null;
+        if (!is_null($parameter)) return self::$QUERY[$parameter] ?? null;
 
         return self::$QUERY;
     }
 
     /**
      * Retorna um ou todos os dados enviados no corpo da requisição atual.
-     * @param string $name Nome do parâmetro (opcional).
+     * @param ?string $parameter Nome do parâmetro (opcional).
      * @return mixed
      */
-    static function body(): mixed
+    static function body(?string $parameter = null): mixed
     {
         self::$BODY = self::$BODY ?? self::current_body();
 
-        if (func_num_args()) return self::$BODY[func_get_arg(0)] ?? null;
+        if (!is_null($parameter)) return self::$BODY[$parameter] ?? null;
 
         return self::$BODY;
     }
 
     /**
      * Retorna um ou todos os dados enviados via rota para a requisição atual.
-     * @param string $name Nome do parâmetro (opcional).
+     * @param ?string $parameter Nome do parâmetro (opcional).
      * @return mixed
      */
-    static function route(): mixed
+    static function route(?string $parameter = null): mixed
     {
-        if (func_num_args()) return self::$ROUTE[func_get_arg(0)] ?? null;
+        if (!is_null($parameter)) return self::$ROUTE[$parameter] ?? null;
 
         return self::$ROUTE;
     }
 
     /**
      * Retorna um ou todos os dados capturados pela requisição atual via route, query, body ou file.
-     * @param string $name Nome do parâmetro (opcional).
+     * @param ?string $parameter Nome do parâmetro (opcional).
      * @return mixed
      */
-    static function data(): mixed
+    static function data(?string $parameter = null): mixed
     {
         $data = [...self::route(), ...self::query(), ...self::body(), ...self::file()];
 
-        if (func_num_args()) return $data[func_get_arg(0)] ?? null;
+        if (!is_null($parameter)) return $data[$parameter] ?? null;
 
         return $data;
     }
 
     /**
      * Retorna um ou todos os arquivos enviados na requisição atual.
-     * @param string $name Nome do arquivo (opcional).
+     * @param ?string $name Nome do arquivo (opcional).
      * @return array
      */
-    static function file(): array
+    static function file(?string $name = null): array
     {
         self::$FILE = self::$FILE ?? self::current_file();
 
         $return = self::$FILE;
 
-        if (func_num_args()) $return = $return[func_get_arg(0)] ?? [];
+        if (!is_null($name)) $return = $return[$name] ?? [];
 
         return $return;
     }

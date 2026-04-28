@@ -12,8 +12,8 @@ use PhpMx\Terminal;
 /** Trait com a lógica de execução de migrações usada pelos comandos de terminal (migration:up, down, lock, etc.). */
 trait TerminalMigrationTrait
 {
-    protected static $dbName;
-    protected static $path;
+    protected static ?string $dbName = null;
+    protected static ?string $path = null;
 
     /**
      * Aplica a próxima migração pendente.

@@ -16,6 +16,7 @@ return new class {
     function __invoke(string $method, string $template, string $response, ?string $responseMethod = null)
     {
         $method = strtolower($method);
+        $controller = false;
 
         if (!in_array($method, ['get', 'post', 'put', 'delete', 'full', 'add']))
             throw new Exception('Routing method not allowed');

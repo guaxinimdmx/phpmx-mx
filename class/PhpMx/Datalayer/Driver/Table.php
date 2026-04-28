@@ -13,22 +13,22 @@ use PhpMx\Trace;
 /** @ignore */
 abstract class Table
 {
-    protected $DATALAYER;
-    protected $TABLE;
+    protected string $DATALAYER;
+    protected string $TABLE;
 
-    protected $CLASS_RECORD;
+    protected string $CLASS_RECORD;
 
     protected array $CACHE = [];
     protected ?bool $CACHE_STATUS = null;
 
-    protected $ACTIVE;
+    protected string $ACTIVE;
 
-    protected $SHOW_DELETED = false;
+    protected bool $SHOW_DELETED = false;
 
     /**
      * Define se na próxima consulta os dados maracados como removidos deve ser exibidos.
      * @param bool|null $showDeleted TRUE: Apenas removidos, FLASE: Apenas não removidos, NULL: Mostrar ambos
-     * @return static
+     * @return self
      */
     final function showDeleted(?bool $showDeleted): self
     {
@@ -107,17 +107,17 @@ abstract class Table
 
     /**
      * Retorna ou define o registro marcado como ativo na tabela.
-     * @param mixed ...$args Sem argumentos retorna o ativo atual. Com argumentos define o novo registro ativo.
+     * @param ?Record $record Sem argumentos retorna o ativo atual. Com argumentos define o novo registro ativo.
      */
-    final function active($make = null)
+    final function active(?Record $record = null)
     {
         if (func_num_args()) {
-            $make = is_class($make, $this->CLASS_RECORD) ? $make : $this->getOne(...func_get_args());
+            $record = is_class($record, $this->CLASS_RECORD) ? $record : $this->getOne(...func_get_args());
             $this->ACTIVE = Trace::add('driver.make.active', prepare('[#].[#]([#])', [
                 strToPascalCase("db $this->DATALAYER"),
                 strToCamelCase($this->TABLE),
-                str_get_var($make->id())
-            ]), fn() => $make);
+                str_get_var($record->id())
+            ]), fn() => $record);
         }
 
         return $this->ACTIVE ?? $this->getNull();
@@ -130,7 +130,7 @@ abstract class Table
      */
     final function count(...$args): int
     {
-        $query = $this->autoQuery(...$args)->fields(null, 'id');
+        $query = $this->autoQuery(...$args)->fields(null)->fields('id');
         return count($query->run());
     }
 
@@ -141,7 +141,7 @@ abstract class Table
      */
     final function check(...$args): bool
     {
-        $query = $this->autoQuery(...$args)->fields(null, 'id')->limit(1);
+        $query = $this->autoQuery(...$args)->fields(null)->fields('id')->limit(1);
         return count($query->run());
     }
 

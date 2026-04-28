@@ -57,10 +57,10 @@ class Insert extends BaseQuery
 
     /**
      * Define os registros a serem inseridos.
-     * @param array ...$register Um ou mais arrays associativos [campo => valor] a inserir.
+     * @param array ...$registers Um ou mais arrays associativos [campo => valor] a inserir.
      * @return static
      */
-    function values(): static
+    function values(array ...$registers): static
     {
         $this->columns = [];
         $this->values = [];

@@ -12,7 +12,7 @@ use PhpMx\View;
  */
 return new class {
 
-    function __invoke($view)
+    function __invoke(string $view)
     {
         $ex = str_contains($view, '.') ? File::getEx($view) : null;
 

@@ -14,7 +14,7 @@ abstract class BaseConnection
 {
     protected string $dbName;
 
-    protected $instancePDO;
+    protected null | array | PDO $instancePDO;
 
     protected bool $configInitialized = false;
 

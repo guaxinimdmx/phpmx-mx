@@ -10,7 +10,7 @@ use Error;
 class Update extends BaseQuery
 {
     protected array $values = [];
-    protected $where = [];
+    protected array $where = [];
 
     /**
      * Retorna o array de dados necessários para execução da query UPDATE.
@@ -78,7 +78,7 @@ class Update extends BaseQuery
      * @param mixed ...$values Valores a substituir os placeholders '?' da expressão.
      * @return static
      */
-    function where(): static
+    function where($expression, ...$values): static
     {
         if (func_num_args())
             $this->where[] = func_get_args();

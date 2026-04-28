@@ -13,7 +13,7 @@ return new class {
 
     use TerminalHelperTrait;
 
-    function __invoke($fitler = null)
+    function __invoke(?string $fitler = null)
     {
         $this->handle(
             'system/middleware',

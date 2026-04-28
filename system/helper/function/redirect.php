@@ -4,11 +4,11 @@ if (!function_exists('redirect')) {
 
     /**
      * Lança uma Exception de redirecionamento para a URL composta pelos argumentos fornecidos.
-     * @param string ...$params Partes da URL de destino.
+     * @param string ...$pathParams Partes da URL de destino.
      * @return void
      */
-    function redirect(): void
+    function redirect(string ...$pathParams): void
     {
-        throw new Exception(url(...func_get_args()), STS_REDIRECT);
+        throw new Exception(url(...$pathParams), STS_REDIRECT);
     }
 }

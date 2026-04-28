@@ -13,7 +13,7 @@ use PhpMx\Trace;
  */
 abstract class Record
 {
-    /** @var PhpMx\Datalayer\Driver\Field[]|FIdx[]| */
+    /** @var array<\PhpMx\Datalayer\Driver\Field[]|FIdx[]> */
     protected array $FIELD = [];
 
     protected ?int $ID = null;

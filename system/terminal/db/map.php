@@ -10,7 +10,7 @@ use PhpMx\Terminal;
  */
 return new class {
 
-    function __invoke($dbName = 'main')
+    function __invoke(string $dbName = 'main')
     {
         $dbName = Datalayer::internalName($dbName);
 

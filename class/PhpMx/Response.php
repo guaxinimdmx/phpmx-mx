@@ -128,12 +128,12 @@ abstract class Response
 
     /**
      * Verifica se o tipo da resposta corresponde a um dos tipos informados.
-     * @param string ...$type Tipos a verificar.
+     * @param string ...$types Tipos a verificar.
      * @return bool
      */
-    static function checkType(): bool
+    static function checkType(string ...$types): bool
     {
-        foreach (func_get_args() as $type)
+        foreach ($types as $type)
             if (Mime::checkMimeMime($type, self::$TYPE))
                 return true;
         return false;

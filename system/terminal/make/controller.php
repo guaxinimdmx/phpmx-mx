@@ -12,7 +12,7 @@ use PhpMx\Terminal;
  */
 return new class {
 
-    function __invoke($controller, $method = null)
+    function __invoke(string $controller, ?string $method = null)
     {
         $controller = str_replace('.', '/', $controller);
         $controller = str_replace('\\', '/', $controller);

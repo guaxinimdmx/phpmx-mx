@@ -10,7 +10,7 @@ use PhpMx\Terminal;
  */
 return new class {
 
-    function __invoke($port = null)
+    function __invoke(?string $port = null)
     {
         if (!File::check('index.php'))
             throw new Exception('[index.php] not found');

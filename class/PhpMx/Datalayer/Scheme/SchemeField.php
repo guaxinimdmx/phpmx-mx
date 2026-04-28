@@ -11,10 +11,10 @@ use PhpMx\Datalayer;
  */
 class SchemeField
 {
-    protected $name;
-    protected $map;
+    protected string $name;
+    protected array $map;
 
-    protected $isDroped = false;
+    protected bool $isDroped = false;
 
     /** @ignore */
     function __construct(string $name, array $map = [], ?array $realMap = null)

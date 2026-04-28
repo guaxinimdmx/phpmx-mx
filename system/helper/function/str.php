@@ -138,8 +138,8 @@ if (!function_exists('mb_str_replace')) {
             $searches = is_array($search) ? array_values($search) : array($search);
             $replacements = is_array($replace) ? array_values($replace) : array($replace);
             $replacements = array_pad($replacements, count($searches), '');
-            foreach ($searches as $key => $search) {
-                $parts = mb_split(preg_quote($search), $subject);
+            foreach ($searches as $key => $itemSearch) {
+                $parts = mb_split(preg_quote($itemSearch), $subject);
                 $count += count($parts) - 1;
                 $subject = implode($replacements[$key], $parts);
             }

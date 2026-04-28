@@ -15,7 +15,7 @@ return new class {
 
     use TerminalHelperTrait;
 
-    function __invoke($match = null, $method = null)
+    function __invoke(?string $match = null, ?string $method = null)
     {
         $defaultScheme = ['GET' => [], 'POST' => [], 'PUT' => [], 'DELETE' => []];
         $key = $defaultScheme;

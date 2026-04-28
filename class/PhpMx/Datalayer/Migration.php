@@ -12,7 +12,7 @@ abstract class Migration
 {
     protected Scheme $scheme;
     protected string $dbName;
-    protected $lock = false;
+    protected bool $lock = false;
 
     /** @ignore */
     final function execute(string $dbName, bool $mode)

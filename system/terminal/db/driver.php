@@ -18,7 +18,7 @@ return new class {
     protected string $path = '';
     protected array $map = [];
 
-    function __invoke($dbName = 'main')
+    function __invoke(string $dbName = 'main')
     {
         Terminal::echol('Installing drivers');
 
@@ -276,7 +276,7 @@ return new class {
         return prepare($template, $data);
     }
 
-    protected function createFile($path, $content, $recreate = false)
+    protected function createFile(string $path, string $content, bool $recreate = false)
     {
         if (!$recreate && File::check($path)) {
             Terminal::echol("[#c:sd,#] [#c:wd,#]", [$path, '[ignored]']);
@@ -287,7 +287,7 @@ return new class {
     }
 
     /** Converte um array em string de declaração de array */
-    protected function arrayToDeclarationString($array): string
+    protected function arrayToDeclarationString(array $array): string
     {
         $string = var_export($array, true);
         $string = str_replace(['array (', ')'], ['[', ']'], $string);

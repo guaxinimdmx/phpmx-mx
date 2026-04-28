@@ -73,12 +73,12 @@ class Postgresql extends BaseConnection
     }
 
     /** Retorna a instancia PDO da conexão */
-    protected function &pdo(): \PDO
+    protected function &pdo(): PDO
     {
         if (is_array($this->instancePDO)) {
             Trace::add('datalayer.start', prepare('[#] postgresql', Datalayer::externalName($this->dbName, 'Db')), function () {
                 $scheme = array_pop($this->instancePDO);
-                $this->instancePDO = new \PDO(...$this->instancePDO);
+                $this->instancePDO = new PDO(...$this->instancePDO);
                 $this->instancePDO->exec("SET search_path TO $scheme");
             });
         }

@@ -160,7 +160,7 @@ abstract class Router
         });
     }
 
-    protected static function getRouteMatch(array $path, $routes): ?array
+    protected static function getRouteMatch(array $path, array $routes): ?array
     {
         foreach ($routes as $template => $route)
             if (self::checkRouteMatch($path, $template))

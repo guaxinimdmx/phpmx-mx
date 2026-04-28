@@ -14,9 +14,9 @@ abstract class Assets
      * Envia um arquivo do projeto como resposta da requisição.
      * @param string ...$path Partes do caminho do arquivo.
      */
-    static function send(): void
+    static function send(string ...$path): void
     {
-        self::load(...func_get_args());
+        self::load(...$path);
         Response::send();
     }
 
@@ -24,9 +24,9 @@ abstract class Assets
      * Realiza o download de um arquivo do projeto como resposta da requisição.
      * @param string ...$path Partes do caminho do arquivo.
      */
-    static function download(): void
+    static function download(string ...$path): void
     {
-        self::load(...func_get_args());
+        self::load(...$path);
         Response::download(true);
         Response::send();
     }
@@ -35,9 +35,9 @@ abstract class Assets
      * Carrega um arquivo do projeto na resposta da requisição.
      * @param string ...$path Partes do caminho do arquivo.
      */
-    static function load(): void
+    static function load(string ...$path): void
     {
-        $file = path(...func_get_args());
+        $file = path(...$path);
         self::loadResponse($file);
         Response::download(false);
     }

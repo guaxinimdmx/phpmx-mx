@@ -11,7 +11,7 @@ use PhpMx\Terminal;
  */
 return new class {
 
-    function __invoke($middleware)
+    function __invoke(string $middleware)
     {
         $middleware = remove_accents($middleware);
 

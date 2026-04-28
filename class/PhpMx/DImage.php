@@ -472,6 +472,8 @@ class DImage
                 imagesavealpha($tmp, true);
                 imagecopyresampled($tmp, $this->gd, 0, 0, 0, 0, $nw, $nh, $w, $h);
                 break;
+            default:
+                throw new Error('Image type not suported', STS_INTERNAL_SERVER_ERROR);
         }
 
         $this->gd = $tmp;

@@ -10,7 +10,7 @@ return new class {
 
     use TerminalHelperTrait;
 
-    function __invoke($filter = null)
+    function __invoke(?string $filter = null)
     {
         $this->handle(
             'system/view',
@@ -27,7 +27,7 @@ return new class {
         );
     }
 
-    protected function scan($viewPath)
+    protected function scan(string $viewPath)
     {
         $scheme = [];
 

@@ -10,7 +10,7 @@ use PhpMx\Path;
 class Captcha
 {
     /** Gera um desafio de captcha alfanumérico com imagem em base64 e chave criptografada */
-    function __invoke($color = '000', $background = 'fff')
+    function __invoke(string $color = '000', string $background = 'fff')
     {
         phpex('gd');
 
@@ -32,12 +32,12 @@ class Captcha
         ];
     }
 
-    protected function getKey($captcha): string
+    protected function getKey(string $captcha): string
     {
         return Cif::on(mx5($captcha));
     }
 
-    protected function getImage($captcha, $fg, $bg): string
+    protected function getImage(string $captcha, string $fg, string $bg): string
     {
         $fg = explode(',', colorRGB($fg));
         $bg = explode(',', colorRGB($bg));

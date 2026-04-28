@@ -14,7 +14,7 @@ abstract class BaseQuery
 
     protected null|string|array $table = null;
 
-    protected $sqlKeywords = [
+    protected array $sqlKeywords = [
         'select',
         'from',
         'where',
