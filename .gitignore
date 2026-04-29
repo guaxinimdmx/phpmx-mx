@@ -10,8 +10,8 @@
 /library/certificate/*
 !/library/certificate/base.crt
 
-/source/Controller/*
-!/source/Controller/MxServer
+/class/Controller/*
+!/class/Controller/MxServer
 
 /system/router/*
 !/system/router/MxServer.php

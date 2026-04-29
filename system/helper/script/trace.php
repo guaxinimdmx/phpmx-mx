@@ -4,8 +4,13 @@ use PhpMx\Trace;
 
 class_exists(Trace::class);
 
-$composerLoader = spl_autoload_functions()[0];
+$registeredLoaders = spl_autoload_functions();
 
-foreach (spl_autoload_functions() as $loader) spl_autoload_unregister($loader);
+foreach ($registeredLoaders as $loader) spl_autoload_unregister($loader);
 
-spl_autoload_register(fn($class) => Trace::add('autoload', $class, fn() => $composerLoader($class)));
+spl_autoload_register(fn($class) => Trace::add('autoload', $class, function () use ($class, $registeredLoaders) {
+    foreach ($registeredLoaders as $loader) {
+        $loader($class);
+        if (class_exists($class, false)) return;
+    }
+}));
