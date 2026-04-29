@@ -2,19 +2,13 @@
 
 namespace PhpMx\Reflection;
 
-/** @internal */
+/** @ignore */
 abstract class BaseReflectionFile
 {
     const PRIMITIVES = ['int', 'integer', 'string', 'bool', 'boolean', 'float', 'double', 'array', 'object', 'callable', 'iterable', 'void', 'mixed', 'null'];
 
     abstract static function scheme(string $file): array;
 
-    /**
-     * Extrai o docblock que precede imediatamente uma posição no código-fonte.
-     * @param string $code Código-fonte completo.
-     * @param int $pos Posição do elemento a analisar.
-     * @return string O docblock encontrado ou string vazia.
-     */
     protected static function docBlockBefore(string $code, int $pos): string
     {
         $before = substr($code, 0, $pos);
@@ -28,12 +22,6 @@ abstract class BaseReflectionFile
         return '';
     }
 
-    /**
-     * Analisa um docblock em um array estruturado com description, params, return, examples, etc.
-     * Tags suportadas: @param, @return, @throws, @see, @example, @method, @property, @internal, @ignore, @deprecated, @final, @since.
-     * @param string|null $docBlock String do docblock ou null.
-     * @return array Dados estruturados extraídos do docblock.
-     */
     protected static function parseDocBlock(?string $docBlock): array
     {
         $data = [
@@ -157,13 +145,6 @@ abstract class BaseReflectionFile
         return array_filter($data);
     }
 
-    /**
-     * Mescla dois arrays de documentação, dando prioridade ao primário e preferindo tipos mais específicos.
-     * Exceção: flags booleanas do secundário com valor true (ex: @final) sempre sobrescrevem o primário.
-     * @param array $primary Dados primários (maior prioridade).
-     * @param array $secondary Dados secundários (fallback quando o primário está vazio).
-     * @return array Array mesclado resultante.
-     */
     protected static function mergeDoc(array $primary, array $secondary): array
     {
         $merged = [];
@@ -183,7 +164,7 @@ abstract class BaseReflectionFile
                 continue;
             }
 
-            if ($key == 'type' || $key == 'return') {
+            if (($key == 'type' || $key == 'return') && is_string($p1) && is_string($p2)) {
                 $t1 = strtolower(str_replace(['?', '|', '&'], ' ', strval($p1)));
                 $t2 = strtolower(str_replace(['?', '|', '&'], ' ', strval($p2)));
 

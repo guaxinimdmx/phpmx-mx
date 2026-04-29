@@ -6,16 +6,7 @@ use Exception;
 use ReflectionMethod;
 use Throwable;
 
-/**
- * Classe base para criação e execução de comandos de terminal.
- * Oferece suporte a estilização ANSI via tags de composição:
- * - Formato: `[#c:estilo,texto]` ou `[#c:estilo,#]` com prepare.
- * - Estilos (Cores): `p` (Primária), `s` (Sucesso), `e` (Erro), `w` (Alerta), `d` (Padrão).
- * - Modificadores: `b` (Negrito), `i` (Itálico), `u` (Sublinhado), `s` (Riscado).
- * @example self::echo("[#c:pb,Texto em negrito ciano]");
- * @example self::echol("[#c:e,#]", ["Mensagem de Erro"]);
- * @see \PhpMx\Prepare
- */
+/** Classe base para criação e execução de comandos de terminal. */
 abstract class Terminal
 {
     /**
@@ -320,7 +311,7 @@ abstract class Terminal
     /**
      * Exibe uma barra de progresso 
      * @param string $text Mensagem de texto que deve ser exibida
-     * @param string|array prepare Dados prepare para compor o texto
+     * @param string|array $prepare Dados prepare para compor o texto
      * @param int $current Valor atual da barra
      * @param int $total Valor total da barra
      * @return void

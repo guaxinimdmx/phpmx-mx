@@ -5,13 +5,16 @@ namespace PhpMx;
 use Closure;
 use Throwable;
 
-/** 
- * Classe utilitária para registro estruturado de traces e escopos.
- */
+/** Classe utilitária para registro estruturado de traces e escopos. */
 abstract class Trace
 {
+    /** @ignore */
     protected static array $trace = [];
+
+    /** @ignore */
     protected static array $scope = [];
+
+    /** @ignore */
     protected static bool $useTrace = true;
 
     /**
@@ -26,23 +29,23 @@ abstract class Trace
 
     /**
      * Adiciona uma linha de trace ou abre um escopo de execução via Closure.
-     * @param string $type Categoria do trace.
+     * @param string $typeScope Categoria do trace.
      * @param string $message Mensagem do trace.
      * @param Closure|null $scope Closure opcional para criar um escopo de trace.
      * @return mixed Retorno do Closure ou o resultado do trace.
      */
-    static function add(string $type, string $message, ?Closure $scope = null): mixed
+    static function add(string $typeScope, string $message, ?Closure $scope = null): mixed
     {
         if (!self::$useTrace)
             return $scope();
 
         if (is_null($scope)) {
-            self::set($type, $message);
+            self::set($typeScope, $message);
             return null;
         }
 
         try {
-            self::openScope($type, $message);
+            self::openScope($typeScope, $message);
             $result = $scope();
             self::closeScope();
             return $result;
@@ -55,17 +58,17 @@ abstract class Trace
 
     /**
      * Altera os dados da linha do escopo que está aberto no momento.
-     * @param string $type Novo tipo/categoria.
+     * @param string $newType Novo tipo/categoria.
      * @param string $message Nova mensagem.
      * @return void
      */
-    static function changeScope(string $type, string $message): void
+    static function changeScope(string $newType, string $message): void
     {
         if (!self::$useTrace) return;
 
         if (count(self::$scope)) {
             $scopeKey = end(self::$scope);
-            self::$trace[$scopeKey][0] = $type;
+            self::$trace[$scopeKey][0] = $newType;
             self::$trace[$scopeKey][1] = $message;
         }
     }
@@ -193,23 +196,15 @@ abstract class Trace
         return trim($output);
     }
 
-    /**
-     * Registra uma entrada bruta no array interno de trace.
-     * @param string $type Categoria da entrada.
-     * @param string|null $message Mensagem da entrada.
-     * @param bool $isScope Indica se a entrada representa um escopo.
-     */
+    /** @ignore */
     protected static function set(string $type, ?string $message = null, bool $isScope = false)
     {
         $scope = count(self::$scope);
         self::$trace[] = [$type, $message, $scope, null];
     }
 
-    /**
-     * Adiciona uma entrada ao trace e abre um escopo, registrando o pico de memória inicial.
-     * @param string $type Categoria do escopo.
-     * @param string|null $message Mensagem do escopo.
-     */
+
+    /** @ignore */
     protected static function openScope(string $type, ?string $message = null)
     {
         self::set($type, $message);
@@ -218,9 +213,7 @@ abstract class Trace
         self::$scope[] = $index;
     }
 
-    /**
-     * Fecha o escopo mais recente e calcula o delta de memória consumida.
-     */
+    /** @ignore */
     protected static function closeScope()
     {
         if (count(self::$scope)) {
@@ -229,20 +222,13 @@ abstract class Trace
         }
     }
 
-    /**
-     * Calcula e atualiza o delta de memória pico de uma entrada de escopo.
-     * @param array $line Referência à entrada do trace a ser finalizada.
-     */
+    /** @ignore */
     protected static function closeLine(&$line)
     {
         $line[3] = $line[3] ? memory_get_peak_usage(true) - $line[3] : null;
     }
 
-    /**
-     * Converte um valor em bytes para uma string legível (b, kb, mb, gb).
-     * @param int|null $bytes Valor em bytes ou null.
-     * @return string|null String formatada ou null se o valor for nulo ou insignificante.
-     */
+    /** @ignore */
     protected static function formatMemory(?int $bytes): ?string
     {
         if (is_null($bytes)) return null;

@@ -5,6 +5,7 @@ namespace PhpMx\Reflection;
 use PhpMx\Import;
 use PhpMx\Path;
 
+/** Extrai o esquema de reflexão de um arquivo de comando. */
 abstract class ReflectionCommandFile extends BaseReflectionFile
 {
     /**

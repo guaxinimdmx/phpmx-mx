@@ -114,6 +114,7 @@ class Update extends BaseQuery
         return $this;
     }
 
+    /** @ignore */
     protected function mountValues(): string
     {
         $change = [];
@@ -129,6 +130,7 @@ class Update extends BaseQuery
         return implode(', ', $change);
     }
 
+    /** @ignore */
     protected function mountWhere(): string
     {
         $return = [];
@@ -173,6 +175,7 @@ class Update extends BaseQuery
         return empty($return) ? '' : 'WHERE (' . implode(') AND (', $return) . ')';
     }
 
+    /** @ignore */
     protected function mountTable(): string
     {
         if (is_array($this->table))

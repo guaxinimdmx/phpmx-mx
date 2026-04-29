@@ -72,8 +72,6 @@ abstract class InlineCss
         return trim($html);
     }
 
-    // ── CSS parsing ───────────────────────────────────────────────────────────
-
     protected static function parseRules(string $css): array
     {
         $rules = [];
@@ -113,8 +111,6 @@ abstract class InlineCss
         return $declarations;
     }
 
-    // ── Inline style merging ──────────────────────────────────────────────────
-
     protected static function mergeStyle(DOMElement $node, array $declarations): void
     {
         $existing = [];
@@ -126,14 +122,11 @@ abstract class InlineCss
             $existing[trim(substr($decl, 0, $pos))] = trim(substr($decl, $pos + 1));
         }
 
-        // Inline existente tem prioridade sobre o <style>
         $merged = array_merge($declarations, $existing);
 
         $style = implode('; ', array_map(fn($p, $v) => "$p: $v", array_keys($merged), $merged));
         $node->setAttribute('style', $style);
     }
-
-    // ── Selector → XPath ─────────────────────────────────────────────────────
 
     protected static function toXPath(string $selector): string
     {
@@ -170,19 +163,16 @@ abstract class InlineCss
             $sel = substr($sel, strlen($m[0]));
         }
 
-        // #id
         while (preg_match('/^#([\w-]+)/', $sel, $m)) {
             $conditions[] = "@id='{$m[1]}'";
             $sel = substr($sel, strlen($m[0]));
         }
 
-        // .class
         while (preg_match('/^\.([\w-]+)/', $sel, $m)) {
             $conditions[] = "contains(concat(' ', normalize-space(@class), ' '), ' {$m[1]} ')";
             $sel = substr($sel, strlen($m[0]));
         }
 
-        // [attr], [attr=val], [attr~=val], [attr^=val], [attr$=val], [attr*=val]
         while (preg_match('/^\[([\w-]+)(?:([~|^$*]?=)["\']?([^"\'>\]]*)["\']?)?\]/', $sel, $m)) {
             [$full, $attr, $op, $val] = array_pad($m, 4, '');
             $conditions[] = match ($op) {

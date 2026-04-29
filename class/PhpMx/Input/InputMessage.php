@@ -8,6 +8,7 @@ namespace PhpMx\Input;
  */
 abstract class InputMessage
 {
+    /** @ignore */
     protected static array $TYPE = [
         FILTER_VALIDATE_IP => 'O campo [#name] precisa ser um endereço IP',
         FILTER_VALIDATE_INT => 'O campo [#name] precisa ser um numero inteiro',

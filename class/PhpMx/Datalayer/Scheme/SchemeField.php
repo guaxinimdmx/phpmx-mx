@@ -35,6 +35,7 @@ class SchemeField
         $this->map['settings'] = $map['settings'] ?? $realMap['settings'];
     }
 
+    /** @ignore */
     protected function onlyType(string $name, array $allowTypes = [], array $denyType = []): void
     {
         if ((!empty($allowTypes) && !in_array($this->map['type'], $allowTypes)) || in_array($this->map['type'], $denyType))
@@ -238,6 +239,7 @@ class SchemeField
         };
     }
 
+    /** @ignore */
     protected function __mapBoolean(array $map): array
     {
         $map['size'] = 1;
@@ -248,6 +250,7 @@ class SchemeField
         return $map;
     }
 
+    /** @ignore */
     private function __mapInteger(array $map): array
     {
         if (!is_null($map['default']))
@@ -256,6 +259,7 @@ class SchemeField
         return $map;
     }
 
+    /** @ignore */
     protected function __mapNumeric(array $map): array
     {
         if ($map['type'] === 'decimal') {
@@ -269,6 +273,7 @@ class SchemeField
         return $map;
     }
 
+    /** @ignore */
     protected function __mapChar(array $map): array
     {
         $map['size'] = $map['size'] ?? 1;
@@ -279,6 +284,7 @@ class SchemeField
         return $map;
     }
 
+    /** @ignore */
     protected function __mapVarchar(array $map): array
     {
         $map['size'] = $map['size'] ?? 255;
@@ -289,6 +295,7 @@ class SchemeField
         return $map;
     }
 
+    /** @ignore */
     protected function __mapText(array $map): array
     {
         $map['size'] = null;
@@ -299,6 +306,7 @@ class SchemeField
         return $map;
     }
 
+    /** @ignore */
     private function __mapTemporal(array $map): array
     {
         $map['size'] = null;
@@ -329,6 +337,7 @@ class SchemeField
         return $map;
     }
 
+    /** @ignore */
     protected function __mapJson(array $map): array
     {
         $map['size'] = null;
@@ -336,6 +345,7 @@ class SchemeField
         return $map;
     }
 
+    /** @ignore */
     protected function __mapIdx(array $map): array
     {
         $map['size'] = 10;
@@ -346,6 +356,7 @@ class SchemeField
         return $map;
     }
 
+    /** @ignore */
     protected function __mapEmail(array $map): array
     {
         $map['size'] = 254;
@@ -360,6 +371,7 @@ class SchemeField
         return $map;
     }
 
+    /** @ignore */
     protected function __mapMd5(array $map): array
     {
         $map['size'] = 32;
@@ -374,6 +386,7 @@ class SchemeField
         return $map;
     }
 
+    /** @ignore */
     protected function __mapPassword(array $map): array
     {
         $map['size'] = 255;

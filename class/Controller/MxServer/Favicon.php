@@ -7,6 +7,7 @@ use PhpMx\File;
 use PhpMx\Path;
 use PhpMx\Response;
 
+/** Entrega de favicon padrão */
 class Favicon
 {
     /** Gerencia a entrega do ícone do site buscando primeiro no projeto local e depois no framework */

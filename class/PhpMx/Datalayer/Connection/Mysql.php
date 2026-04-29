@@ -9,11 +9,8 @@ use PhpMx\Datalayer;
 use PhpMx\Datalayer\Query;
 use PhpMx\Trace;
 
-/**
- * Driver de conexão para MySQL via PDO.
- * Configura o DSN a partir das variáveis de ambiente DB_{NAME}_HOST/DATA/USER/PASS/PORT.
- * @ignore
- */
+
+/** @ignore */
 class Mysql extends BaseConnection
 {
     protected string $pdoDriver = 'pdo_mysql';

@@ -2,13 +2,18 @@
 
 namespace [#namespace]\Record;
 
+/** Objetos de entidade para conexão com [#recordClass] */
 class [#recordClass] extends \[#namespace]\Driver\Driver[#recordClass]
 {
+    /** Chamado antes da criação do registro */
     protected function _onCreate() {}
 
+    /** Chamado antes da atualização do registro */
     protected function _onUpdate() {}
 
+    /** Chamado antes de marcar o registro como removido */
     protected function _onDelete() {}
 
+    /** Chamado antes de desmarcar o registro como removido */
     protected function _onUndelete() {}
 }

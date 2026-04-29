@@ -8,11 +8,7 @@ use PhpMx\Router;
 use ReflectionClass;
 use ReflectionMethod;
 
-/**
- * Extrai o esquema de reflexão de um arquivo de rotas do sistema.
- * Intercepta temporariamente o registro de rotas do Router para mapear cada rota declarada no arquivo
- * e construir o mapa de metadados com método, path, middlewares e informações do controller.
- */
+/** Extrai o esquema de reflexão de um arquivo de rotas. */
 abstract class ReflectionRouterFile extends BaseReflectionFile
 {
     /**

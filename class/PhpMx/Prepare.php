@@ -2,12 +2,7 @@
 
 namespace PhpMx;
 
-/**
- * Classe utilitária para substituição de templates em textos. 
- * @example Prepare::prepare("Olá [#user.name]", ['user' => ['name' => 'Danilo']]) -> "Olá Danilo"
- * @example Prepare::prepare("Soma: [#sum:10,20]", ['sum' => fn($a, $b) => $a + $b]) -> "Soma: 30"
- * @example Prepare::prepare("Valor: [#]", [100]) -> "Valor: 100"
- */
+/** Classe utilitária para substituição de templates em textos. */
 abstract class Prepare
 {
     /**

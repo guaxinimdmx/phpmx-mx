@@ -6,6 +6,7 @@ use PhpMx\Import;
 use PhpMx\Path;
 use ReflectionClass;
 
+/** Extrai o esquema de reflexão de um arquivo de classe, trait ou interface. */
 class ReflectionSourceFile extends BaseReflectionFile
 {
     /**

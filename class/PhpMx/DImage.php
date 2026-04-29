@@ -655,6 +655,7 @@ class DImage
         return $this;
     }
 
+    /** @ignore */
     protected function ensureResizeArray(int|array &$size): void
     {
         list($width, $height) = $this->size;
@@ -673,6 +674,7 @@ class DImage
         }
     }
 
+    /** @ignore */
     protected function calcSizeMax(int|array $size): array
     {
         $this->ensureResizeArray($size);
@@ -692,6 +694,7 @@ class DImage
         return [$width, $height];
     }
 
+    /** @ignore */
     protected function calcSizeMin(int|array $size): array
     {
         list($width, $height) = $this->size;
@@ -709,6 +712,7 @@ class DImage
         return [$width, $height];
     }
 
+    /** @ignore */
     protected function calcPosition(int|array $position, int $dx = 0, int $dy = 0): array
     {
         if (is_array($position)) {
@@ -734,6 +738,7 @@ class DImage
         return [$x, $y];
     }
 
+    /** @ignore */
     protected static function normalizeColor(string|array $color): array
     {
         if (!is_array($color)) {
@@ -748,6 +753,7 @@ class DImage
         return $color;
     }
 
+    /** @ignore */
     protected static function normalizeSize(int|array $size): array
     {
         $size = is_array($size) ? $size : [$size];

@@ -7,13 +7,17 @@
 
 namespace [#namespace]\Driver;
 
-/**[#autocomplete]
+/**
+ * Driver de registro gerado automáticamente[#autocomplete]
  */
 abstract class Driver[#recordClass] extends \PhpMx\Datalayer\Driver\Record
 {
+    /** @ignore */
     protected string $DATALAYER = '[#datalayer]';
+    /** @ignore */
     protected string $TABLE = '[#tableName]';
 
+    /** @ignore */
     final function __construct(mixed $scheme = null)
     {
 [#createFields]

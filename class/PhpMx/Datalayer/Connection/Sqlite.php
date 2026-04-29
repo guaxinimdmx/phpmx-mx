@@ -10,7 +10,7 @@ use PhpMx\Dir;
 use PhpMx\File;
 use PhpMx\Trace;
 
-/** Driver de conexão para SQLite via PDO. ALTER TABLE é emulado por drop/recriação com migração de dados. */
+/** @ignore */
 class Sqlite extends BaseConnection
 {
     protected string $pdoDriver = 'pdo_sqlite';

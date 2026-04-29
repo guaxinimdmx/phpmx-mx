@@ -7,6 +7,7 @@ use PhpMx\File;
 use PhpMx\Path;
 use PhpMx\Response;
 
+/** Entrega de robots.txt padrão */
 class Robots
 {
     /** Configura as instruções para motores de busca bloqueando a indexação de todo o site */

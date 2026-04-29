@@ -11,12 +11,10 @@ use PhpMx\Input\InputFieldScheme;
 use PhpMx\Input\InputFieldUpload;
 use PhpMx\Input\InputFieldUploadImage;
 
-/**
- * Classe para gerenciamento de campos e validação de inputs da requisição.
- * Encapsula os dados recebidos e fornece campos tipados com sanitização e verificação automática.
- */
+/** Classe para gerenciamento de campos e validação de inputs da requisição. */
 class Input
 {
+    /** @ignore */
     protected array $dataValue = [];
 
     /** @var InputField[] */

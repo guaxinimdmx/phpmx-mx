@@ -4,9 +4,7 @@ namespace PhpMx;
 
 use Exception;
 
-/** 
- * Classe utilitária para cifrar e decifrar variáveis de forma segura.
- */
+/** Classe utilitária para cifrar e decifrar variáveis de forma segura. */
 abstract class Cif
 {
     protected static array $ENSURE;

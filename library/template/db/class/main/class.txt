@@ -2,6 +2,7 @@
 
 namespace [#namespace];
 
+/** Classe para conexão com [#dbClass] */
 abstract class [#className] extends \[#namespace]\Driver\Driver[#className]
 {
 }

@@ -9,18 +9,13 @@ use PhpMx\Import;
 use PhpMx\Trace;
 use PhpMx\Terminal;
 
-/** Trait com a lógica de execução de migrações usada pelos comandos de terminal (migration:up, down, lock, etc.). */
+/** @ignore */
 trait TerminalMigrationTrait
 {
     protected static ?string $dbName = null;
     protected static ?string $path = null;
 
-    /**
-     * Aplica a próxima migração pendente.
-     * @param string|null $dbName Nome do banco de dados.
-     * @return bool True se uma migração foi aplicada, false se não havia pendentes.
-     */
-    protected static function up($dbName = null)
+    protected static function up(?string $dbName = null)
     {
         self::loadDatalayer($dbName);
 
@@ -32,12 +27,7 @@ trait TerminalMigrationTrait
         return $result;
     }
 
-    /**
-     * Reverte a última migração aplicada.
-     * @param string|null $dbName Nome do banco de dados.
-     * @return bool True se uma migração foi revertida, false se não havia aplicadas.
-     */
-    protected static function down($dbName = null)
+    protected static function down(?string $dbName = null)
     {
         self::loadDatalayer($dbName);
 
@@ -49,11 +39,7 @@ trait TerminalMigrationTrait
         return $result;
     }
 
-    /**
-     * Aplica um nível de lock em todas as migrações sem lock, impedindo rollback.
-     * @param string|null $dbName Nome do banco de dados.
-     */
-    protected static function lock($dbName = null)
+    protected static function lock(?string $dbName = null)
     {
         self::loadDatalayer($dbName);
         $datalayer = Datalayer::get(self::$dbName);
@@ -78,11 +64,7 @@ trait TerminalMigrationTrait
         }
     }
 
-    /**
-     * Remove o nível de lock mais recente, permitindo rollback das migrações bloqueadas.
-     * @param string|null $dbName Nome do banco de dados.
-     */
-    protected static function unlock($dbName = null)
+    protected static function unlock(?string $dbName = null)
     {
         self::loadDatalayer($dbName);
         $datalayer = Datalayer::get(self::$dbName);
@@ -104,21 +86,13 @@ trait TerminalMigrationTrait
         Terminal::echol("[#c:s,Lock level $maxLock released]");
     }
 
-    /**
-     * Inicializa a conexão com o banco e define o dbName e o caminho dos arquivos de migração.
-     * @param string|null $dbName Nome do banco de dados.
-     */
-    protected static function loadDatalayer($dbName)
+    protected static function loadDatalayer(string $dbName)
     {
         Datalayer::get($dbName);
         self::$dbName = Datalayer::internalName($dbName);
         self::$path = path('system/datalayer', self::$dbName, 'migration');
     }
 
-    /**
-     * Retorna todos os arquivos de migração disponíveis ordenados por timestamp (ID).
-     * @return array Array associativo [id => caminho_absoluto].
-     */
     protected static function getFiles(): array
     {
         $files = [];
@@ -134,12 +108,6 @@ trait TerminalMigrationTrait
         return $files;
     }
 
-    /**
-     * Retorna o ID da última migração aplicada. Se $id for fornecido, registra ou remove do histórico.
-     * Passar "-1" remove a última entrada; qualquer outro valor adiciona o ID ao histórico.
-     * @param string|null $id ID a registrar/remover, ou null para apenas consultar.
-     * @return string ID da última migração aplicada (ou string vazia se nenhuma).
-     */
     protected static function lastId(?string $id = null): string
     {
         $datalayer = Datalayer::get(self::$dbName);
@@ -164,10 +132,6 @@ trait TerminalMigrationTrait
         return (string) (array_pop($keys) ?? '');
     }
 
-    /**
-     * Retorna os IDs de todas as migrações já aplicadas no banco.
-     * @return array Lista de IDs (timestamps) das migrações aplicadas.
-     */
     protected static function getAppliedMigrations(): array
     {
         $datalayer = Datalayer::get(self::$dbName);
@@ -175,11 +139,6 @@ trait TerminalMigrationTrait
         return array_keys($data);
     }
 
-    /**
-     * Executa um arquivo de migração no modo up ou down.
-     * @param string $file Caminho absoluto do arquivo de migração.
-     * @param bool $mode True para up (aplicar), false para down (reverter).
-     */
     protected static function executeMigration(string $file, bool $mode)
     {
         $traceAction = $mode ? 'up' : 'down';
@@ -201,10 +160,6 @@ trait TerminalMigrationTrait
         });
     }
 
-    /**
-     * Localiza e executa a próxima migração pendente (up).
-     * @return bool True se alguma migração foi executada, false se todas já foram aplicadas.
-     */
     protected static function executeNext(): bool
     {
         $files = self::getFiles();
@@ -221,10 +176,6 @@ trait TerminalMigrationTrait
         return false;
     }
 
-    /**
-     * Localiza e reverte a última migração aplicada (down). Respeita o lock.
-     * @return bool True se alguma migração foi revertida, false caso contrário.
-     */
     protected static function executePrev()
     {
         $datalayer = Datalayer::get(self::$dbName);

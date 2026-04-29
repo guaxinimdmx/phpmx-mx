@@ -7,9 +7,10 @@ use PhpMx\Dir;
 use PhpMx\File;
 use PhpMx\Json;
 
-trait AutoReflectionTrait
+/** @ignore */
+trait AutodocTrait
 {
-    protected function getSchemeRoute()
+    protected function getRouteFiles()
     {
         $scheme = [];
 
@@ -19,7 +20,7 @@ trait AutoReflectionTrait
         return $scheme;
     }
 
-    protected function getSchemeDatabase()
+    protected function getDatabaseNames()
     {
         $scheme = [];
 
@@ -33,7 +34,7 @@ trait AutoReflectionTrait
         return $scheme;
     }
 
-    protected function getSchemeRootFile()
+    protected function getRootFileFiles()
     {
         $scheme = [];
 
@@ -45,7 +46,7 @@ trait AutoReflectionTrait
         return $scheme;
     }
 
-    protected function getSchemePsr4()
+    protected function getPsr4Files()
     {
         $scheme = [];
 
@@ -55,7 +56,7 @@ trait AutoReflectionTrait
         return $scheme;
     }
 
-    protected function getSchemeMigration()
+    protected function getMigrationFiles()
     {
         $scheme = [];
 
@@ -65,7 +66,7 @@ trait AutoReflectionTrait
         return $scheme;
     }
 
-    protected function getSchemeMiddleware()
+    protected function getMiddlewareFiles()
     {
         $scheme = [];
 
@@ -75,7 +76,7 @@ trait AutoReflectionTrait
         return $scheme;
     }
 
-    protected function getSchemeTerminal()
+    protected function getTerminalFiles()
     {
         $scheme = [];
 
@@ -85,7 +86,7 @@ trait AutoReflectionTrait
         return $scheme;
     }
 
-    protected function getSchemeHelper()
+    protected function getHelperFiles()
     {
         $scheme = [];
 
@@ -101,7 +102,7 @@ trait AutoReflectionTrait
         return $scheme;
     }
 
-    protected function getSchemeComposer(?string $file = null)
+    protected function getComposerScheme(?string $file = null)
     {
         $scheme = [];
         $dependences = is_null($file);
@@ -121,13 +122,13 @@ trait AutoReflectionTrait
             foreach (array_keys($scheme['require']) as $package) {;
                 $packageComposer = path('vendor', $package, 'composer.json');
                 if (File::check($packageComposer))
-                    $scheme['requiredPackages'][$package] = $this->getSchemeComposer($packageComposer);
+                    $scheme['requiredPackages'][$package] = $this->getComposerScheme($packageComposer);
             }
 
             foreach (array_keys($scheme['suggest']) as $package) {;
                 $packageComposer = path('vendor', $package, 'composer.json');
                 if (File::check($packageComposer))
-                    $scheme['suggestedPackages'][$package] = $this->getSchemeComposer($packageComposer);
+                    $scheme['suggestedPackages'][$package] = $this->getComposerScheme($packageComposer);
             }
         }
 

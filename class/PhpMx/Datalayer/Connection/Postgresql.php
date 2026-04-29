@@ -10,7 +10,7 @@ use PhpMx\Datalayer\Query;
 use PhpMx\Datalayer\Query\BaseQuery;
 use PhpMx\Trace;
 
-/** Driver de conexão para PostgreSQL via PDO. Converte backticks para aspas duplas e suporta schemas. */
+/** @ignore */
 class Postgresql extends BaseConnection
 {
     protected string $pdoDriver = 'pdo_pgsql';

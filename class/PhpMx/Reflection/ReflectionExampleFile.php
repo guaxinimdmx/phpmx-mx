@@ -5,8 +5,14 @@ namespace PhpMx\Reflection;
 use PhpMx\File;
 use PhpMx\Path;
 
+/** Extrai o esquema de reflexão de um arquivo de exemplo. */
 class ReflectionExampleFile extends BaseReflectionFile
 {
+    /**
+     * Retorna o esquema de um arquivo de exemplo.
+     * @param string $file Caminho do arquivo de comando.
+     * @return array Esquema do comando ou array vazio se o arquivo não contiver um comando válido.
+     */
     static function scheme(string $file): array
     {
         $content = file_get_contents($file);
@@ -23,6 +29,7 @@ class ReflectionExampleFile extends BaseReflectionFile
         ]);
     }
 
+    /** @ignore */
     protected static function parseContent(string $content): array
     {
         $lines = [];
@@ -98,6 +105,7 @@ class ReflectionExampleFile extends BaseReflectionFile
         return $lines;
     }
 
+    /** @ignore */
     protected static function parseTextSegment(string $text): array
     {
         $rawLines = preg_split('/\r\n|\n|\r/', $text);
@@ -136,6 +144,7 @@ class ReflectionExampleFile extends BaseReflectionFile
         return $result;
     }
 
+    /** @ignore */
     protected static function parsePhpSegment(string $code): array
     {
         $rawLines = preg_split('/\r\n|\n|\r/', $code);
@@ -213,6 +222,7 @@ class ReflectionExampleFile extends BaseReflectionFile
         return $result;
     }
 
+    /** @ignore */
     protected static function collectBlock(array $rawLines, int $start): array
     {
         $lines = [];

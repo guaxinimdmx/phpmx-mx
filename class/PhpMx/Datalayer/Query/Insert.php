@@ -80,6 +80,7 @@ class Insert extends BaseQuery
         return $this;
     }
 
+    /** @ignore */
     protected function mountColumn(): string
     {
         $columns = [];
@@ -89,6 +90,7 @@ class Insert extends BaseQuery
         return '(' . implode(', ', $columns) . ')';
     }
 
+    /** @ignore */
     protected function mountValues(): string
     {
         $inserts = [];
@@ -106,6 +108,7 @@ class Insert extends BaseQuery
         return implode(', ', $inserts);
     }
 
+    /** @ignore */
     protected function mountTable(): string
     {
         if (is_array($this->table))

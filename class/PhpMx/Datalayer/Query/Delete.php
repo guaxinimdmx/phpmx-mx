@@ -122,6 +122,7 @@ class Delete extends BaseQuery
         return $this;
     }
 
+    /** @ignore */
     protected function mountOrder(): string
     {
         if (empty($this->order))
@@ -130,6 +131,7 @@ class Delete extends BaseQuery
         return " ORDER BY " . implode(', ', $this->order);
     }
 
+    /** @ignore */
     protected function mountWhere(): string
     {
         $return = [];

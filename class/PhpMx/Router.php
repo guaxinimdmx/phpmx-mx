@@ -6,16 +6,19 @@ use Closure;
 use Exception;
 use ReflectionMethod;
 
-/**
- * Classe responsável pelo registro, organização e resolução de rotas HTTP.
- * Suporta agrupamento por caminho e middlewares, além de parâmetros dinâmicos na URL.
- */
+/** Classe responsável pelo registro, organização e resolução de rotas HTTP. */
 abstract class Router
 {
+    /** @ignore */
     protected static array $ROUTE = ['GET' => [], 'POST' => [], 'PUT' => [], 'DELETE' => []];
 
+    /** @ignore */
     protected static array $CURRENT_MIDDLEWARE = [[]];
+
+    /** @ignore */
     protected static array $CURRENT_PATH = [];
+
+    /** @ignore */
     protected static bool $SCANNED = false;
 
     /**
@@ -160,6 +163,7 @@ abstract class Router
         });
     }
 
+    /** @ignore */
     protected static function getRouteMatch(array $path, array $routes): ?array
     {
         foreach ($routes as $template => $route)
@@ -169,6 +173,7 @@ abstract class Router
         return null;
     }
 
+    /** @ignore */
     protected static function checkRouteMatch(array $path, string $template): bool
     {
         $template = trim($template, '/');
@@ -185,6 +190,7 @@ abstract class Router
         return count($path) === 0;
     }
 
+    /** @ignore */
     protected static function setRequestRouteParams(?string $template, ?array $params): void
     {
         if (is_null($template)) return;
@@ -207,6 +213,7 @@ abstract class Router
             Request::set_route($var, $value);
     }
 
+    /** @ignore */
     protected static function executeActionResponse(string|array|int $response)
     {
         $response = is_array($response) ? $response : [$response];
@@ -247,6 +254,7 @@ abstract class Router
         throw new Exception('response route error', STS_INTERNAL_SERVER_ERROR);
     }
 
+    /** @ignore */
     protected static function getMethodParams(string|Object $class, string $method, array $data): array
     {
         $params = [];
@@ -265,6 +273,7 @@ abstract class Router
         return $params;
     }
 
+    /** @ignore */
     protected static function scan(string $method): array
     {
         $method = strtoupper($method);
@@ -284,6 +293,7 @@ abstract class Router
         return $routes[$method] ?? [];
     }
 
+    /** @ignore */
     protected static function defineRoute(string $method, string $route, string|array|int $response, array $middlewares = []): void
     {
         $route = implode('/', [...self::$CURRENT_PATH, $route]);
@@ -300,6 +310,7 @@ abstract class Router
         ];
     }
 
+    /** @ignore */
     protected static function organize(array $array): array
     {
         uksort($array, function ($a, $b) {
@@ -340,6 +351,7 @@ abstract class Router
         return $array;
     }
 
+    /** @ignore */
     protected static function parseRouteTemplate(string $route): array
     {
         $params = [];
@@ -360,6 +372,7 @@ abstract class Router
         return [$route, $params];
     }
 
+    /** @ignore */
     protected static function normalizeRoute(string $route): string
     {
         $route = explode('/', $route);

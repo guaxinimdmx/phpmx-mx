@@ -7,7 +7,7 @@ use PhpMx\File;
 use PhpMx\Import;
 use PhpMx\Terminal;
 
-/** @ignore */
+/** Facilita a criação de arquivos de instalação via php mx make.install */
 trait TerminalInstallTrait
 {
     /**

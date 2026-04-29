@@ -5,12 +5,10 @@ namespace PhpMx;
 use Closure;
 use Exception;
 
-/**
- * Classe responsável pela execução encadeada de middlewares.
- * Os middlewares podem ser Closures, strings referenciando arquivos ou arrays de middlewares aninhados.
- */
+/** Classe responsável pela execução encadeada de middlewares. */
 abstract class Middleware
 {
+    /** @ignore */
     protected array $QUEUE = [];
 
     /**
@@ -25,6 +23,7 @@ abstract class Middleware
         return self::execute($queue);
     }
 
+    /** @ignore */
     protected static function execute(mixed &$queue): mixed
     {
         if (count($queue)) {
@@ -37,6 +36,7 @@ abstract class Middleware
         return null;
     }
 
+    /** @ignore */
     protected static function getCallable(mixed $middleware)
     {
         if (is_array($middleware))

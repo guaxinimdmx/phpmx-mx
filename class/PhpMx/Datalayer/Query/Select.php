@@ -322,6 +322,7 @@ class Select extends BaseQuery
         return $this->join($table, $condition, 'INNER');
     }
 
+    /** @ignore */
     protected function mountFields(): string
     {
         $fields = [];
@@ -362,11 +363,13 @@ class Select extends BaseQuery
         return $this->distinct ? "DISTINCT $fieldsStr" : $fieldsStr;
     }
 
+    /** @ignore */
     protected function mountLimit(): string
     {
         return $this->limit ? " LIMIT $this->limit" : '';
     }
 
+    /** @ignore */
     protected function mountOrder(): string
     {
         if (empty($this->order))
@@ -377,11 +380,13 @@ class Select extends BaseQuery
         return " ORDER BY $fields";
     }
 
+    /** @ignore */
     protected function mountGroup(): string
     {
         return empty($this->group) ? '' : ' GROUP BY ' . $this->group;
     }
 
+    /** @ignore */
     protected function mountJoins(): string
     {
         if (empty($this->joins))
@@ -415,6 +420,7 @@ class Select extends BaseQuery
         return implode('', $result);
     }
 
+    /** @ignore */
     protected function mountWhere(): string
     {
         $return = [];

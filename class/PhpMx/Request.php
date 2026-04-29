@@ -2,11 +2,7 @@
 
 namespace PhpMx;
 
-/**
- * Classe para acesso aos dados da requisição HTTP atual.
- * Todos os métodos de leitura aceitam um argumento opcional para retornar um parâmetro específico.
- * Quando chamados sem argumentos, retornam todos os dados do respectivo contexto.
- */
+/** Classe para acesso aos dados da requisição HTTP atual. */
 abstract class Request
 {
     protected static ?array $SERVER = null;
@@ -215,18 +211,19 @@ abstract class Request
         self::$ROUTE[$name] = $value;
     }
 
-    #==| LOAD |==#
-
+    /** @ignore */
     protected static function current_server(): array
     {
         return $_SERVER;
     }
 
+    /** @ignore */
     protected static function current_header(): array
     {
         return IS_TERMINAL ? [] : getallheaders();
     }
 
+    /** @ignore */
     protected static function current_type(): string
     {
         if (IS_TERMINAL) return 'TERMINAL';
@@ -234,6 +231,7 @@ abstract class Request
         return self::server('REQUEST_METHOD') ?? 'UNDEFINED';
     }
 
+    /** @ignore */
     protected static function current_ssl(): bool
     {
         if (IS_TERMINAL)
@@ -242,6 +240,7 @@ abstract class Request
         return env('FORCE_SSL') || strtolower(self::server('HTTPS') ?? '') == 'on';
     }
 
+    /** @ignore */
     protected static function current_host(): string
     {
         if (self::server('HTTP_HOST')) return self::server('HTTP_HOST');
@@ -256,6 +255,7 @@ abstract class Request
         return $host;
     }
 
+    /** @ignore */
     protected static function current_path(): array
     {
         $path = urldecode(self::server('REQUEST_URI') ?? '');
@@ -268,6 +268,7 @@ abstract class Request
         return $path ?? [];
     }
 
+    /** @ignore */
     protected static function current_query(): array
     {
         $query = self::server('REQUEST_URI') ?? '';
@@ -281,6 +282,7 @@ abstract class Request
         return array_map(fn($var) => str_get_var($var), $query);
     }
 
+    /** @ignore */
     protected static function current_body(): array
     {
         $data = [];
@@ -300,6 +302,7 @@ abstract class Request
         return $data;
     }
 
+    /** @ignore */
     protected static function current_file(): array
     {
         if (IS_TERMINAL) return [];

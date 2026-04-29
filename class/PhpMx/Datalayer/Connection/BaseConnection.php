@@ -12,17 +12,19 @@ use Throwable;
 /** Base para drivers de conexão. */
 abstract class BaseConnection
 {
+    /** @ignore */
     protected string $dbName;
 
+    /** @ignore */
     protected null | array | PDO $instancePDO;
 
+    /** @ignore */
     protected bool $configInitialized = false;
 
+    /** @ignore */
     protected string $pdoDriver;
 
-    /**
-     * Carrega as configurações da conexão a partir das variáveis de ambiente e inicializa o DSN.
-     */
+    /** Carrega as configurações da conexão a partir das variáveis de ambiente e inicializa o DSN. */
     abstract protected function load();
 
     /**

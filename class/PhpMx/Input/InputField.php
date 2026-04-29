@@ -12,25 +12,40 @@ use PhpMx\Prepare;
  */
 class InputField
 {
+    /** @ignore */
     protected string $name;
+    /** @ignore */
     protected string $alias;
+    /** @ignore */
     protected mixed $value = null;
 
+    /** @ignore */
     protected bool $required = true;
+    /** @ignore */
     protected string $requiredErrorMessage = 'required';
+    /** @ignore */
     protected int $requiredErrorStatus = STS_BAD_REQUEST;
 
+    /** @ignore */
     protected bool $validated = false;
+    /** @ignore */
     protected array $ruleValidate = [];
 
+    /** @ignore */
     protected bool $sanitized = false;
+    /** @ignore */
     protected array $ruleSanitaze = [];
+    /** @ignore */
     protected mixed $valueSanitized = null;
 
+    /** @ignore */
     protected bool $preventTag = true;
+    /** @ignore */
     protected string $preventTagErrorMessage = 'preventTag';
+    /** @ignore */
     protected int $preventTagErrorStatus = STS_BAD_REQUEST;
 
+    /** @ignore */
     protected ?array $scapePrepare = [];
 
     /**

@@ -4,10 +4,7 @@ namespace PhpMx;
 
 use Exception;
 
-/**
- * Classe utilitária para envio e download de arquivos via resposta HTTP.
- * Os métodos aceitam múltiplos argumentos que são combinados para compor o caminho do arquivo.
- */
+/** Classe utilitária para envio e download de arquivos via resposta HTTP. */
 abstract class Assets
 {
     /**
@@ -42,6 +39,7 @@ abstract class Assets
         Response::download(false);
     }
 
+    /** @ignore */
     protected static function loadResponse(string $file): void
     {
         if (!File::check($file))

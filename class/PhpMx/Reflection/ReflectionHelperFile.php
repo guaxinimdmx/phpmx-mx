@@ -6,6 +6,7 @@ use PhpMx\Import;
 use PhpMx\Path;
 use ReflectionFunction;
 
+/** Extrai o esquema de reflexão de um arquivo de helper. */
 class ReflectionHelperFile extends BaseReflectionFile
 {
     /**

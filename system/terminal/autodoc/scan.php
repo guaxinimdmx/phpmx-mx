@@ -6,22 +6,22 @@ use PhpMx\Reflection\ReflectionHelperFile;
 use PhpMx\Reflection\ReflectionMiddlewareFile;
 use PhpMx\Reflection\ReflectionSourceFile;
 use PhpMx\Terminal;
-use PhpMx\Trait\AutoReflectionTrait;
+use PhpMx\Trait\AutodocTrait;
 
 /** Verifica o status da documentação do projeto atual */
 return new class {
 
-    use AutoReflectionTrait;
+    use AutodocTrait;
 
     protected int $count = 0;
     protected array $error = [];
 
     function __invoke()
     {
-        $this->scanComposer();
-        $this->scanHelper();
-        $this->scanTerminal();
-        $this->scanMiddleware();
+        // $this->scanComposer();
+        // $this->scanHelper();
+        // $this->scanTerminal();
+        // $this->scanMiddleware();
         $this->scanPsr4();
         $this->scanDatabase();
 
@@ -41,7 +41,7 @@ return new class {
 
     function scanDatabase()
     {
-        foreach ($this->getSchemeDatabase() as $dbName) {
+        foreach ($this->getDatabaseNames() as $dbName) {
             $scheme = new SchemeMap($dbName);
             foreach ($scheme->get() as $tableName => $tableScheme)
                 $this->check_dbTableMode($tableScheme, "main", $tableName);
@@ -50,7 +50,7 @@ return new class {
 
     function scanPsr4()
     {
-        foreach ($this->getSchemePsr4() as $file) {
+        foreach ($this->getPsr4Files() as $file) {
             $item = ReflectionSourceFile::scheme($file);
             $this->check_classMode($item, $item['_type'], $item['name'], $item['_file'], $item['_line']);
         }
@@ -58,7 +58,7 @@ return new class {
 
     function scanMiddleware()
     {
-        foreach ($this->getSchemeMiddleware() as $file) {
+        foreach ($this->getMiddlewareFiles() as $file) {
             $item = ReflectionMiddlewareFile::scheme($file);
             $this->check_simpleMode($item, 'middleware', $item['name'], $item['_file'], $item['_line']);
         }
@@ -66,7 +66,7 @@ return new class {
 
     function scanTerminal()
     {
-        foreach ($this->getSchemeTerminal() as $file) {
+        foreach ($this->getTerminalFiles() as $file) {
             $item = ReflectionCommandFile::scheme($file);
             $this->check_simpleMode($item, 'command', $item['name'], $item['_file'], $item['_line']);
         }
@@ -74,7 +74,7 @@ return new class {
 
     function scanHelper()
     {
-        $scheme = $this->getSchemeHelper();
+        $scheme = $this->getHelperFiles();
 
         foreach ($scheme['constant'] as $file)
             foreach (ReflectionHelperFile::schemeConstants($file) as $item)
@@ -91,13 +91,13 @@ return new class {
 
     function scanComposer()
     {
-        $this->check_simpleMode($this->getSchemeComposer(), 'composer', 'description', 'composer.json');
+        $this->check_simpleMode($this->getComposerScheme(), 'composer', 'description', 'composer.json');
     }
 
     function check_simpleMode(array $item, string $group, string $name, string $file, ?string $line = null)
     {
-        if ($item['ignored'] ?? false) return;
-        if (str_ends_with('.param', $group) && is_null($line)) return;
+        if ($item['ignore'] ?? false) return;
+        if (str_ends_with($group, '.param') && is_null($line)) return;
 
         $this->count++;
         if (is_blank($item['description']))
@@ -106,11 +106,13 @@ return new class {
 
     function check_functionMode(array $item, string $group, string $name, string $file, ?string $line = null)
     {
-        if ($item['ignored'] ?? false) return;
+        if ($item['ignore'] ?? false) return;
 
-        $this->count++;
-        if (is_blank($item['description']))
-            $this->error[] = [$group, $name, $file, $line];
+        if (!str_ends_with($name, '.__construct')) {
+            $this->count++;
+            if (is_blank($item['description']))
+                $this->error[] = [$group, $name, $file, $line];
+        }
 
         foreach ($item['params'] ?? [] as $param)
             $this->check_simpleMode($param, "$group.param", "$name.$param[name]", $file, $line);
@@ -118,7 +120,7 @@ return new class {
 
     function check_classMode(array $item, string $group, string $name, string $file, ?string $line = null)
     {
-        if ($item['ignored'] ?? false) return;
+        if ($item['ignore'] ?? false) return;
 
         $this->count++;
         if (is_blank($item['description']))

@@ -10,21 +10,22 @@ use PhpMx\View\RenderHtml;
 use PhpMx\View\RenderJs;
 use PhpMx\View\RenderMd;
 
-/**
- * Classe responsável por renderizar views e aplicar lógica de apresentação.
- * Suporta arquivos PHP, HTML, CSS e JS com sistema de escopo, prepares globais e media queries dinâmicas.
- * Utilize View::render() para renderizar views e View::renderString() para processar strings avulsas.
- */
+/** Classe responsável por renderizar views e aplicar lógica de apresentação. */
 abstract class View
 {
+    /** @ignore */
     protected static int $SCOPE = 0;
 
+    /** @ignore */
     protected static ?array $SCHEME = null;
 
+    /** @ignore */
     protected static array $CURRENT = [];
 
+    /** @ignore */
     protected static array $PREPARE = [];
 
+    /** @ignore */
     protected static array $MEDIA_STYLE = [];
 
     static array $RENDER_CLASS = [
@@ -126,6 +127,7 @@ abstract class View
         self::$PREPARE[$tag] = $action;
     }
 
+    /** @ignore */
     protected static function format(string $content): ?string
     {
         $type = File::getEx(self::__currentGet('type') ?? '');
@@ -138,6 +140,7 @@ abstract class View
         return $class::format($content);
     }
 
+    /** @ignore */
     protected static function renderize(string $content, array $params = []): ?string
     {
         $__scope = self::__currentGet('scope');
@@ -154,6 +157,7 @@ abstract class View
         return $class::renderizeAction($content, $params);
     }
 
+    /** @ignore */
     protected static function __currentOpen(string $call, array $scheme, array $data = [], ?string $importOnly = null)
     {
         $scope = mx5([self::$SCOPE, $scheme['scope']]);
@@ -178,12 +182,14 @@ abstract class View
         return true;
     }
 
+    /** @ignore */
     protected static function __currentClose()
     {
         $scope = self::__currentGet('scope');
         if ($scope) unset(self::$CURRENT[$scope]);
     }
 
+    /** @ignore */
     protected static function __currentGet(string $var)
     {
         if (count(self::$CURRENT))
@@ -192,12 +198,14 @@ abstract class View
         return null;
     }
 
+    /** @ignore */
     protected static function __currentSet(string $var, string $value)
     {
         $scope = self::__currentGet('scope');
         if ($scope) self::$CURRENT[$scope][$var] = $value;
     }
 
+    /** @ignore */
     protected static function parentType(string ...$types): bool
     {
         $parentKey = array_keys(self::$CURRENT);
@@ -215,12 +223,14 @@ abstract class View
         return in_array($parentType, $types);
     }
 
+    /** @ignore */
     protected static function applyPrepare(string $string)
     {
         $string = prepare($string, [...self::__currentGet('data'), ...self::$PREPARE]);
         return $string;
     }
 
+    /** @ignore */
     protected static function applyMediaStyle(string $string)
     {
         foreach (self::$MEDIA_STYLE as $media => $value)
@@ -229,6 +239,7 @@ abstract class View
         return $string;
     }
 
+    /** @ignore */
     protected static function scheme(): array
     {
         return cache('view-scheme', function () {
@@ -300,6 +311,7 @@ abstract class View
         });
     }
 
+    /** @ignore */
     protected static function resolveViewRef(string $ref): string
     {
         $currentFile = self::__currentGet('importing_file');
@@ -330,6 +342,7 @@ abstract class View
         return $ref;
     }
 
+    /** @ignore */
     protected static function importViewFilePhp(string $__FILEPATH__, array $__DATA): array
     {
         foreach (array_keys($__DATA) as $__KEY__)

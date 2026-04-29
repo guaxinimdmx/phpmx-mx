@@ -2,10 +2,7 @@
 
 namespace PhpMx;
 
-/**
- * Classe para construção e envio de respostas HTTP.
- * Gerencia status, cabeçalhos, tipo de conteúdo, cache e download antes do envio ao cliente.
- */
+/** Classe para construção e envio de respostas HTTP. */
 abstract class Response
 {
     protected static array $HEADER = [];
@@ -43,7 +40,7 @@ abstract class Response
 
     /**
      * Define o Content-Type da resposta a partir de uma extensão ou mime type.
-     * @param string|null $type Extensão ou mime type desejado.
+     * @param ?string $type Extensão ou mime type desejado.
      * @param bool $replace Se falso, mantém o tipo já definido.
      */
     static function type(?string $type, bool $replace = true)
@@ -139,11 +136,13 @@ abstract class Response
         return false;
     }
 
+    /** @ignore */
     protected static function getMontedContent(): string
     {
         return is_array(self::$CONTENT) ? json_encode(self::$CONTENT) : strval(self::$CONTENT);
     }
 
+    /** @ignore */
     protected static function getMontedHeders(): array
     {
         return [
@@ -155,6 +154,7 @@ abstract class Response
         ];
     }
 
+    /** @ignore */
     protected static function getMontedHeader(): array
     {
         return [
@@ -164,6 +164,7 @@ abstract class Response
         ];
     }
 
+    /** @ignore */
     protected static function getMontedHeaderCache(): array
     {
         if (!self::$TYPE) self::type(is_json(self::$CONTENT) ? 'json' : 'html');
@@ -201,6 +202,7 @@ abstract class Response
         return $headerCache ?? [];
     }
 
+    /** @ignore */
     protected static function getMontedHeaderType(): array
     {
         if (is_array(self::$CONTENT) || is_json(self::$CONTENT))
@@ -211,6 +213,7 @@ abstract class Response
         return ['Content-Type' => "$type; charset=utf-8"];
     }
 
+    /** @ignore */
     protected static function getMontedHeaderDownload(): array
     {
         $headerDownload = [];

@@ -2,10 +2,7 @@
 
 namespace PhpMx;
 
-/**
- * Classe utilitária para gerenciamento, normalização e busca de caminhos.
- * Centraliza a resolução de arquivos e diretórios dentro da estrutura do framework.
- */
+/** Classe utilitária para gerenciamento, normalização e busca de caminhos. */
 abstract class Path
 {
     /** @ignore */
