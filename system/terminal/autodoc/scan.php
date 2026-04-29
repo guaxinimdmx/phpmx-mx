@@ -97,6 +97,7 @@ return new class {
     function check_simpleMode(array $item, string $group, string $name, string $file, ?string $line = null)
     {
         if ($item['ignored'] ?? false) return;
+        if (str_ends_with('.param', $group) && is_null($line)) return;
 
         $this->count++;
         if (is_blank($item['description']))

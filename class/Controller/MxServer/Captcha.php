@@ -7,9 +7,14 @@ use PhpMx\Cif;
 use PhpMx\Mime;
 use PhpMx\Path;
 
+/** Controler para desafios alfanumérico */
 class Captcha
 {
-    /** Gera um desafio de captcha alfanumérico com imagem em base64 e chave criptografada */
+    /**
+     * Gera um desafio de captcha alfanumérico com imagem em base64 e chave criptografada
+     * @param string $color Cor das letras do captcha
+     * @param string $background Cor de fundo do captcha
+     */
     function __invoke(string $color = '000', string $background = 'fff')
     {
         phpex('gd');
