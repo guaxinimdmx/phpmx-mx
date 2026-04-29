@@ -21,7 +21,7 @@ abstract class Table
     protected array $CACHE = [];
     protected ?bool $CACHE_STATUS = null;
 
-    protected string $ACTIVE;
+    protected string | Record $ACTIVE;
 
     protected bool $SHOW_DELETED = false;
 

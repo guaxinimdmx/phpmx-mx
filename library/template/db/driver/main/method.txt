@@ -1,6 +1,9 @@
 
-    /** [#tableComment] */
-    static function [#tableMethod](): \[#namespace]\Record\[#recordClass]
+    /**  
+     * [#tableComment]
+     * @param mixed ...$args Parâmetros de consulta
+     */
+    static function [#tableMethod](mixed ...$args): \[#namespace]\Record\[#recordClass]
     {
-        return self::$[#tableMethod]->getOne(...func_get_args());
+        return self::$[#tableMethod]->getOne(...$args);
     }
