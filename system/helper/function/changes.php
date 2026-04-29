@@ -4,7 +4,7 @@ if (!function_exists('applyChanges')) {
 
     /**
      * Aplica mudanças em um array de forma recursiva. 
-     * @param array &$array Array original que receberá as alterações (passado por referência).
+     * @param array $array Array original que receberá as alterações (passado por referência).
      * @param array $changes Mapa de alterações a serem aplicadas.
      * @return void
      */

@@ -7,7 +7,7 @@ if (!function_exists('str_get_var')) {
      * @param mixed $var O valor a ser analisado e convertido.
      * @return mixed
      */
-    function str_get_var($var): mixed
+    function str_get_var(mixed $var): mixed
     {
         if (!is_string($var))
             return $var;
@@ -129,7 +129,7 @@ if (!function_exists('mb_str_replace')) {
      * @param array|string $search Valor(es) a buscar na string.
      * @param array|string $replace Valor(es) de substituição.
      * @param string $subject A string alvo da substituição.
-     * @param int &$count Referência para contagem de substituições.
+     * @param int $count Referência para contagem de substituições.
      * @return string
      */
     function mb_str_replace(array|string $search, array|string $replace, string $subject, &$count = 0): string

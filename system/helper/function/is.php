@@ -256,7 +256,7 @@ if (!function_exists('is_serialized')) {
 
     /**
      * Verifica se uma variável corresponde a uma string serializada pelo PHP.
-     * @param mixed $var
+     * @param mixed $var Váriavel que deve ser serializada
      * @param bool $strict Se deve realizar uma verificação rigorosa de fim de linha.
      * @return bool
      */

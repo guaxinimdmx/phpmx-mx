@@ -32,11 +32,13 @@ class Captcha
         ];
     }
 
+    /** @ignore */
     protected function getKey(string $captcha): string
     {
         return Cif::on([mx5($captcha), time()]);
     }
 
+    /** @ignore */
     protected function getImage(string $captcha, string $fg, string $bg): string
     {
         $fg = explode(',', colorRGB($fg));
@@ -74,6 +76,7 @@ class Captcha
         return "data:$type;base64,$b64";
     }
 
+    /** @ignore */
     protected function getColorRGB(string $hex): array
     {
         $hex = ltrim($hex, '#');
