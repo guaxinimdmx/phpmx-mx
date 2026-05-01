@@ -7,8 +7,10 @@ return new class {
 
     function __invoke()
     {
-        Terminal::echol('deploying');
+        Terminal::echol('Running [#c:s,git pull]');
+        echo shell_exec("git pull");
 
+        Terminal::echol('Removing [#c:s,library/cache]');
         Dir::remove('library/cache', true);
     }
 };
