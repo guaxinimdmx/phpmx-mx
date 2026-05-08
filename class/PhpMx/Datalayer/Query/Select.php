@@ -352,7 +352,12 @@ class Select extends BaseQuery
             $mainTable = is_array($this->table) ? array_key_first($this->table) : $this->table;
             if (!empty($mainTable) && is_string($mainTable)) {
                 $pureTable = explode(' ', trim($mainTable))[0];
-                $fieldsStr = "`$pureTable`.*";
+                if (str_contains($pureTable, '.')) {
+                    $parts = explode('.', $pureTable);
+                    $fieldsStr = implode('.', array_map(fn($v) => "`$v`", $parts)) . '.*';
+                } else {
+                    $fieldsStr = "`$pureTable`.*";
+                }
             } else {
                 $fieldsStr = '*';
             }
