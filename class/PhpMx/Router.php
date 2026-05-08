@@ -313,7 +313,7 @@ abstract class Router
     /** @ignore */
     protected static function organize(array $array): array
     {
-        uksort($array, function ($a, $b) {
+        $comparator = function ($a, $b) {
             $countA = substr_count($a, '/');
             $countB = substr_count($b, '/');
 
@@ -346,7 +346,10 @@ abstract class Router
             }
 
             return 0;
-        });
+        };
+
+        foreach ($array as &$routes)
+            uksort($routes, $comparator);
 
         return $array;
     }
