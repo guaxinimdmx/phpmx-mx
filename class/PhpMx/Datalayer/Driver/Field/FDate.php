@@ -15,7 +15,7 @@ class FDate extends Field
     function set($value): static
     {
         if ($value === false) $value = null;
-        if (is_int($value)) $value = date('Y-m-d', $value);
+        if (is_int($value) || is_float($value)) $value = date('Y-m-d', $value);
         return parent::set($value);
     }
 }

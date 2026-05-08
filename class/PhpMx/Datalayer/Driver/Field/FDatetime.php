@@ -16,7 +16,7 @@ class FDatetime extends Field
     {
         if ($value === true || $value === 'CURRENT_TIMESTAMP') $value = time();
         if ($value === false) $value = null;
-        if (is_int($value)) $value = date('Y-m-d H:i:s', $value);
+        if (is_int($value) || is_float($value)) $value = date('Y-m-d H:i:s', $value);
         return parent::set($value);
     }
 }
