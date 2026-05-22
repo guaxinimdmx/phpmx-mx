@@ -12,7 +12,7 @@ return new class {
 
         Response::header('Access-Control-Allow-Origin', '*');
         Response::header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-        Response::header('Access-Control-Allow-Headers', 'X-Requested-With');
+        Response::header('Access-Control-Allow-Headers', 'X-Requested-With, Authorization, Content-Type');
 
         if (Request::server('HTTP_ORIGIN')) {
             Response::header('Access-Control-Allow-Origin', Request::server('HTTP_ORIGIN'));
