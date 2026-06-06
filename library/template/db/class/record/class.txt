@@ -16,4 +16,7 @@ class [#recordClass] extends \[#namespace]\Driver\Driver[#recordClass]
 
     /** Chamado antes de desmarcar o registro como removido */
     protected function _onUndelete() {}
+
+    /** Chamado antes de remover permanentemente o registro */
+    protected function _onHardDelete() {}
 }

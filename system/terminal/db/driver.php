@@ -180,9 +180,10 @@ return new class {
 
                 $fieldMap['phpType'] = match ($fieldMap['type']) {
                     'tinyint', 'smallint', 'mediumint', 'int', 'bigint', 'idx' => 'int',
-                    'decimal', 'float', 'double' => 'float',
+                    'decimal', 'float', 'double', 'timestamp' => 'float',
                     'boolean' => 'bool',
-                    'char', 'varchar', 'email', 'md5', 'password', 'text', 'date', 'time', 'datetime', 'timestamp' => 'string',
+                    'time' => 'int',
+                    'char', 'varchar', 'email', 'md5', 'password', 'text', 'date', 'datetime' => 'string',
                     'json' => 'array',
                     'blob' => 'string',
                 };
@@ -192,7 +193,8 @@ return new class {
                     'idx' => 'null|int',
                     'decimal', 'float', 'double' => 'null|float|string',
                     'boolean' => '?bool',
-                    'char', 'varchar', 'email', 'md5', 'password', 'text', 'date', 'time', 'datetime', 'timestamp' => '?string',
+                    'datetime', 'timestamp' => 'null|int|float|string',
+                    'char', 'varchar', 'email', 'md5', 'password', 'text', 'date', 'time' => '?string',
                     'json' => '?array',
                     'blob' => '?string',
                 };

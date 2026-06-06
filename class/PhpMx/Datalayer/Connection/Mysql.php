@@ -247,15 +247,14 @@ class Mysql extends BaseConnection
 
             case 'date':
             case 'time':
+                $field['type'] = $field['type'] === 'date' ? 'DATE' : 'TIME';
+                $field['default'] = is_null($field['default']) ? '' : " DEFAULT '{$field['default']}'";
+                break;
+
             case 'datetime':
             case 'timestamp':
-                $field['type'] = match ($field['type']) {
-                    'date' => 'DATE',
-                    'time' => 'TIME',
-                    'datetime' => 'DATETIME',
-                    'timestamp' => 'TIMESTAMP',
-                };
-                $field['default'] = is_null($field['default']) ? '' : ($field['default'] === 'CURRENT_TIMESTAMP' ? ' DEFAULT CURRENT_TIMESTAMP' : " DEFAULT '{$field['default']}'");
+                $field['type'] = ($field['type'] === 'datetime' ? 'DATETIME' : 'TIMESTAMP') . '(' . $field['size'] . ')';
+                $field['default'] = is_null($field['default']) ? '' : ($field['default'] === 'CURRENT_TIMESTAMP' ? ' DEFAULT CURRENT_TIMESTAMP(' . $field['size'] . ')' : " DEFAULT '{$field['default']}'");
                 break;
 
             case 'json':

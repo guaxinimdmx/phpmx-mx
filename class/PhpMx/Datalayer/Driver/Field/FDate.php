@@ -18,4 +18,14 @@ class FDate extends Field
         if (is_int($value) || is_float($value)) $value = date('Y-m-d', $value);
         return parent::set($value);
     }
+
+    function get($format = null)
+    {
+        $value = parent::get();
+        if (is_null($format) || is_null($value)) return $value;
+        $timestamp = strtotime($value);
+        if ($format === true) return (float)$timestamp;
+        if ($format === false) return (int)$timestamp;
+        return date($format, $timestamp);
+    }
 }

@@ -24,6 +24,7 @@ abstract class Record
 
     protected bool $DELETE = false;
     protected bool $UNDELETE = false;
+    protected bool $HARD_DELETE = false;
 
     protected string $HASH = '';
 
@@ -337,6 +338,17 @@ abstract class Record
     }
 
     /**
+     * Prepara o registro para ser removido permanentemente do banco no próximo _save().
+     * @param bool $hardDelete Se verdadeiro marca para remoção permanente.
+     * @return static
+     */
+    final function _hardDelete(bool $hardDelete): static
+    {
+        $this->HARD_DELETE = $hardDelete;
+        return $this;
+    }
+
+    /**
      * Salva o registro no banco de dados (create, update, delete ou undelete conforme o estado).
      * @return void
      */
@@ -355,6 +367,7 @@ abstract class Record
                 if ($this->_checkSave()) {
                     $this->__checkHash();
                     match (true) {
+                        $this->HARD_DELETE => $this->__runHardDelete(),
                         $this->DELETE => $this->__runDelete(),
                         $this->UNDELETE => $this->__runUndelete(),
                         $this->_checkInDb() => $this->__runUpdate($forceUpdate),
@@ -479,6 +492,32 @@ abstract class Record
     }
 
     /**
+     * Executa a remoção permanente do registro no banco de dados (hard-delete).
+     * Dispara o hook _onHardDelete(); retorna false ou callable para abortar/pós-processamento.
+     */
+    final protected function __runHardDelete()
+    {
+        Trace::changeScope('driver.hardDelete', prepare("[#].[#]([#])", [strToPascalCase("db $this->DATALAYER"), strToCamelCase($this->TABLE), $this->id()]));
+        $onHardDelete = $this->_onHardDelete() ?? null;
+        if ($onHardDelete ?? true) {
+            Query::delete($this->TABLE)
+                ->where('id', $this->ID)
+                ->run($this->DATALAYER);
+
+            $drvierClass = 'Model\\' . strToPascalCase("db $this->DATALAYER") . '\\' . strToPascalCase("db $this->DATALAYER");
+            $tableMethod = strToCamelCase($this->TABLE);
+            $drvierClass::${$tableMethod}->__cacheRemove($this->ID);
+
+            $this->ID = null;
+
+            if (is_callable($onHardDelete))
+                $onHardDelete($this);
+        } else {
+            Trace::changeScope('driver.hardDelete.aborted', prepare('[#].[#]([#]) aborted in _onHardDelete', [strToPascalCase("db $this->DATALAYER"), strToCamelCase($this->TABLE)]));
+        }
+    }
+
+    /**
      * Restaura um registro excluído logicamente limpando o campo _deleted.
      * Dispara o hook _onUndelete(); retorna false ou callable para abortar/pós-processamento.
      */
@@ -568,4 +607,10 @@ abstract class Record
      * Retorne false para abortar a restauração, ou um callable para executar após a restauração.
      */
     protected function _onUndelete() {}
+
+    /**
+     * Hook chamado antes de remover permanentemente o registro do banco de dados.
+     * Retorne false para abortar a remoção, ou um callable para executar após a remoção.
+     */
+    protected function _onHardDelete() {}
 }

@@ -229,7 +229,8 @@ class SchemeField
             'char' => $this->__mapChar($this->map),
             'varchar' => $this->__mapVarchar($this->map),
             'text', 'blob' => $this->__mapText($this->map),
-            'date', 'time', 'datetime', 'timestamp' => $this->__mapTemporal($this->map),
+            'date', 'time' => $this->__mapTemporal($this->map),
+            'datetime', 'timestamp' => $this->__mapDatetime($this->map),
             'json' => $this->__mapJson($this->map),
             'email' => $this->__mapEmail($this->map),
             'md5' => $this->__mapMd5($this->map),
@@ -316,8 +317,6 @@ class SchemeField
             $valid = match ($map['type']) {
                 'date' => date_create_from_format('Y-m-d', $value) !== false,
                 'time' => date_create_from_format('H:i:s', $value) !== false,
-                'datetime' => date_create_from_format('Y-m-d H:i:s', $value) !== false,
-                'timestamp' => date_create_from_format('Y-m-d H:i:s', $value) !== false,
             };
 
             if (!$valid)
@@ -327,12 +326,33 @@ class SchemeField
         }
 
         if (is_bool($map['default'])) {
-
-            if ($map['default'] && !in_array($map['type'], ['datetime', 'timestamp']))
+            if ($map['default'])
                 throw new Exception("CURRENT_TIMESTAMP is only supported for datetime and timestamp fields [{$this->name}]");
 
-            $map['default'] = $map['default'] ? 'CURRENT_TIMESTAMP' : null;
+            $map['default'] = null;
         }
+
+        return $map;
+    }
+
+    /** @ignore */
+    private function __mapDatetime(array $map): array
+    {
+        $map['size'] = 6;
+
+        if (is_string($map['default'])) {
+            $value = strval($map['default']);
+            $valid = date_create_from_format('Y-m-d H:i:s.u', $value) !== false
+                || date_create_from_format('Y-m-d H:i:s', $value) !== false;
+
+            if (!$valid)
+                throw new Exception("Invalid default value for [{$map['type']}] field [{$this->name}]");
+
+            $map['default'] = $value;
+        }
+
+        if (is_bool($map['default']))
+            $map['default'] = $map['default'] ? 'CURRENT_TIMESTAMP' : null;
 
         return $map;
     }
