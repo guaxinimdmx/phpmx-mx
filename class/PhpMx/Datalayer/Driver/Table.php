@@ -23,7 +23,7 @@ abstract class Table
 
     protected string | Record $ACTIVE;
 
-    protected bool $SHOW_DELETED = false;
+    protected ?bool $SHOW_DELETED = false;
 
     /**
      * Define se na próxima consulta os dados maracados como removidos deve ser exibidos.
