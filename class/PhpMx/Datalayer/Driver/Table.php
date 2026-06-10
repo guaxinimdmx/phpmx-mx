@@ -62,10 +62,10 @@ abstract class Table
      * Retorna o esquema de um registro buscado por idKey.
      * @param array $scheme Campos do esquema a retornar.
      * @param string|null $idKey IdKey do registro.
-     * @param string|null $errMessage Mensagem de erro caso o registro não seja encontrado.
+     * @param string|int|null $errMessage Mensagem de erro, código HTTP (usa mensagem padrão do env STM_*), ou null para não lançar erro.
      * @param int $errCode Código HTTP do erro (padrão 404).
      */
-    final function getOneKey_scheme(array $scheme = [], ?string $idKey = null, ?string $errMessage = null, int $errCode = 404)
+    final function getOneKey_scheme(array $scheme = [], ?string $idKey = null, string|int|null $errMessage = null, int $errCode = 404)
     {
         return $this->getOneKey($idKey, $errMessage, $errCode)->_scheme($scheme);
     }
@@ -200,16 +200,22 @@ abstract class Table
     /**
      * Retorna um registro buscado por idKey, lançando Exception se não encontrado e errMessage for informado.
      * @param string|null $idKey IdKey do registro.
-     * @param string|null $errMessage Mensagem de erro caso o registro não seja encontrado.
+     * @param string|int|null $errMessage Mensagem de erro, código HTTP (usa mensagem padrão do env STM_*), ou null para não lançar erro.
      * @param int $errCode Código HTTP do erro (padrão 404).
      */
-    final function getOneKey(?string $idKey = null, ?string $errMessage = null, int $errCode = 404)
+    final function getOneKey(?string $idKey = null, string|int|null $errMessage = null, int $errCode = 404)
     {
         $id = $this->idKeyToId($idKey);
         $record = $this->getOne($id);
 
-        if (!is_null($errMessage) && !$record->_checkInDb())
-            throw new Exception($errMessage, $errCode);
+        if (!is_null($errMessage)) {
+            if (is_httpStatus($errMessage)) {
+                $errCode = $errMessage;
+                $errMessage = env("STM_$errCode") ?? 'record not found';
+            }
+            if (!$record->_checkInDb())
+                throw new Exception($errMessage, $errCode);
+        }
 
         return $record;
     }
@@ -340,7 +346,10 @@ abstract class Table
                 break;
         }
         $query->dbName($this->DATALAYER)->table($this->TABLE);
-        if (!is_null($this->SHOW_DELETED)) $query->whereNull('_deleted', !$this->SHOW_DELETED);
+
+        if (!is_null($this->SHOW_DELETED))
+            $query->whereNull("{$this->TABLE}._deleted", !$this->SHOW_DELETED);
+
         $this->SHOW_DELETED = false;
         return $query;
     }
