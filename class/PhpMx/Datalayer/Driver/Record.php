@@ -32,9 +32,9 @@ abstract class Record
     function __construct(array $scheme)
     {
         $this->FIELD = array_merge([
-            '_created' => new \PhpMx\Datalayer\Driver\Field\FTimestamp('_created', false, 'CURRENT_TIMESTAMP', []),
-            '_updated' => new \PhpMx\Datalayer\Driver\Field\FTimestamp('_updated', true, null, []),
-            '_deleted' => new \PhpMx\Datalayer\Driver\Field\FTimestamp('_deleted', true, null, []),
+            '_created' => new \PhpMx\Datalayer\Driver\Field\FDatetime('_created', false, 'CURRENT_TIMESTAMP', []),
+            '_updated' => new \PhpMx\Datalayer\Driver\Field\FDatetime('_updated', true, null, []),
+            '_deleted' => new \PhpMx\Datalayer\Driver\Field\FDatetime('_deleted', true, null, []),
         ], $this->FIELD);
 
         $this->_arraySet($scheme);

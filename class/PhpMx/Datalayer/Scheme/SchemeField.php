@@ -338,7 +338,7 @@ class SchemeField
     /** @ignore */
     private function __mapDatetime(array $map): array
     {
-        $map['size'] = 6;
+        $map['size'] = $map['type'] === 'timestamp' ? 6 : 0;
 
         if (is_string($map['default'])) {
             $value = strval($map['default']);
