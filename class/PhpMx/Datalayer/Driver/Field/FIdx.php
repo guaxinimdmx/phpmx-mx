@@ -113,11 +113,14 @@ class FIdx extends Field
 
     /**
      * Verifica se o registro referenciado existe no banco de dados (id > 0).
+     * @param bool|null $deleted NULL: ignora estado de deleção (sem SELECT), FALSE: apenas ativos, TRUE: apenas deletados.
      * @return bool
      */
-    function _checkInDb(): bool
+    function _checkInDb(?bool $deleted = null): bool
     {
-        return !is_null($this->get()) && $this->get() > 0;
+        $inDb = !is_null($this->get()) && $this->get() > 0;
+        if (!$inDb || is_null($deleted)) return $inDb;
+        return $this->_record()->_checkInDb($deleted);
     }
 
     /**

@@ -264,11 +264,14 @@ abstract class Record
 
     /**
      * Verifica se o registro existe no banco de dados (id > 0).
+     * @param bool|null $deleted NULL: ignora estado de deleção, FALSE: apenas ativos, TRUE: apenas deletados.
      * @return bool
      */
-    final function _checkInDb(): bool
+    final function _checkInDb(?bool $deleted = null): bool
     {
-        return !is_null($this->id()) && $this->id() > 0;
+        $inDb = !is_null($this->id()) && $this->id() > 0;
+        if (!$inDb || is_null($deleted)) return $inDb;
+        return $deleted ? !is_null($this->_deleted()) : is_null($this->_deleted());
     }
 
     /**
