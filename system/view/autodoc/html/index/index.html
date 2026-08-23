@@ -4,14 +4,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[#project.name]</title>
+    <meta name="description" content="[#project.description]">
+    <title>[#title]</title>
 </head>
 
 <body>
-    <header>
-        <h1>[#project.name]</h1>
-        <p>[#project.description]</p>
+    <header class="topbar">
+        <a class="brand" href="[#home]">[#project.name]</a>
     </header>
+
+    <div class="shell">
+        <aside class="sidebar">
+            <div class="search">
+                <input type="search" placeholder="Buscar na documentação" aria-label="Buscar na documentação">
+            </div>
+
+            <nav class="nav">
+                <ul>
+                    <!-- [#nav] -->
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="content">
+            <!-- [#content] -->
+        </main>
+    </div>
 </body>
 
 </html>
