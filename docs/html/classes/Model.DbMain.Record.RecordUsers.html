@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Framework base para aplicações modernas em PHP">
+<title>Model\DbMain\Record\RecordUsers · phpmx/mx
+</title>
+<style>
+:root {
+--php-rgb: 120, 124, 180;
+--base-rgb: 30, 30, 32;
+--text-rgb: 245, 245, 247;
+--line-rgb: 255, 255, 255;
+--code-rgb: 20, 20, 22;
+--php: rgb(var(--php-rgb));
+--base: rgb(var(--base-rgb));
+--text: rgb(var(--text-rgb));
+--line: rgba(var(--line-rgb), 0.1);
+--code: rgb(var(--code-rgb));
+--font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+--font-mono: "Fira Code", "SF Mono", Monaco, Inconsolata, "Roboto Mono", Consolas, "Courier New", monospace;
+--topbar-height: 56px;
+--sidebar-width: 260px;
+}
+* {
+box-sizing: border-box;
+}
+html {
+background: var(--base);
+}
+body {
+margin: 0;
+font-family: var(--font-sans);
+color: var(--text);
+line-height: 1.6;
+}
+a {
+color: inherit;
+}
+.topbar {
+height: var(--topbar-height);
+display: flex;
+align-items: center;
+padding: 0 20px;
+background: var(--php);
+position: sticky;
+top: 0;
+z-index: 10;
+}
+.topbar .brand {
+font-weight: 700;
+font-size: 1.1rem;
+text-decoration: none;
+}
+.shell {
+display: flex;
+flex-direction: column;
+min-height: calc(100vh - var(--topbar-height));
+}
+.sidebar {
+flex-shrink: 0;
+padding: 16px;
+border-bottom: 1px solid var(--line);
+}
+.sidebar .search input {
+width: 100%;
+padding: 8px 12px;
+background: var(--code);
+border: 1px solid var(--line);
+border-radius: 6px;
+color: var(--text);
+font-family: var(--font-sans);
+font-size: 0.9rem;
+}
+.sidebar .search input:focus {
+outline: none;
+border-color: var(--php);
+}
+.sidebar .nav {
+margin-top: 16px;
+}
+.sidebar .nav ul {
+list-style: none;
+margin: 0;
+padding: 0;
+}
+.sidebar .nav .nav-link {
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 8px;
+padding: 8px 10px;
+border-radius: 6px;
+text-decoration: none;
+font-size: 0.9rem;
+color: rgba(var(--text-rgb), 0.85);
+}
+.sidebar .nav .nav-link:hover {
+background: rgba(var(--php-rgb), 0.15);
+color: var(--text);
+}
+.sidebar .nav .nav-count {
+font-size: 0.75rem;
+color: rgba(var(--text-rgb), 0.5);
+}
+.content {
+flex-grow: 1;
+min-width: 0;
+padding: 24px;
+}
+.content h1 {
+font-size: 1.8rem;
+margin-bottom: 0.5em;
+}
+.content h2 {
+font-size: 1.3rem;
+margin: 1.5em 0 0.5em;
+}
+.content h2:first-child {
+margin-top: 0;
+}
+.content h3 {
+font-size: 1.05rem;
+margin: 1.25em 0 0.5em;
+}
+.content p a {
+color: var(--php);
+text-decoration: none;
+}
+.content p a:hover {
+text-decoration: underline;
+}
+.content code {
+font-family: var(--font-mono);
+background: var(--code);
+border: 1px solid var(--line);
+border-radius: 4px;
+padding: 2px 6px;
+font-size: 0.85em;
+}
+.content pre {
+background: var(--code);
+border: 1px solid var(--line);
+border-radius: 6px;
+padding: 12px 16px;
+overflow-x: auto;
+}
+.content pre code {
+background: none;
+border: none;
+padding: 0;
+font-size: 0.85em;
+}
+.content .doc-item {
+padding: 24px 0;
+border-bottom: 1px solid var(--line);
+}
+.content .doc-item:first-of-type {
+padding-top: 0;
+}
+.content .doc-item h2 {
+font-family: var(--font-mono);
+font-size: 1.1rem;
+color: var(--php);
+margin-bottom: 0.5em;
+}
+.content .doc-item .returns, .content .doc-item .response, .content .doc-item .middlewares {
+margin-top: 1em;
+font-size: 0.9rem;
+}
+.content .doc-item .method {
+display: inline-block;
+color: var(--php);
+font-size: 0.85rem;
+font-weight: 700;
+letter-spacing: 0.05em;
+}
+.content .param-list {
+list-style: none;
+margin: 1em 0 0;
+padding: 0;
+}
+.content .param-list li {
+display: flex;
+flex-wrap: wrap;
+gap: 8px;
+align-items: baseline;
+padding: 6px 0;
+font-size: 0.9rem;
+}
+.content .param-list .type {
+color: var(--php);
+font-size: 0.8rem;
+}
+.content .param-list .description {
+color: rgba(var(--text-rgb), 0.75);
+}
+.content .item-list {
+list-style: none;
+margin: 1.5em 0 0;
+padding: 0;
+}
+.content .item-list li {
+display: flex;
+flex-wrap: wrap;
+gap: 10px;
+align-items: baseline;
+padding: 10px 0;
+border-bottom: 1px solid var(--line);
+}
+.content .item-list .description {
+color: rgba(var(--text-rgb), 0.75);
+font-size: 0.9rem;
+}
+.content .table-wrap {
+overflow-x: auto;
+margin-top: 1.5em;
+}
+.content .fields-table {
+width: 100%;
+border-collapse: collapse;
+font-size: 0.9rem;
+}
+.content .fields-table th, .content .fields-table td {
+text-align: left;
+padding: 8px 12px;
+border-bottom: 1px solid var(--line);
+}
+.content .fields-table th {
+color: var(--php);
+font-weight: 600;
+font-size: 0.8rem;
+text-transform: uppercase;
+letter-spacing: 0.05em;
+}
+@media screen and (min-width: 700px) {
+.shell {
+flex-direction: row;
+}
+.sidebar {
+width: var(--sidebar-width);
+position: sticky;
+top: var(--topbar-height);
+height: calc(100vh - var(--topbar-height));
+overflow-y: auto;
+border-bottom: none;
+border-right: 1px solid var(--line);
+}
+.content {
+padding: 32px 48px;
+}
+}
+@media print {
+.topbar, .sidebar {
+display: none;
+}
+.content {
+padding: 0;
+}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+<a class="brand" href="../../index.html">phpmx/mx
+</a>
+</header>
+<div class="shell">
+<aside class="sidebar">
+<div class="search">
+<input type="search" placeholder="Buscar na documentação" aria-label="Buscar na documentação">
+</div>
+<nav class="nav">
+<ul>
+<li>
+<a class="nav-link" href="../constants.html">
+<span class="nav-label">Constants
+</span>
+<span class="nav-count">23
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../functions.html">
+<span class="nav-label">Functions
+</span>
+<span class="nav-count">57
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../environment.html">
+<span class="nav-label">Environment
+</span>
+<span class="nav-count">48
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../middleware.html">
+<span class="nav-label">Middleware
+</span>
+<span class="nav-count">2
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../terminal.html">
+<span class="nav-label">Terminal Commands
+</span>
+<span class="nav-count">44
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../routes.html">
+<span class="nav-label">Routes
+</span>
+<span class="nav-count">7
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../classes.html">
+<span class="nav-label">Classes
+</span>
+<span class="nav-count">80
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../examples.html">
+<span class="nav-label">Examples
+</span>
+<span class="nav-count">6
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../database.html">
+<span class="nav-label">Database
+</span>
+<span class="nav-count">2
+</span>
+</a>
+</li>
+</ul>
+</nav>
+</aside>
+<main class="content">
+<h1>
+<code>Model\DbMain\Record\RecordUsers
+</code>
+</h1>
+<p>
+<a href="../classes.html">&larr; Classes
+</a> &middot; 
+<a href="../../index.html">&larr; Index
+</a>
+</p>
+<p class="badge">
+<strong>Type:
+</strong>
+<code>class
+</code>
+</p>
+<p>Usuários cadastrados no sistema
+</p>
+<h2>Properties
+</h2>
+<ul class="item-list">
+<li>
+<code>protected $DATALAYER
+</code>
+<span class="type">string
+</span>
+<span class="description">
+<em>(herdado de 
+<code>Model\DbMain\Driver\DriverRecordUsers
+</code>)
+</em>
+</span>
+</li>
+<li>
+<code>protected $TABLE
+</code>
+<span class="type">string
+</span>
+<span class="description">
+<em>(herdado de 
+<code>Model\DbMain\Driver\DriverRecordUsers
+</code>)
+</em>
+</span>
+</li>
+<li>
+<code>public $name
+</code>
+<span class="type">\PhpMx\Datalayer\Driver\Field\FVarchar
+</span>
+<span class="description">Nome completo do usuário 
+<em>(herdado de 
+<code>Model\DbMain\Driver\DriverRecordUsers
+</code>)
+</em>
+</span>
+</li>
+<li>
+<code>public $email
+</code>
+<span class="type">\PhpMx\Datalayer\Driver\Field\FEmail
+</span>
+<span class="description">E-mail de login, único por usuário 
+<em>(herdado de 
+<code>Model\DbMain\Driver\DriverRecordUsers
+</code>)
+</em>
+</span>
+</li>
+<li>
+<code>public $password
+</code>
+<span class="type">\PhpMx\Datalayer\Driver\Field\FPassword
+</span>
+<span class="description">Hash da senha do usuário 
+<em>(herdado de 
+<code>Model\DbMain\Driver\DriverRecordUsers
+</code>)
+</em>
+</span>
+</li>
+<li>
+<code>public $active
+</code>
+<span class="type">\PhpMx\Datalayer\Driver\Field\FBoolean
+</span>
+<span class="description">Se o usuário pode fazer login 
+<em>(herdado de 
+<code>Model\DbMain\Driver\DriverRecordUsers
+</code>)
+</em>
+</span>
+</li>
+<li>
+<code>public $userGroup
+</code>
+<span class="type">\Model\DbMain\Record\RecordUserGroup
+</span>
+<span class="description">Grupo ao qual o usuário pertence 
+<em>(herdado de 
+<code>Model\DbMain\Driver\DriverRecordUsers
+</code>)
+</em>
+</span>
+</li>
+<li>
+<code>protected $FIELD
+</code>
+<span class="type">array
+</span>
+<span class="description">
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+</span>
+</li>
+<li>
+<code>protected $ID
+</code>
+<span class="type">?int
+</span>
+<span class="description">
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+</span>
+</li>
+<li>
+<code>protected $INITIAL
+</code>
+<span class="type">array
+</span>
+<span class="description">
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+</span>
+</li>
+<li>
+<code>protected $DELETE
+</code>
+<span class="type">bool
+</span>
+<span class="description">
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+</span>
+</li>
+<li>
+<code>protected $UNDELETE
+</code>
+<span class="type">bool
+</span>
+<span class="description">
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+</span>
+</li>
+<li>
+<code>protected $HARD_DELETE
+</code>
+<span class="type">bool
+</span>
+<span class="description">
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+</span>
+</li>
+<li>
+<code>protected $HASH
+</code>
+<span class="type">string
+</span>
+<span class="description">
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+</span>
+</li>
+<li>
+<code>public $id
+</code>
+<span class="type">int|null
+</span>
+<span class="description">Chave de identificação numérica do registro. 
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+</span>
+</li>
+</ul>
+<h2>Methods
+</h2>
+<section class="doc-item">
+<h2>public name()
+</h2>
+<em>(herdado de 
+<code>Model\DbMain\Driver\DriverRecordUsers
+</code>)
+</em>
+<p>Nome completo do usuário
+</p>
+<pre><code>$recordUsers-&gt;name()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>$this|string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public email()
+</h2>
+<em>(herdado de 
+<code>Model\DbMain\Driver\DriverRecordUsers
+</code>)
+</em>
+<p>E-mail de login, único por usuário
+</p>
+<pre><code>$recordUsers-&gt;email()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>$this|string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public password()
+</h2>
+<em>(herdado de 
+<code>Model\DbMain\Driver\DriverRecordUsers
+</code>)
+</em>
+<p>Hash da senha do usuário
+</p>
+<pre><code>$recordUsers-&gt;password()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>$this|string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public active()
+</h2>
+<em>(herdado de 
+<code>Model\DbMain\Driver\DriverRecordUsers
+</code>)
+</em>
+<p>Se o usuário pode fazer login
+</p>
+<pre><code>$recordUsers-&gt;active()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>$this|bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public userGroup()
+</h2>
+<em>(herdado de 
+<code>Model\DbMain\Driver\DriverRecordUsers
+</code>)
+</em>
+<p>Grupo ao qual o usuário pertence
+</p>
+<pre><code>$recordUsers-&gt;userGroup()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>$this|int
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public final id()
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Retorna a chave de identificação numérica do registro.
+</p>
+<pre><code>$recordUsers-&gt;id()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>?int
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public final idKey()
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Retorna a chave de identificação cifrada (idKey) do registro.
+</p>
+<pre><code>$recordUsers-&gt;idKey()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>?string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public final _created()
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Retorna o momento em que o registro foi criado.
+</p>
+<pre><code>$recordUsers-&gt;_created()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>?string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public final _updated()
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Retorna o momento da última atualização do registro.
+</p>
+<pre><code>$recordUsers-&gt;_updated()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>?string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public final _changed()
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Retorna o momento da última mudança do registro (criação ou atualização).
+</p>
+<pre><code>$recordUsers-&gt;_changed()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>?string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public final _deleted()
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Retorna o momento em que o registro foi marcado como removido.
+</p>
+<pre><code>$recordUsers-&gt;_deleted()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>?string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public final _schemeValue(field)
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Retorna o valor do esquema de um campo do registro.
+</p>
+<pre><code>$recordUsers-&gt;_schemeValue($field)</code></pre>
+<ul class="param-list">
+<li>
+<code>$field
+</code>
+<span class="type">string
+</span>
+<span class="description">Nome do campo.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>mixed
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public final _scheme(fields)
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Retorna os campos solicitados do registro tratados em forma de array de esquema.
+</p>
+<pre><code>$recordUsers-&gt;_scheme($fields)</code></pre>
+<ul class="param-list">
+<li>
+<code>$fields
+</code>
+<span class="type">array
+</span>
+<span class="description">Campos a retornar, podendo ser strings, arrays associativos [alias =&gt; callable] ou callables.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>array
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public final _schemeAll(fieldsRemove)
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Retorna todos os campos e esquemas personalizados do registro em forma de array.
+</p>
+<pre><code>$recordUsers-&gt;_schemeAll()
+$recordUsers-&gt;_schemeAll($fieldsRemove)</code></pre>
+<ul class="param-list">
+<li>
+<code>$fieldsRemove
+</code>
+<span class="type">array
+</span>
+<span class="description">Campos a excluir do retorno.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>array
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public final _makeActive()
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Marca o registro como ativo na tabela correspondente.
+</p>
+<pre><code>$recordUsers-&gt;_makeActive()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>static
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public final _array(fields)
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Retorna os campos do registro em forma de array.
+</p>
+<pre><code>$recordUsers-&gt;_array()
+$recordUsers-&gt;_array(...$fields)</code></pre>
+<ul class="param-list">
+<li>
+<code>$fields
+</code>
+<span class="type">string
+</span>
+<span class="description">Campos a retornar (opcional, retorna todos por padrão).
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>mixed
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public final _arraySet(scheme)
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Define os valores dos campos do registro com base em um array.
+</p>
+<pre><code>$recordUsers-&gt;_arraySet($scheme)</code></pre>
+<ul class="param-list">
+<li>
+<code>$scheme
+</code>
+<span class="type">mixed
+</span>
+<span class="description">Array associativo [campo =&gt; valor].
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>static
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public final _arrayChange(changes)
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Aplica um array de mudanças incrementais aos campos do registro.
+</p>
+<pre><code>$recordUsers-&gt;_arrayChange($changes)</code></pre>
+<ul class="param-list">
+<li>
+<code>$changes
+</code>
+<span class="type">array
+</span>
+<span class="description">Array de mudanças a aplicar.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>static
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public final _checkInDb(deleted)
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Verifica se o registro existe no banco de dados (id &gt; 0).
+</p>
+<pre><code>$recordUsers-&gt;_checkInDb()
+$recordUsers-&gt;_checkInDb($deleted)</code></pre>
+<ul class="param-list">
+<li>
+<code>$deleted
+</code>
+<span class="type">?bool
+</span>
+<span class="description">NULL: ignora estado de deleção, FALSE: apenas ativos, TRUE: apenas deletados.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public final _checkChange(fields)
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Verifica se algum dos campos fornecidos foi alterado desde o último carregamento.
+</p>
+<pre><code>$recordUsers-&gt;_checkChange()
+$recordUsers-&gt;_checkChange(...$fields)</code></pre>
+<ul class="param-list">
+<li>
+<code>$fields
+</code>
+<span class="type">string
+</span>
+<span class="description">Campos a verificar (opcional, verifica todos por padrão).
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public final _checkSave()
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Verifica se o registro pode ser salvo no banco de dados (id não nulo).
+</p>
+<pre><code>$recordUsers-&gt;_checkSave()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public final _delete(delete)
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Prepara o registro para ser marcado como excluído no próximo _save().
+</p>
+<pre><code>$recordUsers-&gt;_delete($delete)</code></pre>
+<ul class="param-list">
+<li>
+<code>$delete
+</code>
+<span class="type">bool
+</span>
+<span class="description">Se verdadeiro marca para exclusão.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>static
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public final _undelete(undelete)
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Prepara o registro para ser desmarcado como excluído no próximo _save().
+</p>
+<pre><code>$recordUsers-&gt;_undelete($undelete)</code></pre>
+<ul class="param-list">
+<li>
+<code>$undelete
+</code>
+<span class="type">bool
+</span>
+<span class="description">Se verdadeiro marca para recuperação.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>static
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public final _hardDelete(hardDelete)
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Prepara o registro para ser removido permanentemente do banco no próximo _save().
+</p>
+<pre><code>$recordUsers-&gt;_hardDelete($hardDelete)</code></pre>
+<ul class="param-list">
+<li>
+<code>$hardDelete
+</code>
+<span class="type">bool
+</span>
+<span class="description">Se verdadeiro marca para remoção permanente.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>static
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public final _save(forceUpdate)
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Salva o registro no banco de dados, disparando create, update, delete ou undelete conforme o estado atual (definido por _delete(), _undelete() e _hardDelete()). Não faz nada se o registro for nulo.
+</p>
+<pre><code>$recordUsers-&gt;_save()
+$recordUsers-&gt;_save($forceUpdate)</code></pre>
+<ul class="param-list">
+<li>
+<code>$forceUpdate
+</code>
+<span class="type">bool
+</span>
+<span class="description">Se verdadeiro força o UPDATE mesmo sem alterações detectadas.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>static
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>protected _onCreate()
+</h2>
+<p>
+</p>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>mixed
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>protected _onUpdate()
+</h2>
+<p>
+</p>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>mixed
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>protected _onDelete()
+</h2>
+<p>
+</p>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>mixed
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>protected final _scheme__changed()
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Retorna o esquema de _changed
+</p>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>mixed
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>protected final __runSaveIdx()
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Salva todos os campos FIdx com registros carregados antes de persistir o registro principal.
+</p>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>mixed
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>protected final __runCreate()
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Executa a criação do registro no banco de dados e atualiza o ID e cache. Dispara o hook _onCreate(); retorna false ou callable para abortar/pós-processamento.
+</p>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>mixed
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>protected final __runUpdate(forceUpdate)
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Executa a atualização do registro no banco de dados, enviando apenas os campos alterados. Dispara o hook _onUpdate(); retorna false ou callable para abortar/pós-processamento.
+</p>
+<ul class="param-list">
+<li>
+<code>$forceUpdate
+</code>
+<span class="type">bool
+</span>
+<span class="description">Se verdadeiro força o UPDATE mesmo sem alterações detectadas.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>mixed
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>protected final __runDelete()
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Executa a exclusão lógica do registro (soft-delete) preenchendo o campo _deleted. Dispara o hook _onDelete(); retorna false ou callable para abortar/pós-processamento.
+</p>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>mixed
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>protected final __runHardDelete()
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Executa a remoção permanente do registro no banco de dados (hard-delete). Dispara o hook _onHardDelete(); retorna false ou callable para abortar/pós-processamento.
+</p>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>mixed
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>protected final __runUndelete()
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Restaura um registro excluído logicamente limpando o campo _deleted. Dispara o hook _onUndelete(); retorna false ou callable para abortar/pós-processamento.
+</p>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>mixed
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public final __get(name)
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Acesso mágico a propriedades: retorna o ID, idKey ou o objeto Field pelo nome.
+</p>
+<ul class="param-list">
+<li>
+<code>$name
+</code>
+<span class="type">string
+</span>
+<span class="description">Nome da propriedade (&#039;id&#039;, &#039;idKey&#039; ou nome de campo).
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>mixed
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public final __call(name, arguments)
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Chamada mágica de método: sem argumentos retorna o valor do campo; com argumentos define o valor.
+</p>
+<ul class="param-list">
+<li>
+<code>$name
+</code>
+<span class="type">string
+</span>
+<span class="description">Nome do campo.
+</span>
+</li>
+<li>
+<code>$arguments
+</code>
+<span class="type">array
+</span>
+<span class="description">Argumentos passados na chamada.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>mixed|static
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>protected _onUndelete()
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Hook chamado antes de restaurar um registro excluído logicamente. Retorne false para abortar a restauração, ou um callable para executar após a restauração.
+</p>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>mixed
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>protected _onHardDelete()
+</h2>
+<em>(herdado de 
+<code>PhpMx\Datalayer\Driver\Record
+</code>)
+</em>
+<p>Hook chamado antes de remover permanentemente o registro do banco de dados. Retorne false para abortar a remoção, ou um callable para executar após a remoção.
+</p>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>mixed
+</code>
+</p>
+</section>
+</main>
+</div>
+</body>
+</html>

@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Framework base para aplicações modernas em PHP">
+<title>Terminal Commands · phpmx/mx
+</title>
+<style>
+:root {
+--php-rgb: 120, 124, 180;
+--base-rgb: 30, 30, 32;
+--text-rgb: 245, 245, 247;
+--line-rgb: 255, 255, 255;
+--code-rgb: 20, 20, 22;
+--php: rgb(var(--php-rgb));
+--base: rgb(var(--base-rgb));
+--text: rgb(var(--text-rgb));
+--line: rgba(var(--line-rgb), 0.1);
+--code: rgb(var(--code-rgb));
+--font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+--font-mono: "Fira Code", "SF Mono", Monaco, Inconsolata, "Roboto Mono", Consolas, "Courier New", monospace;
+--topbar-height: 56px;
+--sidebar-width: 260px;
+}
+* {
+box-sizing: border-box;
+}
+html {
+background: var(--base);
+}
+body {
+margin: 0;
+font-family: var(--font-sans);
+color: var(--text);
+line-height: 1.6;
+}
+a {
+color: inherit;
+}
+.topbar {
+height: var(--topbar-height);
+display: flex;
+align-items: center;
+padding: 0 20px;
+background: var(--php);
+position: sticky;
+top: 0;
+z-index: 10;
+}
+.topbar .brand {
+font-weight: 700;
+font-size: 1.1rem;
+text-decoration: none;
+}
+.shell {
+display: flex;
+flex-direction: column;
+min-height: calc(100vh - var(--topbar-height));
+}
+.sidebar {
+flex-shrink: 0;
+padding: 16px;
+border-bottom: 1px solid var(--line);
+}
+.sidebar .search input {
+width: 100%;
+padding: 8px 12px;
+background: var(--code);
+border: 1px solid var(--line);
+border-radius: 6px;
+color: var(--text);
+font-family: var(--font-sans);
+font-size: 0.9rem;
+}
+.sidebar .search input:focus {
+outline: none;
+border-color: var(--php);
+}
+.sidebar .nav {
+margin-top: 16px;
+}
+.sidebar .nav ul {
+list-style: none;
+margin: 0;
+padding: 0;
+}
+.sidebar .nav .nav-link {
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 8px;
+padding: 8px 10px;
+border-radius: 6px;
+text-decoration: none;
+font-size: 0.9rem;
+color: rgba(var(--text-rgb), 0.85);
+}
+.sidebar .nav .nav-link:hover {
+background: rgba(var(--php-rgb), 0.15);
+color: var(--text);
+}
+.sidebar .nav .nav-count {
+font-size: 0.75rem;
+color: rgba(var(--text-rgb), 0.5);
+}
+.content {
+flex-grow: 1;
+min-width: 0;
+padding: 24px;
+}
+.content h1 {
+font-size: 1.8rem;
+margin-bottom: 0.5em;
+}
+.content h2 {
+font-size: 1.3rem;
+margin: 1.5em 0 0.5em;
+}
+.content h2:first-child {
+margin-top: 0;
+}
+.content h3 {
+font-size: 1.05rem;
+margin: 1.25em 0 0.5em;
+}
+.content p a {
+color: var(--php);
+text-decoration: none;
+}
+.content p a:hover {
+text-decoration: underline;
+}
+.content code {
+font-family: var(--font-mono);
+background: var(--code);
+border: 1px solid var(--line);
+border-radius: 4px;
+padding: 2px 6px;
+font-size: 0.85em;
+}
+.content pre {
+background: var(--code);
+border: 1px solid var(--line);
+border-radius: 6px;
+padding: 12px 16px;
+overflow-x: auto;
+}
+.content pre code {
+background: none;
+border: none;
+padding: 0;
+font-size: 0.85em;
+}
+.content .doc-item {
+padding: 24px 0;
+border-bottom: 1px solid var(--line);
+}
+.content .doc-item:first-of-type {
+padding-top: 0;
+}
+.content .doc-item h2 {
+font-family: var(--font-mono);
+font-size: 1.1rem;
+color: var(--php);
+margin-bottom: 0.5em;
+}
+.content .doc-item .returns, .content .doc-item .response, .content .doc-item .middlewares {
+margin-top: 1em;
+font-size: 0.9rem;
+}
+.content .doc-item .method {
+display: inline-block;
+color: var(--php);
+font-size: 0.85rem;
+font-weight: 700;
+letter-spacing: 0.05em;
+}
+.content .param-list {
+list-style: none;
+margin: 1em 0 0;
+padding: 0;
+}
+.content .param-list li {
+display: flex;
+flex-wrap: wrap;
+gap: 8px;
+align-items: baseline;
+padding: 6px 0;
+font-size: 0.9rem;
+}
+.content .param-list .type {
+color: var(--php);
+font-size: 0.8rem;
+}
+.content .param-list .description {
+color: rgba(var(--text-rgb), 0.75);
+}
+.content .item-list {
+list-style: none;
+margin: 1.5em 0 0;
+padding: 0;
+}
+.content .item-list li {
+display: flex;
+flex-wrap: wrap;
+gap: 10px;
+align-items: baseline;
+padding: 10px 0;
+border-bottom: 1px solid var(--line);
+}
+.content .item-list .description {
+color: rgba(var(--text-rgb), 0.75);
+font-size: 0.9rem;
+}
+.content .table-wrap {
+overflow-x: auto;
+margin-top: 1.5em;
+}
+.content .fields-table {
+width: 100%;
+border-collapse: collapse;
+font-size: 0.9rem;
+}
+.content .fields-table th, .content .fields-table td {
+text-align: left;
+padding: 8px 12px;
+border-bottom: 1px solid var(--line);
+}
+.content .fields-table th {
+color: var(--php);
+font-weight: 600;
+font-size: 0.8rem;
+text-transform: uppercase;
+letter-spacing: 0.05em;
+}
+@media screen and (min-width: 700px) {
+.shell {
+flex-direction: row;
+}
+.sidebar {
+width: var(--sidebar-width);
+position: sticky;
+top: var(--topbar-height);
+height: calc(100vh - var(--topbar-height));
+overflow-y: auto;
+border-bottom: none;
+border-right: 1px solid var(--line);
+}
+.content {
+padding: 32px 48px;
+}
+}
+@media print {
+.topbar, .sidebar {
+display: none;
+}
+.content {
+padding: 0;
+}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+<a class="brand" href="../index.html">phpmx/mx
+</a>
+</header>
+<div class="shell">
+<aside class="sidebar">
+<div class="search">
+<input type="search" placeholder="Buscar na documentação" aria-label="Buscar na documentação">
+</div>
+<nav class="nav">
+<ul>
+<li>
+<a class="nav-link" href="constants.html">
+<span class="nav-label">Constants
+</span>
+<span class="nav-count">23
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="functions.html">
+<span class="nav-label">Functions
+</span>
+<span class="nav-count">57
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="environment.html">
+<span class="nav-label">Environment
+</span>
+<span class="nav-count">48
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="middleware.html">
+<span class="nav-label">Middleware
+</span>
+<span class="nav-count">2
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="terminal.html">
+<span class="nav-label">Terminal Commands
+</span>
+<span class="nav-count">44
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="routes.html">
+<span class="nav-label">Routes
+</span>
+<span class="nav-count">7
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="classes.html">
+<span class="nav-label">Classes
+</span>
+<span class="nav-count">80
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="examples.html">
+<span class="nav-label">Examples
+</span>
+<span class="nav-count">6
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="database.html">
+<span class="nav-label">Database
+</span>
+<span class="nav-count">2
+</span>
+</a>
+</li>
+</ul>
+</nav>
+</aside>
+<main class="content">
+<h1>Terminal Commands
+</h1>
+<p>
+<a href="../index.html">&larr; Index
+</a>
+</p>
+<section class="doc-item">
+<h2>autodoc.html
+</h2>
+<p>Gera docs/index.html e docs/html a partir dos dados do projeto
+</p>
+<pre><code>php mx autodoc.html</code></pre>
+<ul class="param-list">
+</ul>
+</section>
+<section class="doc-item">
+<h2>autodoc.json
+</h2>
+<p>Exporta a documentação pública do projeto para docs/autodoc.json
+</p>
+<pre><code>php mx autodoc.json</code></pre>
+<ul class="param-list">
+</ul>
+</section>
+<section class="doc-item">
+<h2>autodoc.md
+</h2>
+<p>Gera docs/md a partir dos dados do projeto
+</p>
+<pre><code>php mx autodoc.md</code></pre>
+<ul class="param-list">
+</ul>
+</section>
+<section class="doc-item">
+<h2>autodoc.scan
+</h2>
+<p>Verifica o status da documentação publicada do projeto atual
+</p>
+<pre><code>php mx autodoc.scan</code></pre>
+<ul class="param-list">
+</ul>
+</section>
+<section class="doc-item">
+<h2>cif.off
+</h2>
+<p>Descriptografa e exibe no terminal o valor original de uma cifra.
+</p>
+<pre><code>php mx cif.off &lt;cif&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$cif
+</code>
+<span class="type">string
+</span>
+<span class="description">A string cifrada.
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>cif.on
+</h2>
+<p>Criptografa uma string ou um conjunto de argumentos utilizando o motor Cif.
+</p>
+<pre><code>php mx cif.on ...&lt;content&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$content
+</code>
+<span class="type">string[]
+</span>
+<span class="description">Texto ou termos que serão cifrados.
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>composer
+</h2>
+<p>Gerencia o mapeamento automático do Composer para o framework.
+</p>
+<pre><code>php mx composer &lt;forceDev&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$forceDev
+</code>
+<span class="type">int
+</span>
+<span class="description">Define se deve forçar o dump em modo desenvolvimento (0 ou 1).
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>db.driver
+</h2>
+<p>Gera infraestrutura de classes de Model e Drivers baseados no mapeamento do banco de dados.
+</p>
+<pre><code>php mx db.driver
+php mx db.driver &lt;dbName&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$dbName
+</code>
+<span class="type">string
+</span>
+<span class="description">Nome do banco de dados alvo (opcional, usa &#039;main&#039; por padrão).
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>db.export
+</h2>
+<p>Exporta os dados das tabelas mapeadas no dbmap para um arquivo JSON de sementes.
+</p>
+<pre><code>php mx db.export
+php mx db.export &lt;dbName&gt;
+php mx db.export &lt;dbName&gt; &lt;tables&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$dbName
+</code>
+<span class="type">string
+</span>
+<span class="description">Nome do banco de dados alvo (opcional, usa &#039;main&#039; por padrão).
+</span>
+</li>
+<li>
+<code>$tables
+</code>
+<span class="type">string
+</span>
+<span class="description">Tabelas a exportar separadas por vírgula, ou &#039;*&#039; para todas (opcional).
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>db.import
+</h2>
+<p>Importa dados de um arquivo JSON para o banco de dados, realizando a sincronização de registros via Insert ou Update.
+</p>
+<pre><code>php mx db.import
+php mx db.import &lt;dbName&gt;
+php mx db.import &lt;dbName&gt; &lt;tables&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$dbName
+</code>
+<span class="type">string
+</span>
+<span class="description">Nome do banco de dados alvo (opcional, usa &#039;main&#039; por padrão).
+</span>
+</li>
+<li>
+<code>$tables
+</code>
+<span class="type">string
+</span>
+<span class="description">Tabelas a importar separadas por vírgula, ou &#039;*&#039; para todas (opcional).
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>db.map
+</h2>
+<p>Exporta o mapeamento da estrutura do banco de dados para um arquivo JSON de esquema.
+</p>
+<pre><code>php mx db.map
+php mx db.map &lt;dbName&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$dbName
+</code>
+<span class="type">string
+</span>
+<span class="description">Nome do banco de dados alvo (opcional, usa &#039;main&#039; por padrão).
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>deploy
+</h2>
+<p>Executa os scripts de deploy de todos os pacotes mx registrados.
+</p>
+<pre><code>php mx deploy</code></pre>
+<ul class="param-list">
+</ul>
+</section>
+<section class="doc-item">
+<h2>helper.constant
+</h2>
+<p>Lista todas as helpers de constantes no sistema.
+</p>
+<pre><code>php mx helper.constant
+php mx helper.constant &lt;filter&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$filter
+</code>
+<span class="type">?string
+</span>
+<span class="description">Nome ou parte do nome de uma constante para filtrar a busca.
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>helper.example
+</h2>
+<p>Lista todos os arquivos de exemplo do projeto.
+</p>
+<pre><code>php mx helper.example
+php mx helper.example &lt;filter&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$filter
+</code>
+<span class="type">?string
+</span>
+<span class="description">Parte do nome do arquivo para filtrar a busca.
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>helper.function
+</h2>
+<p>Lista todas as helpers de funções registradas no sistema.
+</p>
+<pre><code>php mx helper.function
+php mx helper.function &lt;filter&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$filter
+</code>
+<span class="type">?string
+</span>
+<span class="description">Nome ou parte do nome de uma função para filtrar a busca.
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>helper.library
+</h2>
+<p>Lista todos os arquivos e recursos registrados no diretório library do projeto.
+</p>
+<pre><code>php mx helper.library
+php mx helper.library &lt;filter&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$filter
+</code>
+<span class="type">?string
+</span>
+<span class="description">Parte do nome ou caminho do arquivo para filtrar a busca.
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>helper.middleware
+</h2>
+<p>Lista as middlewares registradas no projeto.
+</p>
+<pre><code>php mx helper.middleware
+php mx helper.middleware &lt;filter&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$filter
+</code>
+<span class="type">?string
+</span>
+<span class="description">Nome ou parte do nome de uma middleware para filtrar a busca.
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>helper.migration
+</h2>
+<p>Lista a situação das migrations de uma conexão com banco de dados.
+</p>
+<pre><code>php mx helper.migration
+php mx helper.migration &lt;dbName&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$dbName
+</code>
+<span class="type">string
+</span>
+<span class="description">Nome do banco de dados alvo (opcional, usa &#039;main&#039; por padrão).
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>helper.router
+</h2>
+<p>Lista as rotas registradas no projeto.
+</p>
+<pre><code>php mx helper.router
+php mx helper.router &lt;match&gt;
+php mx helper.router &lt;match&gt; &lt;method&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$match
+</code>
+<span class="type">?string
+</span>
+<span class="description">Template ou parte do template para filtrar as rotas exibidas.
+</span>
+</li>
+<li>
+<code>$method
+</code>
+<span class="type">?string
+</span>
+<span class="description">Método HTTP para filtrar as rotas exibidas (get, post, put, delete).
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>helper.test
+</h2>
+<p>Lista todos os arquivos de teste disponíveis em system/test
+</p>
+<pre><code>php mx helper.test
+php mx helper.test &lt;filter&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$filter
+</code>
+<span class="type">string
+</span>
+<span class="description">Nome ou parte do nome do teste para filtrar a busca.
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>helper.view
+</h2>
+<p>Lista e detalha todas as views disponíveis no projeto
+</p>
+<pre><code>php mx helper.view
+php mx helper.view &lt;filter&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$filter
+</code>
+<span class="type">?string
+</span>
+<span class="description">
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>helper
+</h2>
+<p>Lista e todos os comandos disponíveis no terminal.
+</p>
+<pre><code>php mx helper
+php mx helper &lt;filter&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$filter
+</code>
+<span class="type">?string
+</span>
+<span class="description">Nome ou parte do nome de um comando para filtrar a busca.
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>install
+</h2>
+<p>Executa os scripts de instalação de pacotes mx externos.
+</p>
+<pre><code>php mx install</code></pre>
+<ul class="param-list">
+</ul>
+</section>
+<section class="doc-item">
+<h2>logo
+</h2>
+<p>Orgulhosamente exibe a logo do PhpMX
+</p>
+<pre><code>php mx logo</code></pre>
+<ul class="param-list">
+</ul>
+</section>
+<section class="doc-item">
+<h2>make.cif
+</h2>
+<p>Gera um novo arquivo de certificado (.crt) para o motor de criptografia Cif em library/certificate
+</p>
+<pre><code>php mx make.cif &lt;cifName&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$cifName
+</code>
+<span class="type">string
+</span>
+<span class="description">Nome do arquivo de certificado sem extensão.
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>make.command
+</h2>
+<p>Cria um novo arquivo de comando para o terminal em system/terminal
+</p>
+<pre><code>php mx make.command &lt;command&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$command
+</code>
+<span class="type">string
+</span>
+<span class="description">Nome do comando a ser criado.
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>make.controller
+</h2>
+<p>Gera um novo arquivo de Controller com namespace e estrutura baseados no caminho informado.
+</p>
+<pre><code>php mx make.controller &lt;controller&gt;
+php mx make.controller &lt;controller&gt; &lt;method&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$controller
+</code>
+<span class="type">string
+</span>
+<span class="description">Nome do controller em dot.notation ou com separadores de caminho.
+</span>
+</li>
+<li>
+<code>$method
+</code>
+<span class="type">?string
+</span>
+<span class="description">Nome do método inicial a ser gerado no controller.
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>make.deploy
+</h2>
+<p>Cria o arquivo de script &quot;deploy&quot; na raiz do projeto para automatizar rotinas de deploy.
+</p>
+<pre><code>php mx make.deploy</code></pre>
+<ul class="param-list">
+</ul>
+</section>
+<section class="doc-item">
+<h2>make.example
+</h2>
+<p>Gera um novo arquivo de exemplo em library/example.
+</p>
+<pre><code>php mx make.example &lt;name&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$name
+</code>
+<span class="type">string
+</span>
+<span class="description">Nome do exemplo, use pontos para subpastas (ex: router.basicRoutes).
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>make.installer
+</h2>
+<p>Cria o arquivo de script &quot;install&quot; na raiz do projeto para automatizar instalação de pacotes.
+</p>
+<pre><code>php mx make.installer</code></pre>
+<ul class="param-list">
+</ul>
+</section>
+<section class="doc-item">
+<h2>make.middleware
+</h2>
+<p>Cria um novo arquivo de middleware no diretório do sistema com base em um template padrão.
+</p>
+<pre><code>php mx make.middleware &lt;middleware&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$middleware
+</code>
+<span class="type">string
+</span>
+<span class="description">Nome do middleware em dot.notation.
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>make.migration
+</h2>
+<p>Cria um novo arquivo de migration com timestamp único e template base no banco especificado.
+</p>
+<pre><code>php mx make.migration &lt;migrationName&gt;
+php mx make.migration &lt;migrationName&gt; &lt;dbName&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$migrationName
+</code>
+<span class="type">string
+</span>
+<span class="description">Nome descritivo da migration.
+</span>
+</li>
+<li>
+<code>$dbName
+</code>
+<span class="type">string
+</span>
+<span class="description">Nome do banco de dados alvo (opcional, usa &#039;main&#039; por padrão).
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>make.route
+</h2>
+<p>Cria uma rota no final do arquivo system/router/autorouter.php.
+</p>
+<pre><code>php mx make.route &lt;method&gt; &lt;template&gt; &lt;response&gt;
+php mx make.route &lt;method&gt; &lt;template&gt; &lt;response&gt; &lt;responseMethod&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$method
+</code>
+<span class="type">string
+</span>
+<span class="description">Método HTTP da rota (get, post, put, delete, full, add).
+</span>
+</li>
+<li>
+<code>$template
+</code>
+<span class="type">string
+</span>
+<span class="description">Template da rota (ex: &#039;users/[#id]&#039;).
+</span>
+</li>
+<li>
+<code>$response
+</code>
+<span class="type">string
+</span>
+<span class="description">Classe de resposta em dot.notation ou status HTTP.
+</span>
+</li>
+<li>
+<code>$responseMethod
+</code>
+<span class="type">?string
+</span>
+<span class="description">Método da classe de resposta (opcional).
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>make.test
+</h2>
+<p>Cria um novo arquivo de teste em system/test
+</p>
+<pre><code>php mx make.test &lt;test&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$test
+</code>
+<span class="type">string
+</span>
+<span class="description">Nome do teste a ser criado.
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>make.view
+</h2>
+<p>Cria um novo arquivo de view em: system/view
+</p>
+<pre><code>php mx make.view &lt;view&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$view
+</code>
+<span class="type">string
+</span>
+<span class="description">
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>migration.clean
+</h2>
+<p>Reverte todas as migrations executadas no banco de dados, retornando-o ao estado inicial
+</p>
+<pre><code>php mx migration.clean
+php mx migration.clean &lt;dbName&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$dbName
+</code>
+<span class="type">string
+</span>
+<span class="description">
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>migration.down
+</h2>
+<p>Reverte a última migration executada no banco de dados especificado
+</p>
+<pre><code>php mx migration.down
+php mx migration.down &lt;dbName&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$dbName
+</code>
+<span class="type">string
+</span>
+<span class="description">
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>migration.lock
+</h2>
+<p>Trava todas as migrations executadas em um novo nível de proteção
+</p>
+<pre><code>php mx migration.lock
+php mx migration.lock &lt;dbName&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$dbName
+</code>
+<span class="type">string
+</span>
+<span class="description">
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>migration.run
+</h2>
+<p>Executa todas as migrations pendentes no banco de dados até que o esquema esteja atualizado
+</p>
+<pre><code>php mx migration.run
+php mx migration.run &lt;dbName&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$dbName
+</code>
+<span class="type">string
+</span>
+<span class="description">
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>migration.unlock
+</h2>
+<p>Remove o nível de trava mais alto das migrations aplicadas no banco de dados
+</p>
+<pre><code>php mx migration.unlock
+php mx migration.unlock &lt;dbName&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$dbName
+</code>
+<span class="type">string
+</span>
+<span class="description">
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>migration.up
+</h2>
+<p>Executa a próxima migration pendente no banco de dados especificado
+</p>
+<pre><code>php mx migration.up
+php mx migration.up &lt;dbName&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$dbName
+</code>
+<span class="type">string
+</span>
+<span class="description">
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>promote
+</h2>
+<p>Promove um arquivo do sistema para o diretório local do projeto.
+</p>
+<pre><code>php mx promote &lt;file&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$file
+</code>
+<span class="type">string
+</span>
+<span class="description">O caminho relativo do arquivo a ser promovido.
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>server
+</h2>
+<p>Inicia o servidor embutido do PHP para rodar o projeto localmente.
+</p>
+<pre><code>php mx server
+php mx server &lt;port&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$port
+</code>
+<span class="type">?int
+</span>
+<span class="description">Porta do servidor (opcional, usa a definida em TERMINAL_URL ou 8888 por padrão).
+</span>
+</li>
+</ul>
+</section>
+<section class="doc-item">
+<h2>test
+</h2>
+<p>Executa todos os arquivos de teste em system/test e exibe o resultado consolidado.
+</p>
+<pre><code>php mx test
+php mx test &lt;filter&gt;</code></pre>
+<ul class="param-list">
+<li>
+<code>$filter
+</code>
+<span class="type">string
+</span>
+<span class="description">Nome parcial do arquivo de teste para filtrar a execução
+</span>
+</li>
+</ul>
+</section>
+</main>
+</div>
+</body>
+</html>

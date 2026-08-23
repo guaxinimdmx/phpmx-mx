@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Framework base para aplicações modernas em PHP">
+<title>Renderizando views · phpmx/mx
+</title>
+<style>
+:root {
+--php-rgb: 120, 124, 180;
+--base-rgb: 30, 30, 32;
+--text-rgb: 245, 245, 247;
+--line-rgb: 255, 255, 255;
+--code-rgb: 20, 20, 22;
+--php: rgb(var(--php-rgb));
+--base: rgb(var(--base-rgb));
+--text: rgb(var(--text-rgb));
+--line: rgba(var(--line-rgb), 0.1);
+--code: rgb(var(--code-rgb));
+--font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+--font-mono: "Fira Code", "SF Mono", Monaco, Inconsolata, "Roboto Mono", Consolas, "Courier New", monospace;
+--topbar-height: 56px;
+--sidebar-width: 260px;
+}
+* {
+box-sizing: border-box;
+}
+html {
+background: var(--base);
+}
+body {
+margin: 0;
+font-family: var(--font-sans);
+color: var(--text);
+line-height: 1.6;
+}
+a {
+color: inherit;
+}
+.topbar {
+height: var(--topbar-height);
+display: flex;
+align-items: center;
+padding: 0 20px;
+background: var(--php);
+position: sticky;
+top: 0;
+z-index: 10;
+}
+.topbar .brand {
+font-weight: 700;
+font-size: 1.1rem;
+text-decoration: none;
+}
+.shell {
+display: flex;
+flex-direction: column;
+min-height: calc(100vh - var(--topbar-height));
+}
+.sidebar {
+flex-shrink: 0;
+padding: 16px;
+border-bottom: 1px solid var(--line);
+}
+.sidebar .search input {
+width: 100%;
+padding: 8px 12px;
+background: var(--code);
+border: 1px solid var(--line);
+border-radius: 6px;
+color: var(--text);
+font-family: var(--font-sans);
+font-size: 0.9rem;
+}
+.sidebar .search input:focus {
+outline: none;
+border-color: var(--php);
+}
+.sidebar .nav {
+margin-top: 16px;
+}
+.sidebar .nav ul {
+list-style: none;
+margin: 0;
+padding: 0;
+}
+.sidebar .nav .nav-link {
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 8px;
+padding: 8px 10px;
+border-radius: 6px;
+text-decoration: none;
+font-size: 0.9rem;
+color: rgba(var(--text-rgb), 0.85);
+}
+.sidebar .nav .nav-link:hover {
+background: rgba(var(--php-rgb), 0.15);
+color: var(--text);
+}
+.sidebar .nav .nav-count {
+font-size: 0.75rem;
+color: rgba(var(--text-rgb), 0.5);
+}
+.content {
+flex-grow: 1;
+min-width: 0;
+padding: 24px;
+}
+.content h1 {
+font-size: 1.8rem;
+margin-bottom: 0.5em;
+}
+.content h2 {
+font-size: 1.3rem;
+margin: 1.5em 0 0.5em;
+}
+.content h2:first-child {
+margin-top: 0;
+}
+.content h3 {
+font-size: 1.05rem;
+margin: 1.25em 0 0.5em;
+}
+.content p a {
+color: var(--php);
+text-decoration: none;
+}
+.content p a:hover {
+text-decoration: underline;
+}
+.content code {
+font-family: var(--font-mono);
+background: var(--code);
+border: 1px solid var(--line);
+border-radius: 4px;
+padding: 2px 6px;
+font-size: 0.85em;
+}
+.content pre {
+background: var(--code);
+border: 1px solid var(--line);
+border-radius: 6px;
+padding: 12px 16px;
+overflow-x: auto;
+}
+.content pre code {
+background: none;
+border: none;
+padding: 0;
+font-size: 0.85em;
+}
+.content .doc-item {
+padding: 24px 0;
+border-bottom: 1px solid var(--line);
+}
+.content .doc-item:first-of-type {
+padding-top: 0;
+}
+.content .doc-item h2 {
+font-family: var(--font-mono);
+font-size: 1.1rem;
+color: var(--php);
+margin-bottom: 0.5em;
+}
+.content .doc-item .returns, .content .doc-item .response, .content .doc-item .middlewares {
+margin-top: 1em;
+font-size: 0.9rem;
+}
+.content .doc-item .method {
+display: inline-block;
+color: var(--php);
+font-size: 0.85rem;
+font-weight: 700;
+letter-spacing: 0.05em;
+}
+.content .param-list {
+list-style: none;
+margin: 1em 0 0;
+padding: 0;
+}
+.content .param-list li {
+display: flex;
+flex-wrap: wrap;
+gap: 8px;
+align-items: baseline;
+padding: 6px 0;
+font-size: 0.9rem;
+}
+.content .param-list .type {
+color: var(--php);
+font-size: 0.8rem;
+}
+.content .param-list .description {
+color: rgba(var(--text-rgb), 0.75);
+}
+.content .item-list {
+list-style: none;
+margin: 1.5em 0 0;
+padding: 0;
+}
+.content .item-list li {
+display: flex;
+flex-wrap: wrap;
+gap: 10px;
+align-items: baseline;
+padding: 10px 0;
+border-bottom: 1px solid var(--line);
+}
+.content .item-list .description {
+color: rgba(var(--text-rgb), 0.75);
+font-size: 0.9rem;
+}
+.content .table-wrap {
+overflow-x: auto;
+margin-top: 1.5em;
+}
+.content .fields-table {
+width: 100%;
+border-collapse: collapse;
+font-size: 0.9rem;
+}
+.content .fields-table th, .content .fields-table td {
+text-align: left;
+padding: 8px 12px;
+border-bottom: 1px solid var(--line);
+}
+.content .fields-table th {
+color: var(--php);
+font-weight: 600;
+font-size: 0.8rem;
+text-transform: uppercase;
+letter-spacing: 0.05em;
+}
+@media screen and (min-width: 700px) {
+.shell {
+flex-direction: row;
+}
+.sidebar {
+width: var(--sidebar-width);
+position: sticky;
+top: var(--topbar-height);
+height: calc(100vh - var(--topbar-height));
+overflow-y: auto;
+border-bottom: none;
+border-right: 1px solid var(--line);
+}
+.content {
+padding: 32px 48px;
+}
+}
+@media print {
+.topbar, .sidebar {
+display: none;
+}
+.content {
+padding: 0;
+}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+<a class="brand" href="../../index.html">phpmx/mx
+</a>
+</header>
+<div class="shell">
+<aside class="sidebar">
+<div class="search">
+<input type="search" placeholder="Buscar na documentação" aria-label="Buscar na documentação">
+</div>
+<nav class="nav">
+<ul>
+<li>
+<a class="nav-link" href="../constants.html">
+<span class="nav-label">Constants
+</span>
+<span class="nav-count">23
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../functions.html">
+<span class="nav-label">Functions
+</span>
+<span class="nav-count">57
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../environment.html">
+<span class="nav-label">Environment
+</span>
+<span class="nav-count">48
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../middleware.html">
+<span class="nav-label">Middleware
+</span>
+<span class="nav-count">2
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../terminal.html">
+<span class="nav-label">Terminal Commands
+</span>
+<span class="nav-count">44
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../routes.html">
+<span class="nav-label">Routes
+</span>
+<span class="nav-count">7
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../classes.html">
+<span class="nav-label">Classes
+</span>
+<span class="nav-count">80
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../examples.html">
+<span class="nav-label">Examples
+</span>
+<span class="nav-count">6
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../database.html">
+<span class="nav-label">Database
+</span>
+<span class="nav-count">2
+</span>
+</a>
+</li>
+</ul>
+</nav>
+</aside>
+<main class="content">
+<p>
+<a href="../examples.html">&larr; Examples
+</a> &middot; 
+<a href="../../index.html">&larr; Index
+</a>
+</p>
+<h1>Renderizando views
+</h1>
+<p>Views ficam em 
+<code>system/view/
+</code>, mesmo lugar onde o próprio framework guarda as suas. Pacotes e projeto convivem no mesmo namespace de views.
+</p>
+<p>mx não é um framework fullstack, é backend. 
+<code>View
+</code> não é pensado pra aplicação monolítica: usar pra isso significa implementar sua própria solução de sessão/cookies, já que o framework não traz uma pronta. Não é recomendado, embora nada impeça tecnicamente; só não é reativo, é renderização de servidor pura. O foco real é construção de 
+<strong>artefatos
+</strong>: e-mails, relatórios, documentos, qualquer HTML/CSS/JS/MD autocontido. O próprio 
+<code>autodoc
+</code> deste framework é construído inteiramente com 
+<code>View
+</code>.
+</p>
+<p>Crie um arquivo de view pelo terminal (padrão 
+<code>.html
+</code>, mas aceita 
+<code>.php
+</code>, 
+<code>.css
+</code>, 
+<code>.js
+</code> também):
+</p>
+<pre><code class="language-bash">php mx make.view card/card
+php mx make.view card/card.css
+</code></pre>
+<h2>Renderizando
+</h2>
+<pre><code class="language-php">use PhpMx\View;
+
+$html = View::render('card/card', ['title' =&gt; 'Olá']);
+</code></pre>
+<p>
+<code>View::render()
+</code> recebe a referência da view e um array de dados. Os dados ficam disponíveis como tags 
+<code>[#...]
+</code> no arquivo da view:
+</p>
+<pre><code class="language-html">&lt;p&gt;Card: [#title]&lt;/p&gt;
+</code></pre>
+<h2>Tags de substituição (Prepare)
+</h2>
+<ul>
+<li>
+<code>[#]
+</code>: sequencial, consome o próximo valor com chave numérica.
+</li>
+<li>
+<code>[#chave]
+</code> ou 
+<code>[#objeto.chave]
+</code>: referência direta, com dot notation pra arrays aninhados.
+</li>
+<li>
+<code>[#funcao:#chave]
+</code>: executa uma closure do array de dados, passando o valor resolvido como argumento.
+</li>
+</ul>
+<pre><code class="language-php">View::render('card/card', [
+    'user' =&gt; ['name' =&gt; 'Ricardo'],
+    'upper' =&gt; fn($v) =&gt; strtoupper($v),
+]);
+</code></pre>
+<pre><code class="language-html">[#user.name] em maiúsculo: [#upper:#user.name]
+</code></pre>
+<h2>Nome de arquivo igual nome de pasta vira atalho
+</h2>
+<p>Se o arquivo estiver em 
+<code>pasta/nome/nome.ext
+</code> (pasta e arquivo com o mesmo nome), dá pra referenciar só por 
+<code>pasta/nome
+</code>, sem repetir. 
+<code>system/view/card/card/card.php
+</code> fica acessível tanto como 
+<code>card/card/card
+</code> quanto como 
+<code>card/card
+</code>.
+</p>
+<p>Por padrão a referência sem extensão devolve 
+<code>.php
+</code>/
+<code>.html
+</code>/
+<code>.css
+</code>/
+<code>.js
+</code> combinados como um fragmento só. 
+<code>.md
+</code> fica de fora desse grupo: pra renderizar uma view 
+<code>.md
+</code>, use a extensão explícita na referência (
+<code>View::render(&#039;card/card.md&#039;, ...)
+</code>).
+</p>
+<h2>Componente: html + css + js juntos
+</h2>
+<p>A referência sem extensão não só é atalho, ela também 
+<strong>junta
+</strong> todos os arquivos irmãos com o mesmo nome num fragmento só. Se 
+<code>widget/widget/
+</code> tiver 
+<code>widget.html
+</code>, 
+<code>widget.css
+</code> e 
+<code>widget.js
+</code>, renderizar 
+<code>widget/widget
+</code> devolve os três combinados, css dentro de 
+<code>&lt;style&gt;
+</code> e js dentro de 
+<code>&lt;script&gt;
+</code>.
+</p>
+<h2>
+<code>__scope
+</code> isola estilo entre instâncias
+</h2>
+<p>Use o token literal 
+<code>__scope
+</code> no HTML, CSS e JS do componente. Ele vira o mesmo hash único em todos os arquivos, gerado por renderização:
+</p>
+<pre><code class="language-html">&lt;div class="__scope"&gt;Widget&lt;/div&gt;
+</code></pre>
+<pre><code class="language-css">.__scope { color: red; }
+</code></pre>
+<pre><code class="language-js">console.log("__scope loaded");
+</code></pre>
+<p>Isso evita colisão de estilo/classe quando o mesmo componente é renderizado mais de uma vez na mesma página.
+</p>
+<h2>CSS aninhado nativamente
+</h2>
+<p>
+<code>View
+</code> entende nesting tipo SCSS, incluindo 
+<code>&amp;
+</code> pra referenciar o seletor pai:
+</p>
+<pre><code class="language-css">.card {
+  color: blue;
+
+  &amp;:hover {
+    color: red;
+  }
+
+  .title {
+    font-weight: bold;
+  }
+}
+</code></pre>
+<p>Vira, ao renderizar:
+</p>
+<pre><code class="language-css">.card { color: blue; }
+.card:hover { color: red; }
+.card .title { font-weight: bold; }
+</code></pre>
+<h2>Markdown para HTML, e CSS inline pra e-mail
+</h2>
+<p>Duas helpers globais, fora do 
+<code>View::render()
+</code>, pra quem constrói e-mail ou documento autocontido:
+</p>
+<pre><code class="language-php">$html = mdToHtml("# Título\n\nTexto em **negrito**.");
+
+$emailReady = htmlToInlineCss('&lt;style&gt;p { color: red; }&lt;/style&gt;&lt;p&gt;Oi&lt;/p&gt;');
+// &lt;p style="color: red"&gt;Oi&lt;/p&gt;
+</code></pre>
+<p>
+<code>htmlToInlineCss()
+</code> move cada regra do 
+<code>&lt;style&gt;
+</code> pro atributo 
+<code>style
+</code> de cada elemento correspondente e remove o bloco 
+<code>&lt;style&gt;
+</code>. É exatamente o que a maioria dos clientes de e-mail exige, já que eles ignoram 
+<code>&lt;style&gt;
+</code> solto.
+</p>
+</main>
+</div>
+</body>
+</html>

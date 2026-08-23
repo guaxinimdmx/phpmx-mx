@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Framework base para aplicações modernas em PHP">
+<title>PhpMx\Dir · phpmx/mx
+</title>
+<style>
+:root {
+--php-rgb: 120, 124, 180;
+--base-rgb: 30, 30, 32;
+--text-rgb: 245, 245, 247;
+--line-rgb: 255, 255, 255;
+--code-rgb: 20, 20, 22;
+--php: rgb(var(--php-rgb));
+--base: rgb(var(--base-rgb));
+--text: rgb(var(--text-rgb));
+--line: rgba(var(--line-rgb), 0.1);
+--code: rgb(var(--code-rgb));
+--font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+--font-mono: "Fira Code", "SF Mono", Monaco, Inconsolata, "Roboto Mono", Consolas, "Courier New", monospace;
+--topbar-height: 56px;
+--sidebar-width: 260px;
+}
+* {
+box-sizing: border-box;
+}
+html {
+background: var(--base);
+}
+body {
+margin: 0;
+font-family: var(--font-sans);
+color: var(--text);
+line-height: 1.6;
+}
+a {
+color: inherit;
+}
+.topbar {
+height: var(--topbar-height);
+display: flex;
+align-items: center;
+padding: 0 20px;
+background: var(--php);
+position: sticky;
+top: 0;
+z-index: 10;
+}
+.topbar .brand {
+font-weight: 700;
+font-size: 1.1rem;
+text-decoration: none;
+}
+.shell {
+display: flex;
+flex-direction: column;
+min-height: calc(100vh - var(--topbar-height));
+}
+.sidebar {
+flex-shrink: 0;
+padding: 16px;
+border-bottom: 1px solid var(--line);
+}
+.sidebar .search input {
+width: 100%;
+padding: 8px 12px;
+background: var(--code);
+border: 1px solid var(--line);
+border-radius: 6px;
+color: var(--text);
+font-family: var(--font-sans);
+font-size: 0.9rem;
+}
+.sidebar .search input:focus {
+outline: none;
+border-color: var(--php);
+}
+.sidebar .nav {
+margin-top: 16px;
+}
+.sidebar .nav ul {
+list-style: none;
+margin: 0;
+padding: 0;
+}
+.sidebar .nav .nav-link {
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 8px;
+padding: 8px 10px;
+border-radius: 6px;
+text-decoration: none;
+font-size: 0.9rem;
+color: rgba(var(--text-rgb), 0.85);
+}
+.sidebar .nav .nav-link:hover {
+background: rgba(var(--php-rgb), 0.15);
+color: var(--text);
+}
+.sidebar .nav .nav-count {
+font-size: 0.75rem;
+color: rgba(var(--text-rgb), 0.5);
+}
+.content {
+flex-grow: 1;
+min-width: 0;
+padding: 24px;
+}
+.content h1 {
+font-size: 1.8rem;
+margin-bottom: 0.5em;
+}
+.content h2 {
+font-size: 1.3rem;
+margin: 1.5em 0 0.5em;
+}
+.content h2:first-child {
+margin-top: 0;
+}
+.content h3 {
+font-size: 1.05rem;
+margin: 1.25em 0 0.5em;
+}
+.content p a {
+color: var(--php);
+text-decoration: none;
+}
+.content p a:hover {
+text-decoration: underline;
+}
+.content code {
+font-family: var(--font-mono);
+background: var(--code);
+border: 1px solid var(--line);
+border-radius: 4px;
+padding: 2px 6px;
+font-size: 0.85em;
+}
+.content pre {
+background: var(--code);
+border: 1px solid var(--line);
+border-radius: 6px;
+padding: 12px 16px;
+overflow-x: auto;
+}
+.content pre code {
+background: none;
+border: none;
+padding: 0;
+font-size: 0.85em;
+}
+.content .doc-item {
+padding: 24px 0;
+border-bottom: 1px solid var(--line);
+}
+.content .doc-item:first-of-type {
+padding-top: 0;
+}
+.content .doc-item h2 {
+font-family: var(--font-mono);
+font-size: 1.1rem;
+color: var(--php);
+margin-bottom: 0.5em;
+}
+.content .doc-item .returns, .content .doc-item .response, .content .doc-item .middlewares {
+margin-top: 1em;
+font-size: 0.9rem;
+}
+.content .doc-item .method {
+display: inline-block;
+color: var(--php);
+font-size: 0.85rem;
+font-weight: 700;
+letter-spacing: 0.05em;
+}
+.content .param-list {
+list-style: none;
+margin: 1em 0 0;
+padding: 0;
+}
+.content .param-list li {
+display: flex;
+flex-wrap: wrap;
+gap: 8px;
+align-items: baseline;
+padding: 6px 0;
+font-size: 0.9rem;
+}
+.content .param-list .type {
+color: var(--php);
+font-size: 0.8rem;
+}
+.content .param-list .description {
+color: rgba(var(--text-rgb), 0.75);
+}
+.content .item-list {
+list-style: none;
+margin: 1.5em 0 0;
+padding: 0;
+}
+.content .item-list li {
+display: flex;
+flex-wrap: wrap;
+gap: 10px;
+align-items: baseline;
+padding: 10px 0;
+border-bottom: 1px solid var(--line);
+}
+.content .item-list .description {
+color: rgba(var(--text-rgb), 0.75);
+font-size: 0.9rem;
+}
+.content .table-wrap {
+overflow-x: auto;
+margin-top: 1.5em;
+}
+.content .fields-table {
+width: 100%;
+border-collapse: collapse;
+font-size: 0.9rem;
+}
+.content .fields-table th, .content .fields-table td {
+text-align: left;
+padding: 8px 12px;
+border-bottom: 1px solid var(--line);
+}
+.content .fields-table th {
+color: var(--php);
+font-weight: 600;
+font-size: 0.8rem;
+text-transform: uppercase;
+letter-spacing: 0.05em;
+}
+@media screen and (min-width: 700px) {
+.shell {
+flex-direction: row;
+}
+.sidebar {
+width: var(--sidebar-width);
+position: sticky;
+top: var(--topbar-height);
+height: calc(100vh - var(--topbar-height));
+overflow-y: auto;
+border-bottom: none;
+border-right: 1px solid var(--line);
+}
+.content {
+padding: 32px 48px;
+}
+}
+@media print {
+.topbar, .sidebar {
+display: none;
+}
+.content {
+padding: 0;
+}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+<a class="brand" href="../../index.html">phpmx/mx
+</a>
+</header>
+<div class="shell">
+<aside class="sidebar">
+<div class="search">
+<input type="search" placeholder="Buscar na documentação" aria-label="Buscar na documentação">
+</div>
+<nav class="nav">
+<ul>
+<li>
+<a class="nav-link" href="../constants.html">
+<span class="nav-label">Constants
+</span>
+<span class="nav-count">23
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../functions.html">
+<span class="nav-label">Functions
+</span>
+<span class="nav-count">57
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../environment.html">
+<span class="nav-label">Environment
+</span>
+<span class="nav-count">48
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../middleware.html">
+<span class="nav-label">Middleware
+</span>
+<span class="nav-count">2
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../terminal.html">
+<span class="nav-label">Terminal Commands
+</span>
+<span class="nav-count">44
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../routes.html">
+<span class="nav-label">Routes
+</span>
+<span class="nav-count">7
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../classes.html">
+<span class="nav-label">Classes
+</span>
+<span class="nav-count">80
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../examples.html">
+<span class="nav-label">Examples
+</span>
+<span class="nav-count">6
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../database.html">
+<span class="nav-label">Database
+</span>
+<span class="nav-count">2
+</span>
+</a>
+</li>
+</ul>
+</nav>
+</aside>
+<main class="content">
+<h1>
+<code>PhpMx\Dir
+</code>
+</h1>
+<p>
+<a href="../classes.html">&larr; Classes
+</a> &middot; 
+<a href="../../index.html">&larr; Index
+</a>
+</p>
+<p class="badge">
+<strong>Type:
+</strong>
+<code>abstract class
+</code>
+</p>
+<p>Classe utilitária para manipulação de diretórios.
+</p>
+<h2>Methods
+</h2>
+<section class="doc-item">
+<h2>public static create(path)
+</h2>
+<p>Cria um diretório de forma recursiva.
+</p>
+<pre><code>Dir::create($path)</code></pre>
+<ul class="param-list">
+<li>
+<code>$path
+</code>
+<span class="type">string
+</span>
+<span class="description">Caminho do diretório.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>?bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public static remove(path, recursive)
+</h2>
+<p>Remove um diretório e seu conteúdo.
+</p>
+<pre><code>Dir::remove($path)
+Dir::remove($path, $recursive)</code></pre>
+<ul class="param-list">
+<li>
+<code>$path
+</code>
+<span class="type">string
+</span>
+<span class="description">Caminho do diretório.
+</span>
+</li>
+<li>
+<code>$recursive
+</code>
+<span class="type">bool
+</span>
+<span class="description">Se true, remove subdiretórios e arquivos recursivamente.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>?bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public static copy(path_from, path_to, replace)
+</h2>
+<p>Cria uma cópia de um diretório.
+</p>
+<pre><code>Dir::copy($path_from, $path_to)
+Dir::copy($path_from, $path_to, $replace)</code></pre>
+<ul class="param-list">
+<li>
+<code>$path_from
+</code>
+<span class="type">string
+</span>
+<span class="description">Caminho de origem.
+</span>
+</li>
+<li>
+<code>$path_to
+</code>
+<span class="type">string
+</span>
+<span class="description">Caminho de destino.
+</span>
+</li>
+<li>
+<code>$replace
+</code>
+<span class="type">bool
+</span>
+<span class="description">Se deve substituir arquivos existentes no destino.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>?bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public static move(path_from, path_to)
+</h2>
+<p>Altera o local ou nome de um diretório.
+</p>
+<pre><code>Dir::move($path_from, $path_to)</code></pre>
+<ul class="param-list">
+<li>
+<code>$path_from
+</code>
+<span class="type">string
+</span>
+<span class="description">Caminho de origem.
+</span>
+</li>
+<li>
+<code>$path_to
+</code>
+<span class="type">string
+</span>
+<span class="description">Caminho de destino.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>?bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public static seekForFile(path, recursive)
+</h2>
+<p>Lista apenas os arquivos contidos em um diretório.
+</p>
+<pre><code>Dir::seekForFile($path)
+Dir::seekForFile($path, $recursive)</code></pre>
+<ul class="param-list">
+<li>
+<code>$path
+</code>
+<span class="type">string
+</span>
+<span class="description">Caminho do diretório.
+</span>
+</li>
+<li>
+<code>$recursive
+</code>
+<span class="type">bool
+</span>
+<span class="description">Se true, busca arquivos em subdiretórios.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>array
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public static seekForDir(path, recursive)
+</h2>
+<p>Lista apenas os diretórios contidos em um diretório.
+</p>
+<pre><code>Dir::seekForDir($path)
+Dir::seekForDir($path, $recursive)</code></pre>
+<ul class="param-list">
+<li>
+<code>$path
+</code>
+<span class="type">string
+</span>
+<span class="description">Caminho do diretório.
+</span>
+</li>
+<li>
+<code>$recursive
+</code>
+<span class="type">bool
+</span>
+<span class="description">Se true, busca subdiretórios recursivamente.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>array
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public static seekForAll(path, recursive)
+</h2>
+<p>Lista todos os arquivos e diretórios contidos em um caminho.
+</p>
+<pre><code>Dir::seekForAll($path)
+Dir::seekForAll($path, $recursive)</code></pre>
+<ul class="param-list">
+<li>
+<code>$path
+</code>
+<span class="type">string
+</span>
+<span class="description">Caminho do diretório.
+</span>
+</li>
+<li>
+<code>$recursive
+</code>
+<span class="type">bool
+</span>
+<span class="description">Se true, vasculha de forma profunda.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>array
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public static getOnly(path)
+</h2>
+<p>Retorna o caminho do diretório pai, removendo o nome do arquivo se presente.
+</p>
+<pre><code>Dir::getOnly($path)</code></pre>
+<ul class="param-list">
+<li>
+<code>$path
+</code>
+<span class="type">string
+</span>
+<span class="description">Caminho original.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public static check(path)
+</h2>
+<p>Verifica se o caminho informado é um diretório válido.
+</p>
+<pre><code>Dir::check($path)</code></pre>
+<ul class="param-list">
+<li>
+<code>$path
+</code>
+<span class="type">string
+</span>
+<span class="description">O caminho a verificar.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>bool
+</code>
+</p>
+</section>
+</main>
+</div>
+</body>
+</html>

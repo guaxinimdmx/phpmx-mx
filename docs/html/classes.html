@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Framework base para aplicações modernas em PHP">
+<title>Classes · phpmx/mx
+</title>
+<style>
+:root {
+--php-rgb: 120, 124, 180;
+--base-rgb: 30, 30, 32;
+--text-rgb: 245, 245, 247;
+--line-rgb: 255, 255, 255;
+--code-rgb: 20, 20, 22;
+--php: rgb(var(--php-rgb));
+--base: rgb(var(--base-rgb));
+--text: rgb(var(--text-rgb));
+--line: rgba(var(--line-rgb), 0.1);
+--code: rgb(var(--code-rgb));
+--font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+--font-mono: "Fira Code", "SF Mono", Monaco, Inconsolata, "Roboto Mono", Consolas, "Courier New", monospace;
+--topbar-height: 56px;
+--sidebar-width: 260px;
+}
+* {
+box-sizing: border-box;
+}
+html {
+background: var(--base);
+}
+body {
+margin: 0;
+font-family: var(--font-sans);
+color: var(--text);
+line-height: 1.6;
+}
+a {
+color: inherit;
+}
+.topbar {
+height: var(--topbar-height);
+display: flex;
+align-items: center;
+padding: 0 20px;
+background: var(--php);
+position: sticky;
+top: 0;
+z-index: 10;
+}
+.topbar .brand {
+font-weight: 700;
+font-size: 1.1rem;
+text-decoration: none;
+}
+.shell {
+display: flex;
+flex-direction: column;
+min-height: calc(100vh - var(--topbar-height));
+}
+.sidebar {
+flex-shrink: 0;
+padding: 16px;
+border-bottom: 1px solid var(--line);
+}
+.sidebar .search input {
+width: 100%;
+padding: 8px 12px;
+background: var(--code);
+border: 1px solid var(--line);
+border-radius: 6px;
+color: var(--text);
+font-family: var(--font-sans);
+font-size: 0.9rem;
+}
+.sidebar .search input:focus {
+outline: none;
+border-color: var(--php);
+}
+.sidebar .nav {
+margin-top: 16px;
+}
+.sidebar .nav ul {
+list-style: none;
+margin: 0;
+padding: 0;
+}
+.sidebar .nav .nav-link {
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 8px;
+padding: 8px 10px;
+border-radius: 6px;
+text-decoration: none;
+font-size: 0.9rem;
+color: rgba(var(--text-rgb), 0.85);
+}
+.sidebar .nav .nav-link:hover {
+background: rgba(var(--php-rgb), 0.15);
+color: var(--text);
+}
+.sidebar .nav .nav-count {
+font-size: 0.75rem;
+color: rgba(var(--text-rgb), 0.5);
+}
+.content {
+flex-grow: 1;
+min-width: 0;
+padding: 24px;
+}
+.content h1 {
+font-size: 1.8rem;
+margin-bottom: 0.5em;
+}
+.content h2 {
+font-size: 1.3rem;
+margin: 1.5em 0 0.5em;
+}
+.content h2:first-child {
+margin-top: 0;
+}
+.content h3 {
+font-size: 1.05rem;
+margin: 1.25em 0 0.5em;
+}
+.content p a {
+color: var(--php);
+text-decoration: none;
+}
+.content p a:hover {
+text-decoration: underline;
+}
+.content code {
+font-family: var(--font-mono);
+background: var(--code);
+border: 1px solid var(--line);
+border-radius: 4px;
+padding: 2px 6px;
+font-size: 0.85em;
+}
+.content pre {
+background: var(--code);
+border: 1px solid var(--line);
+border-radius: 6px;
+padding: 12px 16px;
+overflow-x: auto;
+}
+.content pre code {
+background: none;
+border: none;
+padding: 0;
+font-size: 0.85em;
+}
+.content .doc-item {
+padding: 24px 0;
+border-bottom: 1px solid var(--line);
+}
+.content .doc-item:first-of-type {
+padding-top: 0;
+}
+.content .doc-item h2 {
+font-family: var(--font-mono);
+font-size: 1.1rem;
+color: var(--php);
+margin-bottom: 0.5em;
+}
+.content .doc-item .returns, .content .doc-item .response, .content .doc-item .middlewares {
+margin-top: 1em;
+font-size: 0.9rem;
+}
+.content .doc-item .method {
+display: inline-block;
+color: var(--php);
+font-size: 0.85rem;
+font-weight: 700;
+letter-spacing: 0.05em;
+}
+.content .param-list {
+list-style: none;
+margin: 1em 0 0;
+padding: 0;
+}
+.content .param-list li {
+display: flex;
+flex-wrap: wrap;
+gap: 8px;
+align-items: baseline;
+padding: 6px 0;
+font-size: 0.9rem;
+}
+.content .param-list .type {
+color: var(--php);
+font-size: 0.8rem;
+}
+.content .param-list .description {
+color: rgba(var(--text-rgb), 0.75);
+}
+.content .item-list {
+list-style: none;
+margin: 1.5em 0 0;
+padding: 0;
+}
+.content .item-list li {
+display: flex;
+flex-wrap: wrap;
+gap: 10px;
+align-items: baseline;
+padding: 10px 0;
+border-bottom: 1px solid var(--line);
+}
+.content .item-list .description {
+color: rgba(var(--text-rgb), 0.75);
+font-size: 0.9rem;
+}
+.content .table-wrap {
+overflow-x: auto;
+margin-top: 1.5em;
+}
+.content .fields-table {
+width: 100%;
+border-collapse: collapse;
+font-size: 0.9rem;
+}
+.content .fields-table th, .content .fields-table td {
+text-align: left;
+padding: 8px 12px;
+border-bottom: 1px solid var(--line);
+}
+.content .fields-table th {
+color: var(--php);
+font-weight: 600;
+font-size: 0.8rem;
+text-transform: uppercase;
+letter-spacing: 0.05em;
+}
+@media screen and (min-width: 700px) {
+.shell {
+flex-direction: row;
+}
+.sidebar {
+width: var(--sidebar-width);
+position: sticky;
+top: var(--topbar-height);
+height: calc(100vh - var(--topbar-height));
+overflow-y: auto;
+border-bottom: none;
+border-right: 1px solid var(--line);
+}
+.content {
+padding: 32px 48px;
+}
+}
+@media print {
+.topbar, .sidebar {
+display: none;
+}
+.content {
+padding: 0;
+}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+<a class="brand" href="../index.html">phpmx/mx
+</a>
+</header>
+<div class="shell">
+<aside class="sidebar">
+<div class="search">
+<input type="search" placeholder="Buscar na documentação" aria-label="Buscar na documentação">
+</div>
+<nav class="nav">
+<ul>
+<li>
+<a class="nav-link" href="constants.html">
+<span class="nav-label">Constants
+</span>
+<span class="nav-count">23
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="functions.html">
+<span class="nav-label">Functions
+</span>
+<span class="nav-count">57
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="environment.html">
+<span class="nav-label">Environment
+</span>
+<span class="nav-count">48
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="middleware.html">
+<span class="nav-label">Middleware
+</span>
+<span class="nav-count">2
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="terminal.html">
+<span class="nav-label">Terminal Commands
+</span>
+<span class="nav-count">44
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="routes.html">
+<span class="nav-label">Routes
+</span>
+<span class="nav-count">7
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="classes.html">
+<span class="nav-label">Classes
+</span>
+<span class="nav-count">80
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="examples.html">
+<span class="nav-label">Examples
+</span>
+<span class="nav-count">6
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="database.html">
+<span class="nav-label">Database
+</span>
+<span class="nav-count">2
+</span>
+</a>
+</li>
+</ul>
+</nav>
+</aside>
+<main class="content">
+<h1>Classes
+</h1>
+<p>
+<a href="../index.html">&larr; Index
+</a>
+</p>
+<h2>Controller\MxServer
+</h2>
+<ul class="item-list">
+<li>
+<a href="classes/Controller.MxServer.Assets.html">
+<code>Controller\MxServer\Assets
+</code>
+</a>
+<span class="description">Controller de acesso a arquivos em library/assets
+</span>
+</li>
+<li>
+<a href="classes/Controller.MxServer.Captcha.html">
+<code>Controller\MxServer\Captcha
+</code>
+</a>
+<span class="description">Controler para desafios alfanumérico
+</span>
+</li>
+<li>
+<a href="classes/Controller.MxServer.Download.html">
+<code>Controller\MxServer\Download
+</code>
+</a>
+<span class="description">Controller de download a arquivos em library/download
+</span>
+</li>
+<li>
+<a href="classes/Controller.MxServer.Favicon.html">
+<code>Controller\MxServer\Favicon
+</code>
+</a>
+<span class="description">Entrega de favicon padrão
+</span>
+</li>
+<li>
+<a href="classes/Controller.MxServer.Robots.html">
+<code>Controller\MxServer\Robots
+</code>
+</a>
+<span class="description">Entrega de robots.txt padrão
+</span>
+</li>
+<li>
+<a href="classes/Controller.MxServer.Sitemap.html">
+<code>Controller\MxServer\Sitemap
+</code>
+</a>
+<span class="description">Entrega de sitemap.xml padrão
+</span>
+</li>
+</ul>
+<h2>Model\DbMain
+</h2>
+<ul class="item-list">
+<li>
+<a href="classes/Model.DbMain.DbMain.html">
+<code>Model\DbMain\DbMain
+</code>
+</a>
+<span class="description">Ponto de entrada estático para as tabelas do banco de dados main.
+</span>
+</li>
+</ul>
+<h2>Model\DbMain\Record
+</h2>
+<ul class="item-list">
+<li>
+<a href="classes/Model.DbMain.Record.RecordUserGroup.html">
+<code>Model\DbMain\Record\RecordUserGroup
+</code>
+</a>
+<span class="description">Grupos de permissão de usuário
+</span>
+</li>
+<li>
+<a href="classes/Model.DbMain.Record.RecordUsers.html">
+<code>Model\DbMain\Record\RecordUsers
+</code>
+</a>
+<span class="description">Usuários cadastrados no sistema
+</span>
+</li>
+</ul>
+<h2>Model\DbMain\Table
+</h2>
+<ul class="item-list">
+<li>
+<a href="classes/Model.DbMain.Table.TableUserGroup.html">
+<code>Model\DbMain\Table\TableUserGroup
+</code>
+</a>
+<span class="description">Grupos de permissão de usuário
+</span>
+</li>
+<li>
+<a href="classes/Model.DbMain.Table.TableUsers.html">
+<code>Model\DbMain\Table\TableUsers
+</code>
+</a>
+<span class="description">Usuários cadastrados no sistema
+</span>
+</li>
+</ul>
+<h2>PhpMx
+</h2>
+<ul class="item-list">
+<li>
+<a href="classes/PhpMx.Assets.html">
+<code>PhpMx\Assets
+</code>
+</a>
+<span class="description">Classe utilitária para envio e download de arquivos via resposta HTTP.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Cif.html">
+<code>PhpMx\Cif
+</code>
+</a>
+<span class="description">Classe utilitária para cifrar e decifrar variáveis de forma segura.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.DImage.html">
+<code>PhpMx\DImage
+</code>
+</a>
+<span class="description">Motor de manipulação de imagens (GD) com suporte a BMP, JPEG, GIF, PNG e WEBP.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.html">
+<code>PhpMx\Datalayer
+</code>
+</a>
+<span class="description">Gerencia conexões reutilizáveis com múltiplos bancos de dados.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Dir.html">
+<code>PhpMx\Dir
+</code>
+</a>
+<span class="description">Classe utilitária para manipulação de diretórios.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Env.html">
+<code>PhpMx\Env
+</code>
+</a>
+<span class="description">Classe utilitária para gerenciamento de variáveis de ambiente.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.File.html">
+<code>PhpMx\File
+</code>
+</a>
+<span class="description">Classe utilitária para manipulação de arquivos.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Import.html">
+<code>PhpMx\Import
+</code>
+</a>
+<span class="description">Classe utilitária para importar arquivos e extrair valores.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Input.html">
+<code>PhpMx\Input
+</code>
+</a>
+<span class="description">Classe para gerenciamento de campos e validação de inputs da requisição.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Json.html">
+<code>PhpMx\Json
+</code>
+</a>
+<span class="description">Classe utilitária para importar e exportar arquivos JSON.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Jwt.html">
+<code>PhpMx\Jwt
+</code>
+</a>
+<span class="description">Classe utilitária criação e leitura de JWT.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Middleware.html">
+<code>PhpMx\Middleware
+</code>
+</a>
+<span class="description">Classe responsável pela execução encadeada de middlewares.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Mime.html">
+<code>PhpMx\Mime
+</code>
+</a>
+<span class="description">Classe utilitária para detecção, tradução e validação de MIME types.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Mx5.html">
+<code>PhpMx\Mx5
+</code>
+</a>
+<span class="description">Classe utilitária para codificação e verificação com hash MX5.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Path.html">
+<code>PhpMx\Path
+</code>
+</a>
+<span class="description">Classe utilitária para gerenciamento, normalização e busca de caminhos.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Prepare.html">
+<code>PhpMx\Prepare
+</code>
+</a>
+<span class="description">Classe utilitária para substituição de templates em textos.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Request.html">
+<code>PhpMx\Request
+</code>
+</a>
+<span class="description">Classe para acesso aos dados da requisição HTTP atual.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Response.html">
+<code>PhpMx\Response
+</code>
+</a>
+<span class="description">Classe para construção e envio de respostas HTTP.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Router.html">
+<code>PhpMx\Router
+</code>
+</a>
+<span class="description">Classe responsável pelo registro, organização e resolução de rotas HTTP.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Snap.html">
+<code>PhpMx\Snap
+</code>
+</a>
+<span class="description">Captura e restaura o estado de propriedades estáticas de classes registradas.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Terminal.html">
+<code>PhpMx\Terminal
+</code>
+</a>
+<span class="description">Classe base para criação e execução de comandos de terminal.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Trace.html">
+<code>PhpMx\Trace
+</code>
+</a>
+<span class="description">Classe utilitária para registro estruturado de traces e escopos.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.View.html">
+<code>PhpMx\View
+</code>
+</a>
+<span class="description">Classe responsável por renderizar views e aplicar lógica de apresentação.
+</span>
+</li>
+</ul>
+<h2>PhpMx\Datalayer
+</h2>
+<ul class="item-list">
+<li>
+<a href="classes/PhpMx.Datalayer.Query.html">
+<code>PhpMx\Datalayer\Query
+</code>
+</a>
+<span class="description">Factory para criação de queries SQL (Select, Insert, Update, Delete).
+</span>
+</li>
+</ul>
+<h2>PhpMx\Datalayer\Connection
+</h2>
+<ul class="item-list">
+<li>
+<a href="classes/PhpMx.Datalayer.Connection.BaseConnection.html">
+<code>PhpMx\Datalayer\Connection\BaseConnection
+</code>
+</a>
+<span class="description">Base para drivers de conexão.
+</span>
+</li>
+</ul>
+<h2>PhpMx\Datalayer\Driver\Field
+</h2>
+<ul class="item-list">
+<li>
+<a href="classes/PhpMx.Datalayer.Driver.Field.FBigint.html">
+<code>PhpMx\Datalayer\Driver\Field\FBigint
+</code>
+</a>
+<span class="description">Campo inteiro de 8 bytes (BIGINT).
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.Driver.Field.FBlob.html">
+<code>PhpMx\Datalayer\Driver\Field\FBlob
+</code>
+</a>
+<span class="description">Campo de dados binários (BLOB).
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.Driver.Field.FBoolean.html">
+<code>PhpMx\Datalayer\Driver\Field\FBoolean
+</code>
+</a>
+<span class="description">Campo booleano (BOOLEAN), com conversão automática para inteiro ao persistir no banco de dados.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.Driver.Field.FChar.html">
+<code>PhpMx\Datalayer\Driver\Field\FChar
+</code>
+</a>
+<span class="description">Campo de caractere fixo (CHAR).
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.Driver.Field.FDate.html">
+<code>PhpMx\Datalayer\Driver\Field\FDate
+</code>
+</a>
+<span class="description">Campo de data (DATE), com conversão automática de timestamp inteiro para string no formato Y-m-d.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.Driver.Field.FDatetime.html">
+<code>PhpMx\Datalayer\Driver\Field\FDatetime
+</code>
+</a>
+<span class="description">Campo de data e hora (DATETIME), no formato Y-m-d H:i:s, sem microsegundos.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.Driver.Field.FDecimal.html">
+<code>PhpMx\Datalayer\Driver\Field\FDecimal
+</code>
+</a>
+<span class="description">Campo decimal de ponto fixo (DECIMAL).
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.Driver.Field.FDouble.html">
+<code>PhpMx\Datalayer\Driver\Field\FDouble
+</code>
+</a>
+<span class="description">Campo de ponto flutuante de precisão dupla (DOUBLE).
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.Driver.Field.FEmail.html">
+<code>PhpMx\Datalayer\Driver\Field\FEmail
+</code>
+</a>
+<span class="description">Campo de e-mail, com sanitização, normalização e validação de formato automáticas.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.Driver.Field.FFloat.html">
+<code>PhpMx\Datalayer\Driver\Field\FFloat
+</code>
+</a>
+<span class="description">Campo de ponto flutuante (FLOAT), com suporte a valor mínimo e máximo configuráveis.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.Driver.Field.FIdx.html">
+<code>PhpMx\Datalayer\Driver\Field\FIdx
+</code>
+</a>
+<span class="description">Campo de índice de referência (IDX / foreign key), com acesso direto ao registro referenciado.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.Driver.Field.FInt.html">
+<code>PhpMx\Datalayer\Driver\Field\FInt
+</code>
+</a>
+<span class="description">Campo inteiro (INT), com suporte a valor mínimo, máximo e arredondamento configuráveis.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.Driver.Field.FJson.html">
+<code>PhpMx\Datalayer\Driver\Field\FJson
+</code>
+</a>
+<span class="description">Campo JSON, com conversão automática entre array e string JSON para armazenamento e uso no sistema.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.Driver.Field.FMd5.html">
+<code>PhpMx\Datalayer\Driver\Field\FMd5
+</code>
+</a>
+<span class="description">Campo hash MD5, com conversão automática do valor e verificação de igualdade.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.Driver.Field.FMediumint.html">
+<code>PhpMx\Datalayer\Driver\Field\FMediumint
+</code>
+</a>
+<span class="description">Campo inteiro de 3 bytes (MEDIUMINT).
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.Driver.Field.FPassword.html">
+<code>PhpMx\Datalayer\Driver\Field\FPassword
+</code>
+</a>
+<span class="description">Campo de senha (PASSWORD), com hash automático via bcrypt e verificação de valor.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.Driver.Field.FSmallint.html">
+<code>PhpMx\Datalayer\Driver\Field\FSmallint
+</code>
+</a>
+<span class="description">Campo inteiro de 2 bytes (SMALLINT).
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.Driver.Field.FText.html">
+<code>PhpMx\Datalayer\Driver\Field\FText
+</code>
+</a>
+<span class="description">Campo de texto longo (TEXT), com conversão automática do valor para string.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.Driver.Field.FTime.html">
+<code>PhpMx\Datalayer\Driver\Field\FTime
+</code>
+</a>
+<span class="description">Campo de tempo (TIME), com conversão automática de timestamp inteiro para string no formato H:i:s.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.Driver.Field.FTimestamp.html">
+<code>PhpMx\Datalayer\Driver\Field\FTimestamp
+</code>
+</a>
+<span class="description">Campo de timestamp (TIMESTAMP), com microsegundos no formato Y-m-d H:i:s.u. Retorna float (microtime) por padrão.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.Driver.Field.FTinyint.html">
+<code>PhpMx\Datalayer\Driver\Field\FTinyint
+</code>
+</a>
+<span class="description">Campo inteiro de 1 byte (TINYINT).
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.Driver.Field.FVarchar.html">
+<code>PhpMx\Datalayer\Driver\Field\FVarchar
+</code>
+</a>
+<span class="description">Campo de texto com tamanho variável (VARCHAR), com suporte a corte automático e validação de tamanho máximo.
+</span>
+</li>
+</ul>
+<h2>PhpMx\Datalayer\Query
+</h2>
+<ul class="item-list">
+<li>
+<a href="classes/PhpMx.Datalayer.Query.BaseQuery.html">
+<code>PhpMx\Datalayer\Query\BaseQuery
+</code>
+</a>
+<span class="description">Classe base para todos os query builders. Fornece tabela, dbName, execução e montagem de SQL.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.Query.Delete.html">
+<code>PhpMx\Datalayer\Query\Delete
+</code>
+</a>
+<span class="description">Monta e executa instruções SQL do tipo DELETE com suporte a cláusulas WHERE e ORDER BY.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.Query.Insert.html">
+<code>PhpMx\Datalayer\Query\Insert
+</code>
+</a>
+<span class="description">Monta e executa instruções SQL do tipo INSERT com suporte a múltiplos registros e parâmetros nomeados.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.Query.Select.html">
+<code>PhpMx\Datalayer\Query\Select
+</code>
+</a>
+<span class="description">Monta e executa instruções SQL do tipo SELECT com suporte a fields, where, order, group, joins e paginação.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Datalayer.Query.Update.html">
+<code>PhpMx\Datalayer\Query\Update
+</code>
+</a>
+<span class="description">Monta e executa instruções SQL do tipo UPDATE com suporte a cláusulas WHERE, whereIn e whereNull.
+</span>
+</li>
+</ul>
+<h2>PhpMx\Input
+</h2>
+<ul class="item-list">
+<li>
+<a href="classes/PhpMx.Input.InputField.html">
+<code>PhpMx\Input\InputField
+</code>
+</a>
+<span class="description">Classe para definição, validação e sanitização de campos de input. Gerencia obrigatoriedade, prevenção de tags HTML, regras de validação e formatação do valor recebido.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Input.InputFieldBool.html">
+<code>PhpMx\Input\InputFieldBool
+</code>
+</a>
+<span class="description">Campo de input especializado para valores booleanos. Converte automaticamente o valor recebido para bool antes de aplicar as regras herdadas.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Input.InputFieldCaptcha.html">
+<code>PhpMx\Input\InputFieldCaptcha
+</code>
+</a>
+<span class="description">Campo de input para validação de captchas com cifra e hash. Aplica automaticamente validação do código recebido contra a chave cifrada.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Input.InputFieldList.html">
+<code>PhpMx\Input\InputFieldList
+</code>
+</a>
+<span class="description">Campo de input para listas representadas como string separada por vírgulas. Converte automaticamente arrays recebidos para string antes de aplicar as regras herdadas.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Input.InputFieldScheme.html">
+<code>PhpMx\Input\InputFieldScheme
+</code>
+</a>
+<span class="description">Campo de input para validação e decodificação de esquemas JSON. Aceita arrays ou strings JSON, decodificando automaticamente para array após validação.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Input.InputFieldUpload.html">
+<code>PhpMx\Input\InputFieldUpload
+</code>
+</a>
+<span class="description">Campo de input para validação de arquivos enviados via upload. Verifica automaticamente erros de envio, tamanho e integridade do arquivo recebido.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Input.InputFieldUploadImage.html">
+<code>PhpMx\Input\InputFieldUploadImage
+</code>
+</a>
+<span class="description">Campo de input para validação de imagens enviadas em formato base64. Aceita apenas imagens nos formatos PNG, JPG, JPEG e WEBP.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Input.InputMessage.html">
+<code>PhpMx\Input\InputMessage
+</code>
+</a>
+<span class="description">Classe utilitária para gerenciamento de mensagens de erro de inputs. Centraliza as mensagens padrão para regras de validação, permitindo personalização global.
+</span>
+</li>
+</ul>
+<h2>PhpMx\Reflection
+</h2>
+<ul class="item-list">
+<li>
+<a href="classes/PhpMx.Reflection.ReflectionCommandFile.html">
+<code>PhpMx\Reflection\ReflectionCommandFile
+</code>
+</a>
+<span class="description">Extrai o esquema de reflexão de um arquivo de comando.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Reflection.ReflectionHelperFile.html">
+<code>PhpMx\Reflection\ReflectionHelperFile
+</code>
+</a>
+<span class="description">Extrai o esquema de reflexão de um arquivo de helper.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Reflection.ReflectionMiddlewareFile.html">
+<code>PhpMx\Reflection\ReflectionMiddlewareFile
+</code>
+</a>
+<span class="description">Extrai o esquema de reflexão de um arquivo de middleware.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Reflection.ReflectionRouterFile.html">
+<code>PhpMx\Reflection\ReflectionRouterFile
+</code>
+</a>
+<span class="description">Extrai o esquema de reflexão de um arquivo de rotas.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Reflection.ReflectionSourceFile.html">
+<code>PhpMx\Reflection\ReflectionSourceFile
+</code>
+</a>
+<span class="description">Extrai o esquema de reflexão de um arquivo de classe, trait ou interface.
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Reflection.ReflectionTestFile.html">
+<code>PhpMx\Reflection\ReflectionTestFile
+</code>
+</a>
+<span class="description">Extrai o esquema de reflexão de um arquivo de teste.
+</span>
+</li>
+</ul>
+<h2>PhpMx\Trait
+</h2>
+<ul class="item-list">
+<li>
+<a href="classes/PhpMx.Trait.TerminalEchoTrait.html">
+<code>PhpMx\Trait\TerminalEchoTrait
+</code>
+</a>
+<span class="description">Camada de exibição de dados no terminal
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Trait.TerminalInstallTrait.html">
+<code>PhpMx\Trait\TerminalInstallTrait
+</code>
+</a>
+<span class="description">Facilita a criação de arquivos de instalação via php mx make.install
+</span>
+</li>
+<li>
+<a href="classes/PhpMx.Trait.TerminalTestTrait.html">
+<code>PhpMx\Trait\TerminalTestTrait
+</code>
+</a>
+<span class="description">Trait para criação de baterias de testes via terminal
+</span>
+</li>
+</ul>
+</main>
+</div>
+</body>
+</html>

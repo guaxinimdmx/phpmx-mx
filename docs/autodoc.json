@@ -1728,6 +1728,13 @@
     ],
     "terminal": [
         {
+            "name": "autodoc.html",
+            "file": "system/terminal/autodoc/html.php",
+            "description": [
+                "Gera docs/index.html e docs/html a partir dos dados do projeto"
+            ]
+        },
+        {
             "name": "autodoc.json",
             "file": "system/terminal/autodoc/json.php",
             "description": [

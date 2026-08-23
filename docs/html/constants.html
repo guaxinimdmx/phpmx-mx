@@ -113,6 +113,17 @@ padding: 24px;
 font-size: 1.8rem;
 margin-bottom: 0.5em;
 }
+.content h2 {
+font-size: 1.3rem;
+margin: 1.5em 0 0.5em;
+}
+.content h2:first-child {
+margin-top: 0;
+}
+.content h3 {
+font-size: 1.05rem;
+margin: 1.25em 0 0.5em;
+}
 .content p a {
 color: var(--php);
 text-decoration: none;
@@ -154,9 +165,16 @@ font-size: 1.1rem;
 color: var(--php);
 margin-bottom: 0.5em;
 }
-.content .doc-item .returns {
+.content .doc-item .returns, .content .doc-item .response, .content .doc-item .middlewares {
 margin-top: 1em;
 font-size: 0.9rem;
+}
+.content .doc-item .method {
+display: inline-block;
+color: var(--php);
+font-size: 0.85rem;
+font-weight: 700;
+letter-spacing: 0.05em;
 }
 .content .param-list {
 list-style: none;
@@ -178,12 +196,12 @@ font-size: 0.8rem;
 .content .param-list .description {
 color: rgba(var(--text-rgb), 0.75);
 }
-.content .constant-list {
+.content .item-list {
 list-style: none;
 margin: 1.5em 0 0;
 padding: 0;
 }
-.content .constant-list li {
+.content .item-list li {
 display: flex;
 flex-wrap: wrap;
 gap: 10px;
@@ -191,9 +209,30 @@ align-items: baseline;
 padding: 10px 0;
 border-bottom: 1px solid var(--line);
 }
-.content .constant-list .description {
+.content .item-list .description {
 color: rgba(var(--text-rgb), 0.75);
 font-size: 0.9rem;
+}
+.content .table-wrap {
+overflow-x: auto;
+margin-top: 1.5em;
+}
+.content .fields-table {
+width: 100%;
+border-collapse: collapse;
+font-size: 0.9rem;
+}
+.content .fields-table th, .content .fields-table td {
+text-align: left;
+padding: 8px 12px;
+border-bottom: 1px solid var(--line);
+}
+.content .fields-table th {
+color: var(--php);
+font-weight: 600;
+font-size: 0.8rem;
+text-transform: uppercase;
+letter-spacing: 0.05em;
 }
 @media screen and (min-width: 700px) {
 .shell {
@@ -316,7 +355,7 @@ padding: 0;
 <a href="../index.html">&larr; Index
 </a>
 </p>
-<ul class="constant-list">
+<ul class="item-list">
 <li>
 <code>CHAR_NORMALIZER
 </code>

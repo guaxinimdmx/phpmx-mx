@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Framework base para aplicações modernas em PHP">
+<title>PhpMx\DImage · phpmx/mx
+</title>
+<style>
+:root {
+--php-rgb: 120, 124, 180;
+--base-rgb: 30, 30, 32;
+--text-rgb: 245, 245, 247;
+--line-rgb: 255, 255, 255;
+--code-rgb: 20, 20, 22;
+--php: rgb(var(--php-rgb));
+--base: rgb(var(--base-rgb));
+--text: rgb(var(--text-rgb));
+--line: rgba(var(--line-rgb), 0.1);
+--code: rgb(var(--code-rgb));
+--font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+--font-mono: "Fira Code", "SF Mono", Monaco, Inconsolata, "Roboto Mono", Consolas, "Courier New", monospace;
+--topbar-height: 56px;
+--sidebar-width: 260px;
+}
+* {
+box-sizing: border-box;
+}
+html {
+background: var(--base);
+}
+body {
+margin: 0;
+font-family: var(--font-sans);
+color: var(--text);
+line-height: 1.6;
+}
+a {
+color: inherit;
+}
+.topbar {
+height: var(--topbar-height);
+display: flex;
+align-items: center;
+padding: 0 20px;
+background: var(--php);
+position: sticky;
+top: 0;
+z-index: 10;
+}
+.topbar .brand {
+font-weight: 700;
+font-size: 1.1rem;
+text-decoration: none;
+}
+.shell {
+display: flex;
+flex-direction: column;
+min-height: calc(100vh - var(--topbar-height));
+}
+.sidebar {
+flex-shrink: 0;
+padding: 16px;
+border-bottom: 1px solid var(--line);
+}
+.sidebar .search input {
+width: 100%;
+padding: 8px 12px;
+background: var(--code);
+border: 1px solid var(--line);
+border-radius: 6px;
+color: var(--text);
+font-family: var(--font-sans);
+font-size: 0.9rem;
+}
+.sidebar .search input:focus {
+outline: none;
+border-color: var(--php);
+}
+.sidebar .nav {
+margin-top: 16px;
+}
+.sidebar .nav ul {
+list-style: none;
+margin: 0;
+padding: 0;
+}
+.sidebar .nav .nav-link {
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 8px;
+padding: 8px 10px;
+border-radius: 6px;
+text-decoration: none;
+font-size: 0.9rem;
+color: rgba(var(--text-rgb), 0.85);
+}
+.sidebar .nav .nav-link:hover {
+background: rgba(var(--php-rgb), 0.15);
+color: var(--text);
+}
+.sidebar .nav .nav-count {
+font-size: 0.75rem;
+color: rgba(var(--text-rgb), 0.5);
+}
+.content {
+flex-grow: 1;
+min-width: 0;
+padding: 24px;
+}
+.content h1 {
+font-size: 1.8rem;
+margin-bottom: 0.5em;
+}
+.content h2 {
+font-size: 1.3rem;
+margin: 1.5em 0 0.5em;
+}
+.content h2:first-child {
+margin-top: 0;
+}
+.content h3 {
+font-size: 1.05rem;
+margin: 1.25em 0 0.5em;
+}
+.content p a {
+color: var(--php);
+text-decoration: none;
+}
+.content p a:hover {
+text-decoration: underline;
+}
+.content code {
+font-family: var(--font-mono);
+background: var(--code);
+border: 1px solid var(--line);
+border-radius: 4px;
+padding: 2px 6px;
+font-size: 0.85em;
+}
+.content pre {
+background: var(--code);
+border: 1px solid var(--line);
+border-radius: 6px;
+padding: 12px 16px;
+overflow-x: auto;
+}
+.content pre code {
+background: none;
+border: none;
+padding: 0;
+font-size: 0.85em;
+}
+.content .doc-item {
+padding: 24px 0;
+border-bottom: 1px solid var(--line);
+}
+.content .doc-item:first-of-type {
+padding-top: 0;
+}
+.content .doc-item h2 {
+font-family: var(--font-mono);
+font-size: 1.1rem;
+color: var(--php);
+margin-bottom: 0.5em;
+}
+.content .doc-item .returns, .content .doc-item .response, .content .doc-item .middlewares {
+margin-top: 1em;
+font-size: 0.9rem;
+}
+.content .doc-item .method {
+display: inline-block;
+color: var(--php);
+font-size: 0.85rem;
+font-weight: 700;
+letter-spacing: 0.05em;
+}
+.content .param-list {
+list-style: none;
+margin: 1em 0 0;
+padding: 0;
+}
+.content .param-list li {
+display: flex;
+flex-wrap: wrap;
+gap: 8px;
+align-items: baseline;
+padding: 6px 0;
+font-size: 0.9rem;
+}
+.content .param-list .type {
+color: var(--php);
+font-size: 0.8rem;
+}
+.content .param-list .description {
+color: rgba(var(--text-rgb), 0.75);
+}
+.content .item-list {
+list-style: none;
+margin: 1.5em 0 0;
+padding: 0;
+}
+.content .item-list li {
+display: flex;
+flex-wrap: wrap;
+gap: 10px;
+align-items: baseline;
+padding: 10px 0;
+border-bottom: 1px solid var(--line);
+}
+.content .item-list .description {
+color: rgba(var(--text-rgb), 0.75);
+font-size: 0.9rem;
+}
+.content .table-wrap {
+overflow-x: auto;
+margin-top: 1.5em;
+}
+.content .fields-table {
+width: 100%;
+border-collapse: collapse;
+font-size: 0.9rem;
+}
+.content .fields-table th, .content .fields-table td {
+text-align: left;
+padding: 8px 12px;
+border-bottom: 1px solid var(--line);
+}
+.content .fields-table th {
+color: var(--php);
+font-weight: 600;
+font-size: 0.8rem;
+text-transform: uppercase;
+letter-spacing: 0.05em;
+}
+@media screen and (min-width: 700px) {
+.shell {
+flex-direction: row;
+}
+.sidebar {
+width: var(--sidebar-width);
+position: sticky;
+top: var(--topbar-height);
+height: calc(100vh - var(--topbar-height));
+overflow-y: auto;
+border-bottom: none;
+border-right: 1px solid var(--line);
+}
+.content {
+padding: 32px 48px;
+}
+}
+@media print {
+.topbar, .sidebar {
+display: none;
+}
+.content {
+padding: 0;
+}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+<a class="brand" href="../../index.html">phpmx/mx
+</a>
+</header>
+<div class="shell">
+<aside class="sidebar">
+<div class="search">
+<input type="search" placeholder="Buscar na documentação" aria-label="Buscar na documentação">
+</div>
+<nav class="nav">
+<ul>
+<li>
+<a class="nav-link" href="../constants.html">
+<span class="nav-label">Constants
+</span>
+<span class="nav-count">23
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../functions.html">
+<span class="nav-label">Functions
+</span>
+<span class="nav-count">57
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../environment.html">
+<span class="nav-label">Environment
+</span>
+<span class="nav-count">48
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../middleware.html">
+<span class="nav-label">Middleware
+</span>
+<span class="nav-count">2
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../terminal.html">
+<span class="nav-label">Terminal Commands
+</span>
+<span class="nav-count">44
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../routes.html">
+<span class="nav-label">Routes
+</span>
+<span class="nav-count">7
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../classes.html">
+<span class="nav-label">Classes
+</span>
+<span class="nav-count">80
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../examples.html">
+<span class="nav-label">Examples
+</span>
+<span class="nav-count">6
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="../database.html">
+<span class="nav-label">Database
+</span>
+<span class="nav-count">2
+</span>
+</a>
+</li>
+</ul>
+</nav>
+</aside>
+<main class="content">
+<h1>
+<code>PhpMx\DImage
+</code>
+</h1>
+<p>
+<a href="../classes.html">&larr; Classes
+</a> &middot; 
+<a href="../../index.html">&larr; Index
+</a>
+</p>
+<p class="badge">
+<strong>Type:
+</strong>
+<code>class
+</code>
+</p>
+<p>Motor de manipulação de imagens (GD) com suporte a BMP, JPEG, GIF, PNG e WEBP.
+</p>
+<p>
+<strong>Implements:
+</strong>
+<code>Stringable
+</code>
+</p>
+<h2>Properties
+</h2>
+<ul class="item-list">
+<li>
+<code>protected $gd
+</code>
+<span class="type">?GdImage
+</span>
+<span class="description"> 
+</span>
+</li>
+<li>
+<code>protected $color
+</code>
+<span class="type">array
+</span>
+<span class="description"> 
+</span>
+</li>
+<li>
+<code>protected $size
+</code>
+<span class="type">array
+</span>
+<span class="description"> 
+</span>
+</li>
+<li>
+<code>protected $imageType
+</code>
+<span class="type">int
+</span>
+<span class="description"> 
+</span>
+</li>
+<li>
+<code>protected $quality
+</code>
+<span class="type">int
+</span>
+<span class="description"> 
+</span>
+</li>
+<li>
+<code>protected $name
+</code>
+<span class="type">string
+</span>
+<span class="description"> 
+</span>
+</li>
+<li>
+<code>protected $path
+</code>
+<span class="type">string
+</span>
+<span class="description"> 
+</span>
+</li>
+</ul>
+<h2>Methods
+</h2>
+<section class="doc-item">
+<h2>public static _color(color, size)
+</h2>
+<p>Cria uma nova imagem monocromática.
+</p>
+<pre><code>DImage::_color()
+DImage::_color($color)
+DImage::_color($color, $size)</code></pre>
+<ul class="param-list">
+<li>
+<code>$color
+</code>
+<span class="type">array|string
+</span>
+<span class="description">Cor em Hexadecimal (ex: &#039;fff&#039;, &#039;#ffffff&#039;) ou Array RGB.
+</span>
+</li>
+<li>
+<code>$size
+</code>
+<span class="type">array|int
+</span>
+<span class="description">Tamanho único (quadrado) ou Array [largura, altura].
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>PhpMx\DImage
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public static _url(url)
+</h2>
+<p>Instancia a classe a partir de uma URL ou caminho remoto.
+</p>
+<pre><code>DImage::_url($url)</code></pre>
+<ul class="param-list">
+<li>
+<code>$url
+</code>
+<span class="type">string
+</span>
+<span class="description">Endereço da imagem.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>PhpMx\DImage
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public static _file(path)
+</h2>
+<p>Carrega uma imagem a partir de um arquivo local, corrigindo a rotação via metadados EXIF.
+</p>
+<pre><code>DImage::_file($path)</code></pre>
+<ul class="param-list">
+<li>
+<code>$path
+</code>
+<span class="type">string
+</span>
+<span class="description">Caminho completo do arquivo no disco.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>PhpMx\DImage
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public save(path)
+</h2>
+<p>Exporta e salva a imagem no disco utilizando o formato e qualidade definidos.
+</p>
+<pre><code>$dImage-&gt;save()
+$dImage-&gt;save($path)</code></pre>
+<ul class="param-list">
+<li>
+<code>$path
+</code>
+<span class="type">?string
+</span>
+<span class="description">Caminho do diretório (opcional, usa o path original por padrão).
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>static
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public copy()
+</h2>
+<p>Gera uma cópia independente (clone) do objeto de imagem atual.
+</p>
+<pre><code>$dImage-&gt;copy()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>PhpMx\DImage
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public getName(ex)
+</h2>
+<p>Retorna o nome da imagem, opcionalmente incluindo a extensão.
+</p>
+<pre><code>$dImage-&gt;getName()
+$dImage-&gt;getName($ex)</code></pre>
+<ul class="param-list">
+<li>
+<code>$ex
+</code>
+<span class="type">bool
+</span>
+<span class="description">Se verdadeiro, concatena a extensão ao nome.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public getPath()
+</h2>
+<p>Retorna o caminho da imagem no disco
+</p>
+<pre><code>$dImage-&gt;getPath()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>?string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public getGd()
+</h2>
+<p>Retorna a imagem GD gerada pela classe
+</p>
+<pre><code>$dImage-&gt;getGd()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>GdImage
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public getSize()
+</h2>
+<p>Retorna o array de dimensão da imagem
+</p>
+<pre><code>$dImage-&gt;getSize()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>array
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public getWidth()
+</h2>
+<p>Retorna a largura da imagem
+</p>
+<pre><code>$dImage-&gt;getWidth()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>int
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public getHeight()
+</h2>
+<p>Retorna a altura da imagem
+</p>
+<pre><code>$dImage-&gt;getHeight()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>int
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public getExtension()
+</h2>
+<p>Retorna a extensao da imagem
+</p>
+<pre><code>$dImage-&gt;getExtension()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public getFileSize()
+</h2>
+<p>Retorna o tamanho do arquivo da imagem
+</p>
+<pre><code>$dImage-&gt;getFileSize()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>float
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public getHash()
+</h2>
+<p>Captura o Hash Md5 gerado pelo binario da imagem
+</p>
+<pre><code>$dImage-&gt;getHash()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public getBin()
+</h2>
+<p>Retorna o binario da imagem
+</p>
+<pre><code>$dImage-&gt;getBin()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public getB64()
+</h2>
+<p>Retorna a imagem codificada em base64
+</p>
+<pre><code>$dImage-&gt;getB64()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public quality(quality)
+</h2>
+<p>Ajusta o nível de compressão/qualidade da imagem (0 a 100).
+</p>
+<pre><code>$dImage-&gt;quality($quality)</code></pre>
+<ul class="param-list">
+<li>
+<code>$quality
+</code>
+<span class="type">int
+</span>
+<span class="description">Valor da qualidade.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>static
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public rename(name)
+</h2>
+<p>Define o nome do arquivo, removendo automaticamente extensões pré-existentes.
+</p>
+<pre><code>$dImage-&gt;rename($name)</code></pre>
+<ul class="param-list">
+<li>
+<code>$name
+</code>
+<span class="type">string
+</span>
+<span class="description">Novo nome para o arquivo.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>static
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public path()
+</h2>
+<p>Define o diretório de destino aceitando múltiplos argumentos para compor o caminho.
+</p>
+<pre><code>$dImage-&gt;path()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>static
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public color(color)
+</h2>
+<p>Define a cor base ou de preenchimento para operações na imagem.
+</p>
+<pre><code>$dImage-&gt;color($color)</code></pre>
+<ul class="param-list">
+<li>
+<code>$color
+</code>
+<span class="type">array|string
+</span>
+<span class="description">Hexadecimal ou Array RGB.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>static
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public ratio(ratio, position)
+</h2>
+<p>Recorta a imagem para um aspect-ratio específico (ex: 1.1 para 1:1, 16.9 para 16:9).
+</p>
+<pre><code>$dImage-&gt;ratio()
+$dImage-&gt;ratio($ratio)
+$dImage-&gt;ratio($ratio, $position)</code></pre>
+<ul class="param-list">
+<li>
+<code>$ratio
+</code>
+<span class="type">?float
+</span>
+<span class="description">Proporção desejada.
+</span>
+</li>
+<li>
+<code>$position
+</code>
+<span class="type">int
+</span>
+<span class="description">Ponto de ancoragem para o corte.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>static
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public convert(ex)
+</h2>
+<p>Converte o formato de saída da imagem (jpg, png, webp, etc) e gerencia a transparência.
+</p>
+<pre><code>$dImage-&gt;convert($ex)</code></pre>
+<ul class="param-list">
+<li>
+<code>$ex
+</code>
+<span class="type">string
+</span>
+<span class="description">Extensão desejada.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>static
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public resize(size)
+</h2>
+<p>Redimensiona mantendo a proporção. Valores negativos definem o limite mínimo.
+</p>
+<pre><code>$dImage-&gt;resize($size)</code></pre>
+<ul class="param-list">
+<li>
+<code>$size
+</code>
+<span class="type">array|int
+</span>
+<span class="description">Tamanho alvo ou limite.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>static
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public resizeFree(size)
+</h2>
+<p>Redimensiona a imagem ignorando a proporção original (distorção controlada).
+</p>
+<pre><code>$dImage-&gt;resizeFree($size)</code></pre>
+<ul class="param-list">
+<li>
+<code>$size
+</code>
+<span class="type">array|int
+</span>
+<span class="description">Largura e altura alvo.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>static
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public rotate(graus, transparent)
+</h2>
+<p>Rotaciona a imagem no sentido horário.
+</p>
+<pre><code>$dImage-&gt;rotate($graus)
+$dImage-&gt;rotate($graus, $transparent)</code></pre>
+<ul class="param-list">
+<li>
+<code>$graus
+</code>
+<span class="type">int
+</span>
+<span class="description">Ângulo de rotação.
+</span>
+</li>
+<li>
+<code>$transparent
+</code>
+<span class="type">bool
+</span>
+<span class="description">Se deve preservar/converter para transparência.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>static
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public flipH()
+</h2>
+<p>Inverte a imagem horizontalmente (espelhamento lateral).
+</p>
+<pre><code>$dImage-&gt;flipH()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>static
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public flipV()
+</h2>
+<p>Inverte a imagem verticalmente (de ponta-cabeça).
+</p>
+<pre><code>$dImage-&gt;flipV()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>static
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public stamp(imgSpamt, position)
+</h2>
+<p>Sobrepõe uma outra instância de DImage sobre a imagem atual (Marca d&#039;água).
+</p>
+<pre><code>$dImage-&gt;stamp($imgSpamt)
+$dImage-&gt;stamp($imgSpamt, $position)</code></pre>
+<ul class="param-list">
+<li>
+<code>$imgSpamt
+</code>
+<span class="type">PhpMx\DImage
+</span>
+<span class="description">Imagem a ser aplicada.
+</span>
+</li>
+<li>
+<code>$position
+</code>
+<span class="type">int
+</span>
+<span class="description">Posição do carimbo.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>static
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public crop(size, position)
+</h2>
+<p>Corta uma área específica da imagem com base em uma posição.
+</p>
+<pre><code>$dImage-&gt;crop($size)
+$dImage-&gt;crop($size, $position)</code></pre>
+<ul class="param-list">
+<li>
+<code>$size
+</code>
+<span class="type">array|int
+</span>
+<span class="description">Dimensões do recorte.
+</span>
+</li>
+<li>
+<code>$position
+</code>
+<span class="type">int
+</span>
+<span class="description">Alinhamento (Centro, Topo, etc).
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>static
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public framing(size)
+</h2>
+<p>Redimensiona e centraliza a imagem dentro de um novo quadro preenchido com a cor base.
+</p>
+<pre><code>$dImage-&gt;framing($size)</code></pre>
+<ul class="param-list">
+<li>
+<code>$size
+</code>
+<span class="type">array|int
+</span>
+<span class="description">Tamanho do quadro final.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>static
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>public filter(filter)
+</h2>
+<p>Aplica um filtro nativo do PHP GD à imagem.
+</p>
+<pre><code>$dImage-&gt;filter($filter)</code></pre>
+<ul class="param-list">
+<li>
+<code>$filter
+</code>
+<span class="type">int
+</span>
+<span class="description">Constante do filtro (ex: IMG_FILTER_GRAYSCALE).
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>static
+</code>
+</p>
+</section>
+</main>
+</div>
+</body>
+</html>
