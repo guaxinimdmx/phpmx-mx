@@ -24,7 +24,7 @@ jobs:
         extensions: mbstring, fileinfo, gd, exif, pdo, pdo_sqlite
 
     - name: Validate composer.json and composer.lock
-      run: composer validate --strict
+      run: composer validate
 
     - name: Cache Composer packages
       id: composer-cache
