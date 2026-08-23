@@ -34,7 +34,7 @@ class InputField
     /** @ignore */
     protected bool $sanitized = false;
     /** @ignore */
-    protected array $ruleSanitaze = [];
+    protected array $ruleSanitize = [];
     /** @ignore */
     protected mixed $valueSanitized = null;
 
@@ -123,7 +123,7 @@ class InputField
         if (!$this->sanitized) {
             $this->valueSanitized = $this->value;
 
-            foreach ($this->ruleSanitaze as $rule) {
+            foreach ($this->ruleSanitize as $rule) {
                 $rule = is_closure($rule) ? $rule : match ($rule) {
                     FILTER_SANITIZE_EMAIL => fn($v) => strtolower(filter_var($v, FILTER_SANITIZE_EMAIL)),
                     FILTER_SANITIZE_NUMBER_FLOAT => fn($v) => floatval(filter_var($v, FILTER_SANITIZE_NUMBER_FLOAT)),
@@ -224,7 +224,7 @@ class InputField
     function sanitize(int|Closure $rule)
     {
         $this->sanitized = false;
-        $this->ruleSanitaze[] = $rule;
+        $this->ruleSanitize[] = $rule;
         return $this;
     }
 

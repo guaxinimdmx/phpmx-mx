@@ -1,22 +1,19 @@
-/.claude
-/CLAUDE.md
-
 /.env
 /.conf
 /vendor
 /composer.lock
 
+/class/Model/*
+
 /library/cache
+/library/cacheTime
 /library/certificate/*
 !/library/certificate/base.crt
+/library/tmp
 
-/class/Controller/*
-!/class/Controller/MxServer
-
-/system/router/*
-!/system/router/MxServer.php
-
-/class/Model
 /library/sqlite
-/system/datalayer
 
+/system/datalayer/*
+
+/.claude
+/CLAUDE.md

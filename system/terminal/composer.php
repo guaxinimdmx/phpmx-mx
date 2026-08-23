@@ -40,19 +40,7 @@ return new class {
 
         Json::export('composer', $composer, false);
 
-        $forceDev || env('DEV') ? self::inDev() : self::inProd();
-    }
-
-    protected static function inDev()
-    {
-        Terminal::echol('Running [#c:s,composer dump-autoload]');
-        echo shell_exec("composer dump-autoload");
-    }
-
-    protected static function inProd()
-    {
-        Terminal::echol('Running [#c:s,composer dump-autoload --no-dev --optimize]');
-        echo shell_exec("composer dump-autoload --no-dev --optimize");
+        $forceDev || env('DEV') ? Terminal::exec('composer dump-autoload') : Terminal::exec('composer dump-autoload --no-dev --optimize');
     }
 
     protected static function seekForFile(string $ref)

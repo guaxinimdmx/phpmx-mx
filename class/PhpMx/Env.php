@@ -54,6 +54,7 @@ abstract class Env
      */
     static function get(string $name): mixed
     {
+        if (getenv($name) !== false) return getenv($name);
         return $_ENV[$name] ?? self::$DEFAULT[$name] ?? null;
     }
 

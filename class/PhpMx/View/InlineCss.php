@@ -104,7 +104,7 @@ abstract class InlineCss
             $prop = trim(substr($part, 0, $pos));
             $val  = trim(substr($part, $pos + 1));
 
-            if ($prop && $val)
+            if ($prop && $val !== '')
                 $declarations[$prop] = $val;
         }
 

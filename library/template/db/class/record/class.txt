@@ -1,22 +1,12 @@
 <?php
 
 namespace [#namespace]\Record;
-
-/** Objetos de entidade para conexão com [#recordClass] */
+[#tableComment]
 class [#recordClass] extends \[#namespace]\Driver\Driver[#recordClass]
 {
-    /** Chamado antes da criação do registro */
     protected function _onCreate() {}
 
-    /** Chamado antes da atualização do registro */
     protected function _onUpdate() {}
 
-    /** Chamado antes de marcar o registro como removido */
     protected function _onDelete() {}
-
-    /** Chamado antes de desmarcar o registro como removido */
-    protected function _onUndelete() {}
-
-    /** Chamado antes de remover permanentemente o registro */
-    protected function _onHardDelete() {}
 }

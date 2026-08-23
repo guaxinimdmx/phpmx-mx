@@ -113,24 +113,32 @@ class Sqlite extends BaseConnection
 
         $newFields = $this->getConfigGroup('dbmap')[$tableName]['fields'];
 
-        foreach (array_keys($fields['drop']) as $fieldName) {
-            if (isset($newFields[$fieldName]))
-                unset($newFields[$fieldName]);
-            if (isset($indexes[$fieldName]))
-                unset($indexes[$fieldName]);
-        }
+        $snakeToField = [];
+        foreach ($newFields as $fieldName => $fieldData)
+            $snakeToField[strToSnakeCase($fieldName)] = $fieldName;
 
         $indexes = [];
 
         foreach ($listIndexTable as $index) {
-            $index = $index['name'];
-            $index = explode('.', $index);
-            list($indexTable, $indexField, $indexType) = $index;
-            if ($indexes[$indexField])
-                $indexes["$indexField.$indexType"] = [
-                    $indexField,
-                    boolval($indexType == 'unique')
-                ];
+            $indexKey = substr($index['name'], strlen($tableName) + 1);
+
+            if (str_starts_with($indexKey, 'simple_')) {
+                $snakeName = substr($indexKey, 7);
+                $fieldName = $snakeToField[$snakeName] ?? $snakeName;
+                $indexes["simple_$fieldName"] = [$fieldName, false];
+            } elseif (str_starts_with($indexKey, 'unique_')) {
+                $snakeName = substr($indexKey, 7);
+                $fieldName = $snakeToField[$snakeName] ?? $snakeName;
+                $indexes["unique_$fieldName"] = [$fieldName, true];
+            }
+        }
+
+        foreach (array_keys($fields['drop']) as $fieldName) {
+            if (isset($newFields[$fieldName]))
+                unset($newFields[$fieldName]);
+
+            unset($indexes["simple_$fieldName"]);
+            unset($indexes["unique_$fieldName"]);
         }
 
         foreach ($fields['add'] as $name => $field) {
@@ -157,9 +165,20 @@ class Sqlite extends BaseConnection
         foreach ($this->executeQuery(Query::select($tableName)) as $result) {
             $innerValues = [$result['id']];
             foreach ($newFields as $fieldName => $fieldData) {
-                $inner = $result[$fieldName] ?? $fieldData['default'] ?? 'NULL';
-                $inner = is_int($inner) || $inner == 'NULL' ? $inner : "'$inner'";
-                $innerValues[] = $inner;
+                if (array_key_exists($fieldName, $result)) {
+                    $value = $result[$fieldName];
+                } else {
+                    $default = $fieldData['default'];
+                    $value = ($default === 'CURRENT_TIMESTAMP') ? null : $default;
+                }
+
+                if (is_null($value)) {
+                    $innerValues[] = 'NULL';
+                } elseif (is_int($value) || is_float($value)) {
+                    $innerValues[] = $value;
+                } else {
+                    $innerValues[] = $this->pdo()->quote((string) $value);
+                }
             }
             $insert[] = implode(', ', $innerValues);
         }

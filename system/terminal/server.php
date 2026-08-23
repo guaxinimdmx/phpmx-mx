@@ -6,11 +6,11 @@ use PhpMx\Terminal;
 
 /**
  * Inicia o servidor embutido do PHP para rodar o projeto localmente.
- * @param int|null $porta Porta do servidor (opcional, usa a definida em TERMINAL_URL ou 8888 por padrão).
+ * @param int|null $port Porta do servidor (opcional, usa a definida em TERMINAL_URL ou 8888 por padrão).
  */
 return new class {
 
-    function __invoke(?string $port = null)
+    function __invoke(?int $port = null)
     {
         if (!File::check('index.php'))
             throw new Exception('[index.php] not found');

@@ -34,26 +34,7 @@ return new class {
         foreach (Dir::seekForFile($path, true) as $item) {
             $scheme = ReflectionCommandFile::scheme(path($path, $item));
             if (!empty($scheme)) {
-                $formattedNames = [];
-                $requiredCount = 0;
-
-                foreach ($scheme['params'] ?? [] as $param) {
-                    $name = ($param['variadic'] ? '...' : '') . '<' . $param['name']  . '>';
-                    $formattedNames[] = $name;
-                    if (!$param['optional']) $requiredCount++;
-                }
-
-                $variations = [];
-                $totalParams = count($formattedNames);
-
-                for ($i = $requiredCount; $i <= $totalParams; $i++) {
-                    $slice = array_slice($formattedNames, 0, $i);
-                    $variations[] = implode(" ", $slice);
-                }
-
-                if (empty($variations)) $variations = [''];
-
-                $scheme['variations'] = array_values(array_unique(array_filter($variations, fn($v) => $v !== null)));
+                $scheme['variations'] = ReflectionCommandFile::variations($scheme['params'] ?? []);
                 $items[] = $scheme;
             }
         }

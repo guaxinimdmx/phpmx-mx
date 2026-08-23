@@ -1,0 +1,31 @@
+# `PhpMx\Json`
+
+[← Classes](../classes.md) · [← Index](../../index.md)
+
+**Type:** `abstract class`
+
+Classe utilitária para importar e exportar arquivos JSON.
+
+## Methods
+
+---
+
+### `public static import(path)`
+
+Importa o conteúdo de um arquivo json para um array
+
+- `$path` `string` — Caminho do arquivo (extensão .json adicionada automaticamente se omitida).
+
+**Returns:** `?array`
+
+---
+
+### `public static export(path, array, merge)`
+
+Exporta um array para um arquivo json
+
+- `$path` `string` — Caminho do arquivo de destino (extensão .json adicionada automaticamente se omitida).
+- `$array` `array` — Dados a serem exportados.
+- `$merge` `bool` — Se deve mesclar com o conteúdo já existente no arquivo.
+
+**Returns:** `void`

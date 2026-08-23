@@ -8,9 +8,6 @@ use Exception;
 /** Classe responsável pela execução encadeada de middlewares. */
 abstract class Middleware
 {
-    /** @ignore */
-    protected array $QUEUE = [];
-
     /**
      * Executa uma fila de middlewares retornando a action.
      * @param array $queue Lista de middlewares a serem executados em ordem.
@@ -40,7 +37,7 @@ abstract class Middleware
     protected static function getCallable(mixed $middleware)
     {
         if (is_array($middleware))
-            return fn($next) => $this([...$middleware], $next);
+            return fn($next) => self::run([...$middleware], $next);
 
         if (is_string($middleware)) {
 

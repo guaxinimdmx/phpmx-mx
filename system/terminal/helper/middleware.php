@@ -13,11 +13,11 @@ return new class {
 
     use TerminalHelperTrait;
 
-    function __invoke(?string $fitler = null)
+    function __invoke(?string $filter = null)
     {
         $this->handle(
             'system/middleware',
-            $fitler,
+            $filter,
             function ($item) {
                 Terminal::echol('   [#c:p,#name] [#c:sd,#_file][#c:sd,:][#c:sd,#_line]', $item);
                 foreach ($item['description'] as $description)

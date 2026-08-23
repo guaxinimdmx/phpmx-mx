@@ -5,20 +5,31 @@ use PhpMx\Terminal;
 
 /**
  * Gera um novo arquivo de exemplo em library/example.
- * @param string $fileName Nome do arquivo.
+ * @param string $name Nome do exemplo, use pontos para subpastas (ex: router.basicRoutes).
  */
 return new class {
 
-    function __invoke(string $fileName)
+    function __invoke(string $name)
     {
-        $fileName = strToCamelCase($fileName);
+        $name = remove_accents($name);
 
-        $file = path('library/example', "$fileName.php");
+        $parts = explode('.', $name);
+        $parts = array_map(fn($v) => strToCamelCase($v), $parts);
+
+        $file = path('library/example', ...$parts);
+        $file = File::setEx($file, 'md');
 
         if (File::check($file))
-            throw new Exception("File [$file] already exists");
+            throw new Exception("Example [$name] already exists in project");
 
-        File::create($file, "<?php\n");
+        $content = implode("\n", [
+            "# $name",
+            '',
+            'Descreva aqui o que este exemplo demonstra.',
+            '',
+        ]);
+
+        File::create($file, $content);
 
         Terminal::echol("File [#c:p,#] created successfully", $file);
     }

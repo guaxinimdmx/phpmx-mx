@@ -49,7 +49,7 @@ abstract class Jwt
 
         $header_payload = $token[0] . '.' . $token[1];
 
-        if (hash_hmac('sha256', $header_payload, $key, true) !== $signature)
+        if (!hash_equals(hash_hmac('sha256', $header_payload, $key, true), $signature))
             return false;
 
         return json_decode($payload, true);

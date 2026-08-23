@@ -723,13 +723,13 @@ class DImage
 
             $position = num_interval($position, 0, 8);
 
-            $x =  match ($position) {
+            $x = match ($position) {
                 0, 3, 7 => ($width / 2) - ($dx / 2),
                 1, 2, 8 => 0,
                 4, 5, 6 => $width - $dx,
             };
 
-            $y =  match ($position) {
+            $y = match ($position) {
                 0, 1, 5 => ($height / 2) - ($dy / 2),
                 2, 3, 4 => 0,
                 6, 7, 8 => $height - $dy,

@@ -74,4 +74,31 @@ abstract class ReflectionCommandFile extends BaseReflectionFile
             ...$commandDocScheme,
         ]);
     }
+
+    /**
+     * Retorna as combinações válidas de argumentos para chamar um comando, a partir do seu esquema de parâmetros.
+     * @param array $params Esquema de parâmetros do comando (com 'name', 'optional' e 'variadic').
+     * @return array Lista de strings, cada uma representando uma forma válida de argumentos.
+     */
+    static function variations(array $params): array
+    {
+        $formattedNames = [];
+        $requiredCount = 0;
+
+        foreach ($params as $param) {
+            $name = (!empty($param['variadic']) ? '...' : '') . '<' . $param['name'] . '>';
+            $formattedNames[] = $name;
+            if (empty($param['optional'])) $requiredCount++;
+        }
+
+        $variations = [];
+        $totalParams = count($formattedNames);
+
+        for ($i = $requiredCount; $i <= $totalParams; $i++)
+            $variations[] = implode(' ', array_slice($formattedNames, 0, $i));
+
+        if (empty($variations)) $variations = [''];
+
+        return array_values(array_unique($variations));
+    }
 }

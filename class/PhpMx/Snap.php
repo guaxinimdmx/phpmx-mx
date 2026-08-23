@@ -55,7 +55,12 @@ class Snap
                     foreach ((new ReflectionClass($class))->getProperties(ReflectionProperty::IS_STATIC) as $prop) {
                         $name = $prop->getName();
                         $props[$name] = $prop;
-                        $state[$name] = serialize($prop->getValue());
+                        $raw = $prop->getValue();
+                    try {
+                        $state[$name] = ['s', serialize($raw)];
+                    } catch (\Throwable) {
+                        $state[$name] = ['r', $raw];
+                    }
                     }
 
                     self::$snaps[$snap][$class] = $state;
@@ -75,8 +80,10 @@ class Snap
     {
         Trace::add('snap.restore', $snap, function () use ($snap) {
             foreach (self::$props[$snap] ?? [] as $class => $props)
-                foreach ($props as $name => $prop)
-                    $prop->setValue(null, unserialize(self::$snaps[$snap][$class][$name]));
+                foreach ($props as $name => $prop) {
+                    [$mode, $value] = self::$snaps[$snap][$class][$name];
+                    $prop->setValue(null, $mode === 's' ? unserialize($value) : $value);
+                }
         });
     }
 }

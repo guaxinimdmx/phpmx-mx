@@ -7,10 +7,24 @@ return new class {
 
     function __invoke()
     {
+        if (env('CIF') === 'base')
+            Terminal::echol('[#c:eb,ATENÇÃO] CIF ainda está usando o certificado padrão base');
+
+        if (env('JWT_KEY') === 'jwtkey')
+            Terminal::echol('[#c:eb,ATENÇÃO] JWT_KEY ainda está usando a chave padrão');
+
+        Terminal::echol();
+
         Terminal::echol('Running [#c:s,git pull]');
         echo shell_exec("git pull");
 
         Terminal::echol('Removing [#c:s,library/cache]');
         Dir::remove('library/cache', true);
+
+        Terminal::echol('Removing [#c:s,library/cacheTime]');
+        Dir::remove('library/cacheTime', true);
+
+        Terminal::echol('Removing [#c:s,library/tmp]');
+        Dir::remove('library/tmp', true);
     }
 };

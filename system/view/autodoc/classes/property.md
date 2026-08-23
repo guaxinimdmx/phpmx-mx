@@ -1,0 +1,1 @@
+- `[#visibility] [#static]$[#name]` `[#type]` — [#description][#inherited]

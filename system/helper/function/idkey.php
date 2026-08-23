@@ -12,7 +12,8 @@ if (!function_exists('idKeyType')) {
     function idKeyType(string $idKey): ?string
     {
         try {
-            return Cif::off($idKey)[0];
+            $decoded = Cif::off($idKey);
+            return is_array($decoded) ? $decoded[0] : null;
         } catch (Throwable) {
             return null;
         }
@@ -29,7 +30,8 @@ if (!function_exists('idKeyId')) {
     function idKeyId(string $idKey): ?int
     {
         try {
-            return Cif::off($idKey)[1];
+            $decoded = Cif::off($idKey);
+            return is_array($decoded) ? $decoded[1] : null;
         } catch (Throwable) {
             return null;
         }

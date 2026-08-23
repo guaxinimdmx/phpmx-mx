@@ -1,0 +1,1 @@
+- `[#visibility] const [#name]` — [#description][#inherited]

@@ -267,10 +267,15 @@ return new class {
     protected function createClass_record(string $tableName): void
     {
         $recordClass = strToPascalCase("record $tableName");
+        $tableComment = $this->map[$tableName]['comment'] ?? '';
+        $tableComment = empty($tableComment) ? '' : "\n/** $tableComment */";
 
         $fileName = $recordClass;
 
-        $data = ['recordClass' => $recordClass];
+        $data = [
+            'tableComment' => $tableComment,
+            'recordClass' => $recordClass,
+        ];
 
         $content = $this->template('class/record/class', $data);
 

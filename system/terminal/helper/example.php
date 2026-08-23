@@ -1,7 +1,7 @@
 <?php
 
 use PhpMx\Dir;
-use PhpMx\Reflection\ReflectionExampleFile;
+use PhpMx\Import;
 use PhpMx\Terminal;
 use PhpMx\Trait\TerminalHelperTrait;
 
@@ -16,9 +16,8 @@ return new class {
     function __invoke(?string $filter = null)
     {
         $show = function ($item) {
-            Terminal::echol('   [#c:p,#name] [#c:dd,#_type] [#c:sd,#_file]', $item);
-            if (isset($item['description']))
-                Terminal::echol("      [#]", array_shift($item['description']));
+            Terminal::echol('   [#c:p,#name] [#c:sd,#_file]', $item);
+            Terminal::echol('      [#]', $item['title']);
         };
 
         $this->handle(
@@ -33,10 +32,24 @@ return new class {
     {
         $items = [];
 
-        foreach (Dir::seekForFile($path, true) as $item)
-            $items[] = ReflectionExampleFile::scheme(path($path, $item));
+        foreach (Dir::seekForFile($path, true) as $item) {
+            $file = path($path, $item);
 
+            $name = explode('library/example/', str_replace('\\', '/', $file));
+            $name = substr(array_pop($name), 0, -3);
+            $name = str_replace('/', '.', $name);
 
-        return array_filter($items);
+            $title = strtok(Import::content($file), "\n") ?: '';
+            $title = trim(ltrim(trim($title), '# '));
+
+            $items[] = [
+                '_key' => md5("example:$name"),
+                'name' => $name,
+                'title' => $title,
+                '_file' => $file,
+            ];
+        }
+
+        return $items;
     }
 };

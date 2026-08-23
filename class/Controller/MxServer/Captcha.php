@@ -2,7 +2,6 @@
 
 namespace Controller\MxServer;
 
-use Exception;
 use PhpMx\Cif;
 use PhpMx\Mime;
 use PhpMx\Path;
@@ -79,23 +78,5 @@ class Captcha
         $type = Mime::getMimeEx('jpg');
         $b64 = base64_encode($bin);
         return "data:$type;base64,$b64";
-    }
-
-    /** @ignore */
-    protected function getColorRGB(string $hex): array
-    {
-        $hex = ltrim($hex, '#');
-
-        if (strlen($hex) === 3)
-            $hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
-
-        if (strlen($hex) !== 6)
-            throw new Exception("Invalid hexadecimal color [$hex]");
-
-        return [
-            'r' => hexdec(substr($hex, 0, 2)),
-            'g' => hexdec(substr($hex, 2, 2)),
-            'b' => hexdec(substr($hex, 4, 2)),
-        ];
     }
 }

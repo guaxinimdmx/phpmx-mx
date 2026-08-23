@@ -164,7 +164,7 @@ class Input
      * @param array|null $nameFields Lista de campos a considerar (opcional, considera todos por padrão).
      * @return array
      */
-    function dataRecived(?array $nameFields = null): array
+    function dataReceived(?array $nameFields = null): array
     {
         $nameFields = $nameFields ?? array_keys($this->dataField);
 

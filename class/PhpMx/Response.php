@@ -95,7 +95,7 @@ abstract class Response
     static function send(): void
     {
         $content = self::getMontedContent();
-        $headers = self::getMontedHeders();
+        $headers = self::getMontedHeaders();
 
         http_response_code(self::$STATUS ?? STS_OK);
 
@@ -130,9 +130,11 @@ abstract class Response
      */
     static function checkType(string ...$types): bool
     {
-        foreach ($types as $type)
+        foreach ($types as $type) {
+            if (!strpos($type, '/')) $type = Mime::getMimeEx($type) ?? $type;
             if (Mime::checkMimeMime($type, self::$TYPE))
                 return true;
+        }
         return false;
     }
 
@@ -143,7 +145,7 @@ abstract class Response
     }
 
     /** @ignore */
-    protected static function getMontedHeders(): array
+    protected static function getMontedHeaders(): array
     {
         return [
             ...self::$HEADER,

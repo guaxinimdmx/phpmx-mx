@@ -223,7 +223,7 @@ abstract class Trace
     }
 
     /** @ignore */
-    protected static function closeLine(&$line)
+    protected static function closeLine(array &$line)
     {
         $line[3] = $line[3] ? memory_get_peak_usage(true) - $line[3] : null;
     }

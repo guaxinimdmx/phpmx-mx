@@ -7,6 +7,11 @@ use DateTime;
 /** Campo de timestamp (TIMESTAMP), com microsegundos no formato Y-m-d H:i:s.u. Retorna float (microtime) por padrão. */
 class FTimestamp extends FDatetime
 {
+    /**
+     * Define o valor de timestamp com microsegundos. Aceita true ou 'CURRENT_TIMESTAMP' (microtime atual), int (sem micros) ou float (com micros), ou false (null).
+     * @param mixed $value Valor a definir.
+     * @return static
+     */
     function set($value): static
     {
         if ($value === true || $value === 'CURRENT_TIMESTAMP') $value = microtime(true);
@@ -20,6 +25,10 @@ class FTimestamp extends FDatetime
         return parent::set($value);
     }
 
+    /**
+     * Retorna o valor de timestamp. Com $format true (padrão) retorna float com microsegundos, false retorna int, null retorna a string Y-m-d H:i:s.u, ou string formata via DateTime::format().
+     * @param null|bool|string $format Formato de retorno.
+     */
     function get($format = true)
     {
         $value = parent::get(null);

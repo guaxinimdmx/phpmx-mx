@@ -2,7 +2,7 @@
 
 namespace [#namespace];
 
-/** Classe para conexão com [#dbClass] */
+/** Ponto de entrada estático para as tabelas do banco de dados [#dbName]. */
 abstract class [#className] extends \[#namespace]\Driver\Driver[#className]
 {
 }

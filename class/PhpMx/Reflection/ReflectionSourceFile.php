@@ -38,6 +38,23 @@ class ReflectionSourceFile extends BaseReflectionFile
         $properties = self::extractPropertiesReflection($reflection, $docScheme['properties'] ?? []);
         $methods = self::extractMethodsReflection($reflection, $docScheme['methods'] ?? []);
 
+        $extends = $reflection->getParentClass();
+
+        while ($extends && self::isHiddenClass($extends)) {
+            $ancestorDoc = self::parseDocBlock($extends->getDocComment());
+
+            foreach (self::extractConstantsReflection($extends) as $name => $item)
+                if (!isset($constants[$name])) $constants[$name] = ['inheritedFrom' => $extends->getName(), ...$item];
+
+            foreach (self::extractPropertiesReflection($extends, $ancestorDoc['properties'] ?? []) as $name => $item)
+                if (!isset($properties[$name])) $properties[$name] = ['inheritedFrom' => $extends->getName(), ...$item];
+
+            foreach (self::extractMethodsReflection($extends, $ancestorDoc['methods'] ?? []) as $name => $item)
+                if (!isset($methods[$name])) $methods[$name] = ['inheritedFrom' => $extends->getName(), ...$item];
+
+            $extends = $extends->getParentClass();
+        }
+
         return array_filter([
             '_key' => md5("source:$sourceName"),
             '_type' => $type,
@@ -48,7 +65,7 @@ class ReflectionSourceFile extends BaseReflectionFile
             'name' => $sourceName,
             'abstract' => $reflection->isAbstract(),
             'final' => $reflection->isFinal(),
-            'extends' => $reflection->getParentClass() ? $reflection->getParentClass()->getName() : null,
+            'extends' => $extends ? $extends->getName() : null,
             'interface' => $reflection->getInterfaceNames(),
             'traits' => $reflection->getTraitNames(),
             'constants' => $constants,
@@ -56,6 +73,17 @@ class ReflectionSourceFile extends BaseReflectionFile
             'methods' => $methods,
             ...array_diff_key($docScheme, array_flip(['properties', 'methods']))
         ]);
+    }
+
+    /**
+     * Verifica se uma classe refletida está marcada com @ignore ou @internal em seu docblock.
+     * @param ReflectionClass $reflection Instância de ReflectionClass da classe alvo.
+     * @return bool
+     */
+    protected static function isHiddenClass(ReflectionClass $reflection): bool
+    {
+        $doc = self::parseDocBlock($reflection->getDocComment());
+        return !empty($doc['ignore']) || !empty($doc['internal']);
     }
 
     /**

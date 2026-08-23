@@ -39,7 +39,7 @@ return new class {
                 foreach ($scheme['params'] ?? [] as $param) {
                     $name = '$' . $param['name'];
                     if ($param['reference']) $name = "[#c:s,&]$name";
-                    if ($param['isVariadic']) $name = "[#c:s,...]$name";
+                    if ($param['variadic']) $name = "[#c:s,...]$name";
 
                     $type = $param['type'];
                     $type = empty($type) ? '' : "[#c:pd,$type] ";

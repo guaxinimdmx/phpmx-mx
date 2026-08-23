@@ -1,0 +1,7 @@
+---
+
+### `[#method]` `[#path]`
+
+[#response]
+
+[#middlewares]

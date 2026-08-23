@@ -61,7 +61,7 @@ abstract class Cif
         $var = base64_decode(strrev($var));
 
         if (is_serialized($var))
-            $var = unserialize($var);
+            $var = unserialize($var, ['allowed_classes' => false]);
 
         return $var;
     }

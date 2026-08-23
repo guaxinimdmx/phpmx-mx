@@ -77,9 +77,10 @@ abstract class Datalayer
      */
     static function unregister(string $dbName): void
     {
+        $dbName = self::internalName($dbName);
+
         if (isset(self::$instance[$dbName]))
             Trace::add('datalayer.unregister', self::externalName($dbName, 'Db'), function () use ($dbName) {
-                $dbName = self::internalName($dbName);
                 unset(self::$instance[$dbName]);
             });
     }

@@ -19,6 +19,7 @@ class FDate extends Field
         return parent::set($value);
     }
 
+    /** @ignore */
     function get($format = null)
     {
         $value = parent::get();

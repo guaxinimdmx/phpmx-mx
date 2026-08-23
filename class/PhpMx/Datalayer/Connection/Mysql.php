@@ -32,7 +32,7 @@ class Mysql extends BaseConnection
 
         $dsn = "mysql:host={$this->data['host']}";
 
-        if ($this->data['port']) $dsn .= ";port={$this->data['port']}";
+        if (isset($this->data['port'])) $dsn .= ";port={$this->data['port']}";
 
         $dsn .= ";dbname={$this->data['data']};charset=utf8";
 

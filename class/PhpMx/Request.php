@@ -265,7 +265,7 @@ abstract class Request
         $path = explode('/', $path);
         $path = array_filter($path, fn($path) => !is_blank($path));
 
-        return $path ?? [];
+        return array_values($path);
     }
 
     /** @ignore */

@@ -44,9 +44,9 @@ abstract class Record
         $this->HASH = \PhpMx\Datalayer::get($this->DATALAYER)->getHash();
 
         if ($this->_checkInDb()) {
-            $drvierClass = 'Model\\' . strToPascalCase("db $this->DATALAYER") . '\\' . strToPascalCase("db $this->DATALAYER");
+            $driverClass = 'Model\\' . strToPascalCase("db $this->DATALAYER") . '\\' . strToPascalCase("db $this->DATALAYER");
             $tableMethod = strToCamelCase($this->TABLE);
-            $drvierClass::${$tableMethod}->__cacheSet($this->ID, $this);
+            $driverClass::${$tableMethod}->__cacheSet($this->ID, $this);
         }
     }
 
@@ -66,9 +66,9 @@ abstract class Record
     final function idKey(): ?string
     {
         if (!$this->_checkInDb()) return null;
-        $drvierClass = 'Model\\' . strToPascalCase("db $this->DATALAYER") . '\\' . strToPascalCase("db $this->DATALAYER");
+        $driverClass = 'Model\\' . strToPascalCase("db $this->DATALAYER") . '\\' . strToPascalCase("db $this->DATALAYER");
         $tableMethod = strToCamelCase($this->TABLE);
-        return $drvierClass::${$tableMethod}->idToIdkey($this->id);
+        return $driverClass::${$tableMethod}->idToIdkey($this->id);
     }
 
     /**
@@ -195,10 +195,10 @@ abstract class Record
      */
     final function _makeActive(): static
     {
-        $drvierClass = 'Model\\' . strToPascalCase("db $this->DATALAYER") . '\\' . strToPascalCase("db $this->DATALAYER");
+        $driverClass = 'Model\\' . strToPascalCase("db $this->DATALAYER") . '\\' . strToPascalCase("db $this->DATALAYER");
         $tableMethod = strToCamelCase($this->TABLE);
 
-        $drvierClass::${$tableMethod}->active($this);
+        $driverClass::${$tableMethod}->active($this);
         return $this;
     }
 
@@ -305,7 +305,10 @@ abstract class Record
         return !is_null($this->id()) && $this->id() >= 0;
     }
 
-    /** Retorna o array dos campos da forma como são salvos no banco de dados */
+    /**
+     * Retorna o array dos campos da forma como são salvos no banco de dados
+     * @ignore
+     */
     final protected function __insertValues(bool $validate = false): array
     {
         $return = [];
@@ -352,8 +355,8 @@ abstract class Record
     }
 
     /**
-     * Salva o registro no banco de dados (create, update, delete ou undelete conforme o estado).
-     * @return void
+     * Verifica se o registro foi criado com a mesma conexão de banco de dados atual.
+     * @ignore
      */
     private function __checkHash(): void
     {
@@ -361,6 +364,13 @@ abstract class Record
             throw new Error("[$this->DATALAYER.$this->TABLE] record was created with a different connection");
     }
 
+    /**
+     * Salva o registro no banco de dados, disparando create, update, delete
+     * ou undelete conforme o estado atual (definido por _delete(), _undelete()
+     * e _hardDelete()). Não faz nada se o registro for nulo.
+     * @param bool $forceUpdate Se verdadeiro força o UPDATE mesmo sem alterações detectadas.
+     * @return static
+     */
     final function _save(bool $forceUpdate = false): static
     {
         Trace::add(
@@ -412,9 +422,9 @@ abstract class Record
                 ->values($this->__insertValues(true))
                 ->run($this->DATALAYER);
 
-            $drvierClass = 'Model\\' . strToPascalCase("db $this->DATALAYER") . '\\' . strToPascalCase("db $this->DATALAYER");
+            $driverClass = 'Model\\' . strToPascalCase("db $this->DATALAYER") . '\\' . strToPascalCase("db $this->DATALAYER");
             $tableMethod = strToCamelCase($this->TABLE);
-            $drvierClass::${$tableMethod}->__cacheSet($this->ID, $this);
+            $driverClass::${$tableMethod}->__cacheSet($this->ID, $this);
 
             if (is_callable($onCreate))
                 $onCreate($this);
@@ -483,9 +493,9 @@ abstract class Record
 
             $this->INITIAL['_deleted'] = $dif['_deleted'];
 
-            $drvierClass = 'Model\\' . strToPascalCase("db $this->DATALAYER") . '\\' . strToPascalCase("db $this->DATALAYER");
+            $driverClass = 'Model\\' . strToPascalCase("db $this->DATALAYER") . '\\' . strToPascalCase("db $this->DATALAYER");
             $tableMethod = strToCamelCase($this->TABLE);
-            $drvierClass::${$tableMethod}->__cacheRemove($this->ID);
+            $driverClass::${$tableMethod}->__cacheRemove($this->ID);
 
             if (is_callable($onDelete))
                 $onDelete($this);
@@ -507,9 +517,9 @@ abstract class Record
                 ->where('id', $this->ID)
                 ->run($this->DATALAYER);
 
-            $drvierClass = 'Model\\' . strToPascalCase("db $this->DATALAYER") . '\\' . strToPascalCase("db $this->DATALAYER");
+            $driverClass = 'Model\\' . strToPascalCase("db $this->DATALAYER") . '\\' . strToPascalCase("db $this->DATALAYER");
             $tableMethod = strToCamelCase($this->TABLE);
-            $drvierClass::${$tableMethod}->__cacheRemove($this->ID);
+            $driverClass::${$tableMethod}->__cacheRemove($this->ID);
 
             $this->ID = null;
 
@@ -541,9 +551,9 @@ abstract class Record
 
             $this->INITIAL['_deleted'] = $dif['_deleted'];
 
-            $drvierClass = 'Model\\' . strToPascalCase("db $this->DATALAYER") . '\\' . strToPascalCase("db $this->DATALAYER");
+            $driverClass = 'Model\\' . strToPascalCase("db $this->DATALAYER") . '\\' . strToPascalCase("db $this->DATALAYER");
             $tableMethod = strToCamelCase($this->TABLE);
-            $drvierClass::${$tableMethod}->__cacheSet($this->ID, $this);
+            $driverClass::${$tableMethod}->__cacheSet($this->ID, $this);
 
             if (is_callable($onUndelete))
                 $onUndelete($this);

@@ -251,7 +251,7 @@ class Select extends BaseQuery
         if (is_string($ids))
             $ids = explode(',', $ids);
 
-        $ids = array_filter($ids, fn($id) => is_int($id));
+        $ids = array_filter($ids, fn($id) => intval($id) == $id);
 
         if (!count($ids))
             return $this->where('false');

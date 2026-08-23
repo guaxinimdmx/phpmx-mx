@@ -130,8 +130,7 @@ abstract class Table
      */
     final function count(...$args): int
     {
-        $query = $this->autoQuery(...$args)->fields(null)->fields('id');
-        return count($query->run());
+        return $this->autoQuery(...$args)->count();
     }
 
     /**

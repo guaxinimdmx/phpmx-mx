@@ -1,7 +1,7 @@
 <?php
 
 /** */
-return new class  {
+return new class {
 
     function __invoke(Closure $next)
     {

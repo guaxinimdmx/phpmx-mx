@@ -199,7 +199,7 @@ abstract class View
     }
 
     /** @ignore */
-    protected static function __currentSet(string $var, string $value)
+    protected static function __currentSet(string $var, string|array|null $value)
     {
         $scope = self::__currentGet('scope');
         if ($scope) self::$CURRENT[$scope][$var] = $value;

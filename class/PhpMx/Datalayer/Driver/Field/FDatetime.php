@@ -7,6 +7,11 @@ use PhpMx\Datalayer\Driver\Field;
 /** Campo de data e hora (DATETIME), no formato Y-m-d H:i:s, sem microsegundos. */
 class FDatetime extends Field
 {
+    /**
+     * Define o valor de data e hora. Aceita true ou 'CURRENT_TIMESTAMP' (momento atual), timestamp numérico (convertido para Y-m-d H:i:s) ou false (null).
+     * @param mixed $value Valor a definir.
+     * @return static
+     */
     function set($value): static
     {
         if ($value === true || $value === 'CURRENT_TIMESTAMP') $value = time();
@@ -15,6 +20,10 @@ class FDatetime extends Field
         return parent::set($value);
     }
 
+    /**
+     * Retorna o valor de data e hora. Com $format null retorna a string Y-m-d H:i:s, true retorna float timestamp, false retorna int timestamp, ou string formata via date().
+     * @param null|bool|string $format Formato de retorno.
+     */
     function get($format = null)
     {
         $value = parent::get();

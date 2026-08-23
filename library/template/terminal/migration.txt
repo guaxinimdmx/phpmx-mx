@@ -1,10 +1,17 @@
 <?php
 
-/** Migration [#name] */
+use PhpMx\Datalayer\Migration;
 
-return new class extends \PhpMx\Datalayer\Migration
-{
-    function up() {}
+/** [#name] */
+return new class extends Migration {
 
-    function down() {}
+    function up()
+    {
+        //
+    }
+
+    function down()
+    {
+        //
+    }
 };

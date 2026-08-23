@@ -9,12 +9,13 @@ namespace [#namespace]\Driver;
 
 use PhpMx\Snap;
 
-/** Driver de conexão gerado automáticamente */
+/** @internal */
 abstract class [#mainClass]
-{[#varTable]    [#method]}
+{[#varTable]    [#method]
+}
 
 [#start]
-Snap::register(\[#namespace]\[#dbClass]::class, \[#namespace]\[#dbClass]::class);
+Snap::register('db.[#dbName]', [#mainClass]::class);
 
 /***************************************************\
 |* Arquivo de driver gerado por PhpMx              *|

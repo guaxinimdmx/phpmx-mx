@@ -33,7 +33,6 @@
             "system/helper/function/redirect.php",
             "system/helper/function/remove_accents.php",
             "system/helper/function/str.php",
-            "system/helper/function/str_to.php",
             "system/helper/function/url.php",
             "system/helper/function/uuid.php",
             "system/helper/script/env.php",
@@ -45,16 +44,9 @@
         ]
     },
     "require": {
-        "php": "^8.1",
+        "php": "^8.3",
         "ext-mbstring": "*",
         "ext-fileinfo": "*"
-    },
-    "suggest": {
-        "ext-gd": "Required if you intend to use Image od Captcha.",
-        "ext-exif": "Required if you intend to use Image.",
-        "ext-pdo_mysql": "Required if you intend to use MySQL or MariaDB connections.",
-        "ext-pdo_sqlite": "Required if you intend to use SQLite connections.",
-        "ext-pdo_pgsql": "Required if you intend to use PostgreSQL connections."
     },
     "bin": [
         "mx"

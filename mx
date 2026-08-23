@@ -6,6 +6,8 @@ echo "\n";
 
 $terminalArgs = $argv;
 array_shift($terminalArgs);
-\PhpMx\Terminal::run(...$terminalArgs);
+$result = \PhpMx\Terminal::run(...$terminalArgs);
 
 echo "\n";
+
+exit($result ? 0 : 1);

@@ -1,14 +1,16 @@
 <?php
 
 use PhpMx\Datalayer\Scheme\SchemeMap;
+use PhpMx\Import;
 use PhpMx\Reflection\ReflectionCommandFile;
 use PhpMx\Reflection\ReflectionHelperFile;
 use PhpMx\Reflection\ReflectionMiddlewareFile;
 use PhpMx\Reflection\ReflectionSourceFile;
+use PhpMx\Reflection\ReflectionTestFile;
 use PhpMx\Terminal;
 use PhpMx\Trait\AutodocTrait;
 
-/** Verifica o status da documentação do projeto atual */
+/** Verifica o status da documentação publicada do projeto atual */
 return new class {
 
     use AutodocTrait;
@@ -18,12 +20,14 @@ return new class {
 
     function __invoke()
     {
-        // $this->scanComposer();
-        // $this->scanHelper();
-        // $this->scanTerminal();
-        // $this->scanMiddleware();
+        $this->scanComposer();
+        $this->scanHelper();
+        $this->scanTerminal();
+        $this->scanMiddleware();
         $this->scanPsr4();
         $this->scanDatabase();
+        $this->scanTest();
+        $this->scanExample();
 
         Terminal::progress('documentation', current: $this->count, total: count($this->error) + $this->count);
 
@@ -36,6 +40,24 @@ return new class {
             list($type, $name, $file, $line) = $error;
             $file = !is_blank($line) ? "$file:$line" : $file;
             Terminal::echol("[#c:dd,#] [#c:p,#] [#c:wd,#]", [$type, $name, $file]);
+        }
+    }
+
+    function scanExample()
+    {
+        foreach ($this->getExampleFiles() as $file) {
+            $name = $this->exampleName($file);
+            $content = trim(Import::content($file));
+            $this->check_simpleMode(['description' => $content], 'example', $name, $file);
+        }
+    }
+
+    function scanTest()
+    {
+        foreach ($this->getTestFiles() as $file) {
+            $item = ReflectionTestFile::scheme($file);
+            if (!empty($item))
+                $this->check_simpleMode($item, 'test', $item['name'], $item['_file'], $item['_line']);
         }
     }
 
@@ -96,7 +118,7 @@ return new class {
 
     function check_simpleMode(array $item, string $group, string $name, string $file, ?string $line = null)
     {
-        if ($item['ignore'] ?? false) return;
+        if (!$this->isPublic($item)) return;
         if (str_ends_with($group, '.param') && is_null($line)) return;
 
         $this->count++;
@@ -106,7 +128,8 @@ return new class {
 
     function check_functionMode(array $item, string $group, string $name, string $file, ?string $line = null)
     {
-        if ($item['ignore'] ?? false) return;
+        if (!$this->isPublic($item)) return;
+        if (($item['visibility'] ?? 'public') === 'protected') return;
 
         if (!str_ends_with($name, '.__construct')) {
             $this->count++;
@@ -120,7 +143,7 @@ return new class {
 
     function check_classMode(array $item, string $group, string $name, string $file, ?string $line = null)
     {
-        if ($item['ignore'] ?? false) return;
+        if (!$this->isPublic($item)) return;
 
         $this->count++;
         if (is_blank($item['description']))

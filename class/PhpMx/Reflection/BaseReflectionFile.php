@@ -9,6 +9,7 @@ abstract class BaseReflectionFile
 
     abstract static function scheme(string $file): array;
 
+    /** @ignore */
     protected static function docBlockBefore(string $code, int $pos): string
     {
         $before = substr($code, 0, $pos);
@@ -22,6 +23,7 @@ abstract class BaseReflectionFile
         return '';
     }
 
+    /** @ignore */
     protected static function parseDocBlock(?string $docBlock): array
     {
         $data = [
