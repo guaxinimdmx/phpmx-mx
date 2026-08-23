@@ -14,6 +14,12 @@ Campo de input para validação de captchas com cifra e hash. Aplica automaticam
 
 ### `public __construct(name, alias, value)`
 
+```php
+new InputFieldCaptcha($name)
+new InputFieldCaptcha($name, $alias)
+new InputFieldCaptcha($name, $alias, $value)
+```
+
 - `$name` `string` — Nome do campo.
 - `$alias` `?string` — Rótulo amigável para mensagens de erro.
 - `$value` `mixed` — Valor inicial do campo (código captcha recebido).

@@ -21,6 +21,10 @@ Monta e executa instruções SQL do tipo INSERT com suporte a múltiplos registr
 
 Retorna o array de dados necessários para execução da query INSERT.
 
+```php
+$insert->query()
+```
+
 **Returns:** `array`
 
 ---
@@ -28,6 +32,11 @@ Retorna o array de dados necessários para execução da query INSERT.
 ### `public run(dbName)`
 
 Executa a query INSERT e retorna o ID inserido ou false em caso de falha.
+
+```php
+$insert->run()
+$insert->run($dbName)
+```
 
 - `$dbName` `?string` — Nome do banco de dados (opcional, usa 'main' por padrão).
 
@@ -38,6 +47,11 @@ Executa a query INSERT e retorna o ID inserido ou false em caso de falha.
 ### `public values(registers)`
 
 Define os registros a serem inseridos.
+
+```php
+$insert->values()
+$insert->values(...$registers)
+```
 
 - `$registers` `array` — Um ou mais arrays associativos [campo => valor] a inserir.
 

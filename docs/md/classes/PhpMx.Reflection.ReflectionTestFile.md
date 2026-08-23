@@ -18,6 +18,10 @@ Extrai o esquema de reflexão de um arquivo de teste.
 
 Retorna o esquema de um arquivo de teste, extraindo nome e documentação.
 
+```php
+ReflectionTestFile::scheme($file)
+```
+
 - `$file` `string` — Caminho do arquivo de teste.
 
 **Returns:** `array`

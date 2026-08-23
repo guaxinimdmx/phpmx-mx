@@ -141,12 +141,55 @@ return new class {
                 'name' => $item['name'] ?? '',
                 'paramNames' => implode(', ', array_column($params, 'name')),
                 'description' => $this->joinDescription($item['description'] ?? []),
+                'usage' => $this->functionUsage($item['name'] ?? '', $params),
                 'params' => $this->renderFunctionParams($params),
                 'return' => $item['return'] ?? 'mixed',
             ]);
         }
 
         return implode("\n\n", $lines);
+    }
+
+    protected function functionUsage(string $name, array $params): string
+    {
+        return $this->callVariations($name, $params);
+    }
+
+    protected function classMethodUsage(string $className, string $method, array $params, bool $static): string
+    {
+        $short = str_contains($className, '\\') ? substr($className, strrpos($className, '\\') + 1) : $className;
+
+        if ($method === '__construct')
+            return $this->callVariations("new $short", $params);
+
+        if ($method === '__invoke')
+            return $this->callVariations('$' . lcfirst($short), $params);
+
+        $caller = $static ? "$short::" : '$' . lcfirst($short) . '->';
+
+        return $this->callVariations("$caller$method", $params);
+    }
+
+    protected function callVariations(string $prefix, array $params): string
+    {
+        $args = [];
+        $requiredCount = 0;
+
+        foreach ($params as $param) {
+            $argPrefix = !empty($param['variadic']) ? '...' : '';
+            $args[] = $argPrefix . '$' . ($param['name'] ?? '');
+            if (empty($param['optional'])) $requiredCount++;
+        }
+
+        $total = count($args);
+        $lines = [];
+
+        for ($i = $requiredCount; $i <= $total; $i++)
+            $lines[] = "$prefix(" . implode(', ', array_slice($args, 0, $i)) . ")";
+
+        if (empty($lines)) $lines[] = "$prefix()";
+
+        return implode("\n", array_values(array_unique($lines)));
     }
 
     protected function renderFunctionParams(array $params): string
@@ -313,7 +356,7 @@ return new class {
                 'traits' => !empty($item['traits']) ? '**Uses:** `' . implode('`, `', (array)$item['traits']) . '`' : '',
                 'constants' => $this->renderClassConstants($item['constants'] ?? []),
                 'properties' => $this->renderClassProperties($item['properties'] ?? []),
-                'methods' => $this->renderClassMethods($item['methods'] ?? []),
+                'methods' => $this->renderClassMethods($item['methods'] ?? [], $name),
             ]);
 
             $this->save('docs/md/classes/' . $this->classFilename($name), $content);
@@ -359,13 +402,27 @@ return new class {
         return !empty($item['inheritedFrom']) ? " _(herdado de `{$item['inheritedFrom']}`)_" : '';
     }
 
-    protected function renderClassMethods(array $methods): string
+    protected function renderClassMethods(array $methods, string $className): string
     {
         if (empty($methods)) return '';
+
+        $priority = function ($method) {
+            $name = $method['name'] ?? '';
+            if ($name === '__construct') return 0;
+            if ($name === '__invoke') return 1;
+            $isLate = ($method['visibility'] ?? 'public') === 'protected' || str_starts_with($name, '__');
+            return $isLate ? 3 : 2;
+        };
+
+        usort($methods, fn($a, $b) => $priority($a) <=> $priority($b));
 
         $lines = [];
         foreach ($methods as $method) {
             $params = $method['params'] ?? [];
+            $name = $method['name'] ?? '';
+            $isPublic = ($method['visibility'] ?? 'public') === 'public';
+            $isMagic = str_starts_with($name, '__');
+            $isPrimaryMagic = $name === '__construct' || $name === '__invoke';
 
             $modifiers = trim(
                 ($method['visibility'] ?? 'public') . ' ' .
@@ -374,11 +431,14 @@ return new class {
                     (!empty($method['final']) ? 'final ' : '')
             );
 
+            $usage = ($isPublic && (!$isMagic || $isPrimaryMagic)) ? $this->classMethodUsage($className, $name, $params, !empty($method['static'])) : '';
+
             $lines[] = View::render('autodoc/classes/method.md', [
                 'modifiers' => $modifiers,
-                'name' => $method['name'] ?? '',
+                'name' => $name,
                 'paramNames' => implode(', ', array_column($params, 'name')),
                 'description' => $this->joinDescription($method['description'] ?? []),
+                'usage' => $usage ? "```php\n$usage\n```" : '',
                 'params' => $this->renderClassMethodParams($params),
                 'return' => $method['return'] ?? 'mixed',
                 'inherited' => $this->inheritedNote($method),

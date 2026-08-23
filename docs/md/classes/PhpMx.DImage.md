@@ -26,6 +26,12 @@ Motor de manipulação de imagens (GD) com suporte a BMP, JPEG, GIF, PNG e WEBP.
 
 Cria uma nova imagem monocromática.
 
+```php
+DImage::_color()
+DImage::_color($color)
+DImage::_color($color, $size)
+```
+
 - `$color` `array|string` — Cor em Hexadecimal (ex: 'fff', '#ffffff') ou Array RGB.
 - `$size` `array|int` — Tamanho único (quadrado) ou Array [largura, altura].
 
@@ -37,6 +43,10 @@ Cria uma nova imagem monocromática.
 
 Instancia a classe a partir de uma URL ou caminho remoto.
 
+```php
+DImage::_url($url)
+```
+
 - `$url` `string` — Endereço da imagem.
 
 **Returns:** `PhpMx\DImage`
@@ -46,6 +56,10 @@ Instancia a classe a partir de uma URL ou caminho remoto.
 ### `public static _file(path)`
 
 Carrega uma imagem a partir de um arquivo local, corrigindo a rotação via metadados EXIF.
+
+```php
+DImage::_file($path)
+```
 
 - `$path` `string` — Caminho completo do arquivo no disco.
 
@@ -57,6 +71,11 @@ Carrega uma imagem a partir de um arquivo local, corrigindo a rotação via meta
 
 Exporta e salva a imagem no disco utilizando o formato e qualidade definidos.
 
+```php
+$dImage->save()
+$dImage->save($path)
+```
+
 - `$path` `?string` — Caminho do diretório (opcional, usa o path original por padrão).
 
 **Returns:** `static`
@@ -67,6 +86,10 @@ Exporta e salva a imagem no disco utilizando o formato e qualidade definidos.
 
 Gera uma cópia independente (clone) do objeto de imagem atual.
 
+```php
+$dImage->copy()
+```
+
 **Returns:** `PhpMx\DImage`
 
 ---
@@ -74,6 +97,11 @@ Gera uma cópia independente (clone) do objeto de imagem atual.
 ### `public getName(ex)`
 
 Retorna o nome da imagem, opcionalmente incluindo a extensão.
+
+```php
+$dImage->getName()
+$dImage->getName($ex)
+```
 
 - `$ex` `bool` — Se verdadeiro, concatena a extensão ao nome.
 
@@ -85,6 +113,10 @@ Retorna o nome da imagem, opcionalmente incluindo a extensão.
 
 Retorna o caminho da imagem no disco
 
+```php
+$dImage->getPath()
+```
+
 **Returns:** `?string`
 
 ---
@@ -92,6 +124,10 @@ Retorna o caminho da imagem no disco
 ### `public getGd()`
 
 Retorna a imagem GD gerada pela classe
+
+```php
+$dImage->getGd()
+```
 
 **Returns:** `GdImage`
 
@@ -101,6 +137,10 @@ Retorna a imagem GD gerada pela classe
 
 Retorna o array de dimensão da imagem
 
+```php
+$dImage->getSize()
+```
+
 **Returns:** `array`
 
 ---
@@ -108,6 +148,10 @@ Retorna o array de dimensão da imagem
 ### `public getWidth()`
 
 Retorna a largura da imagem
+
+```php
+$dImage->getWidth()
+```
 
 **Returns:** `int`
 
@@ -117,6 +161,10 @@ Retorna a largura da imagem
 
 Retorna a altura da imagem
 
+```php
+$dImage->getHeight()
+```
+
 **Returns:** `int`
 
 ---
@@ -124,6 +172,10 @@ Retorna a altura da imagem
 ### `public getExtension()`
 
 Retorna a extensao da imagem
+
+```php
+$dImage->getExtension()
+```
 
 **Returns:** `string`
 
@@ -133,6 +185,10 @@ Retorna a extensao da imagem
 
 Retorna o tamanho do arquivo da imagem
 
+```php
+$dImage->getFileSize()
+```
+
 **Returns:** `float`
 
 ---
@@ -140,6 +196,10 @@ Retorna o tamanho do arquivo da imagem
 ### `public getHash()`
 
 Captura o Hash Md5 gerado pelo binario da imagem
+
+```php
+$dImage->getHash()
+```
 
 **Returns:** `string`
 
@@ -149,6 +209,10 @@ Captura o Hash Md5 gerado pelo binario da imagem
 
 Retorna o binario da imagem
 
+```php
+$dImage->getBin()
+```
+
 **Returns:** `string`
 
 ---
@@ -157,6 +221,10 @@ Retorna o binario da imagem
 
 Retorna a imagem codificada em base64
 
+```php
+$dImage->getB64()
+```
+
 **Returns:** `string`
 
 ---
@@ -164,6 +232,10 @@ Retorna a imagem codificada em base64
 ### `public quality(quality)`
 
 Ajusta o nível de compressão/qualidade da imagem (0 a 100).
+
+```php
+$dImage->quality($quality)
+```
 
 - `$quality` `int` — Valor da qualidade.
 
@@ -175,6 +247,10 @@ Ajusta o nível de compressão/qualidade da imagem (0 a 100).
 
 Define o nome do arquivo, removendo automaticamente extensões pré-existentes.
 
+```php
+$dImage->rename($name)
+```
+
 - `$name` `string` — Novo nome para o arquivo.
 
 **Returns:** `static`
@@ -185,6 +261,10 @@ Define o nome do arquivo, removendo automaticamente extensões pré-existentes.
 
 Define o diretório de destino aceitando múltiplos argumentos para compor o caminho.
 
+```php
+$dImage->path()
+```
+
 **Returns:** `static`
 
 ---
@@ -192,6 +272,10 @@ Define o diretório de destino aceitando múltiplos argumentos para compor o cam
 ### `public color(color)`
 
 Define a cor base ou de preenchimento para operações na imagem.
+
+```php
+$dImage->color($color)
+```
 
 - `$color` `array|string` — Hexadecimal ou Array RGB.
 
@@ -202,6 +286,12 @@ Define a cor base ou de preenchimento para operações na imagem.
 ### `public ratio(ratio, position)`
 
 Recorta a imagem para um aspect-ratio específico (ex: 1.1 para 1:1, 16.9 para 16:9).
+
+```php
+$dImage->ratio()
+$dImage->ratio($ratio)
+$dImage->ratio($ratio, $position)
+```
 
 - `$ratio` `?float` — Proporção desejada.
 - `$position` `int` — Ponto de ancoragem para o corte.
@@ -214,6 +304,10 @@ Recorta a imagem para um aspect-ratio específico (ex: 1.1 para 1:1, 16.9 para 1
 
 Converte o formato de saída da imagem (jpg, png, webp, etc) e gerencia a transparência.
 
+```php
+$dImage->convert($ex)
+```
+
 - `$ex` `string` — Extensão desejada.
 
 **Returns:** `static`
@@ -223,6 +317,10 @@ Converte o formato de saída da imagem (jpg, png, webp, etc) e gerencia a transp
 ### `public resize(size)`
 
 Redimensiona mantendo a proporção. Valores negativos definem o limite mínimo.
+
+```php
+$dImage->resize($size)
+```
 
 - `$size` `array|int` — Tamanho alvo ou limite.
 
@@ -234,6 +332,10 @@ Redimensiona mantendo a proporção. Valores negativos definem o limite mínimo.
 
 Redimensiona a imagem ignorando a proporção original (distorção controlada).
 
+```php
+$dImage->resizeFree($size)
+```
+
 - `$size` `array|int` — Largura e altura alvo.
 
 **Returns:** `static`
@@ -243,6 +345,11 @@ Redimensiona a imagem ignorando a proporção original (distorção controlada).
 ### `public rotate(graus, transparent)`
 
 Rotaciona a imagem no sentido horário.
+
+```php
+$dImage->rotate($graus)
+$dImage->rotate($graus, $transparent)
+```
 
 - `$graus` `int` — Ângulo de rotação.
 - `$transparent` `bool` — Se deve preservar/converter para transparência.
@@ -255,6 +362,10 @@ Rotaciona a imagem no sentido horário.
 
 Inverte a imagem horizontalmente (espelhamento lateral).
 
+```php
+$dImage->flipH()
+```
+
 **Returns:** `static`
 
 ---
@@ -263,6 +374,10 @@ Inverte a imagem horizontalmente (espelhamento lateral).
 
 Inverte a imagem verticalmente (de ponta-cabeça).
 
+```php
+$dImage->flipV()
+```
+
 **Returns:** `static`
 
 ---
@@ -270,6 +385,11 @@ Inverte a imagem verticalmente (de ponta-cabeça).
 ### `public stamp(imgSpamt, position)`
 
 Sobrepõe uma outra instância de DImage sobre a imagem atual (Marca d'água).
+
+```php
+$dImage->stamp($imgSpamt)
+$dImage->stamp($imgSpamt, $position)
+```
 
 - `$imgSpamt` `PhpMx\DImage` — Imagem a ser aplicada.
 - `$position` `int` — Posição do carimbo.
@@ -282,6 +402,11 @@ Sobrepõe uma outra instância de DImage sobre a imagem atual (Marca d'água).
 
 Corta uma área específica da imagem com base em uma posição.
 
+```php
+$dImage->crop($size)
+$dImage->crop($size, $position)
+```
+
 - `$size` `array|int` — Dimensões do recorte.
 - `$position` `int` — Alinhamento (Centro, Topo, etc).
 
@@ -293,6 +418,10 @@ Corta uma área específica da imagem com base em uma posição.
 
 Redimensiona e centraliza a imagem dentro de um novo quadro preenchido com a cor base.
 
+```php
+$dImage->framing($size)
+```
+
 - `$size` `array|int` — Tamanho do quadro final.
 
 **Returns:** `static`
@@ -302,6 +431,10 @@ Redimensiona e centraliza a imagem dentro de um novo quadro preenchido com a cor
 ### `public filter(filter)`
 
 Aplica um filtro nativo do PHP GD à imagem.
+
+```php
+$dImage->filter($filter)
+```
 
 - `$filter` `int` — Constante do filtro (ex: IMG_FILTER_GRAYSCALE).
 

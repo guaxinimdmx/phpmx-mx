@@ -21,6 +21,10 @@ Ponto de entrada estático para as tabelas do banco de dados main.
 
 Usuários cadastrados no sistema
 
+```php
+DbMain::users()
+```
+
 **Returns:** `Model\DbMain\Record\RecordUsers`
 
 ---
@@ -30,5 +34,9 @@ Usuários cadastrados no sistema
  _(herdado de `Model\DbMain\Driver\DriverDbMain`)_
 
 Grupos de permissão de usuário
+
+```php
+DbMain::userGroup()
+```
 
 **Returns:** `Model\DbMain\Record\RecordUserGroup`

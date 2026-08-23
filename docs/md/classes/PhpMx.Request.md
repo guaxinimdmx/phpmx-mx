@@ -27,6 +27,11 @@ Classe para acesso aos dados da requisição HTTP atual.
 
 Retorna um ou todos os parâmetros server da requisição atual.
 
+```php
+Request::server()
+Request::server($parameter)
+```
+
 - `$parameter` `?string` — Nome do parâmetro (opcional).
 
 **Returns:** `mixed`
@@ -36,6 +41,11 @@ Retorna um ou todos os parâmetros server da requisição atual.
 ### `public static type(type)`
 
 Retorna ou compara o tipo da requisição atual (GET, POST, PUT, DELETE, OPTIONS).
+
+```php
+Request::type()
+Request::type($type)
+```
 
 - `$type` `?string` — Tipo a comparar (opcional). Retorna bool quando informado.
 
@@ -47,6 +57,11 @@ Retorna ou compara o tipo da requisição atual (GET, POST, PUT, DELETE, OPTIONS
 
 Retorna um ou todos os parâmetros header da requisição atual.
 
+```php
+Request::header()
+Request::header($parameter)
+```
+
 - `$parameter` `?string` — Nome do parâmetro (opcional).
 
 **Returns:** `mixed`
@@ -56,6 +71,11 @@ Retorna um ou todos os parâmetros header da requisição atual.
 ### `public static ssl(ssl)`
 
 Retorna ou compara o status de utilização SSL da requisição atual.
+
+```php
+Request::ssl()
+Request::ssl($ssl)
+```
 
 - `$ssl` `?bool` — Valor a comparar (opcional). Retorna bool quando informado.
 
@@ -67,6 +87,10 @@ Retorna ou compara o status de utilização SSL da requisição atual.
 
 Retorna o host da requisição atual.
 
+```php
+Request::host()
+```
+
 **Returns:** `string`
 
 ---
@@ -74,6 +98,11 @@ Retorna o host da requisição atual.
 ### `public static path(index)`
 
 Retorna um ou todos os segmentos de caminho da URI da requisição atual.
+
+```php
+Request::path()
+Request::path($index)
+```
 
 - `$index` `?int` — Índice do segmento (opcional).
 
@@ -85,6 +114,11 @@ Retorna um ou todos os segmentos de caminho da URI da requisição atual.
 
 Retorna um ou todos os parâmetros passados via query string na requisição atual.
 
+```php
+Request::query()
+Request::query($parameter)
+```
+
 - `$parameter` `?string` — Nome do parâmetro (opcional).
 
 **Returns:** `mixed`
@@ -94,6 +128,11 @@ Retorna um ou todos os parâmetros passados via query string na requisição atu
 ### `public static body(parameter)`
 
 Retorna um ou todos os dados enviados no corpo da requisição atual.
+
+```php
+Request::body()
+Request::body($parameter)
+```
 
 - `$parameter` `?string` — Nome do parâmetro (opcional).
 
@@ -105,6 +144,11 @@ Retorna um ou todos os dados enviados no corpo da requisição atual.
 
 Retorna um ou todos os dados enviados via rota para a requisição atual.
 
+```php
+Request::route()
+Request::route($parameter)
+```
+
 - `$parameter` `?string` — Nome do parâmetro (opcional).
 
 **Returns:** `mixed`
@@ -114,6 +158,11 @@ Retorna um ou todos os dados enviados via rota para a requisição atual.
 ### `public static data(parameter)`
 
 Retorna um ou todos os dados capturados pela requisição atual via route, query, body ou file.
+
+```php
+Request::data()
+Request::data($parameter)
+```
 
 - `$parameter` `?string` — Nome do parâmetro (opcional).
 
@@ -125,6 +174,11 @@ Retorna um ou todos os dados capturados pela requisição atual via route, query
 
 Retorna um ou todos os arquivos enviados na requisição atual.
 
+```php
+Request::file()
+Request::file($name)
+```
+
 - `$name` `?string` — Nome do arquivo (opcional).
 
 **Returns:** `array`
@@ -134,6 +188,10 @@ Retorna um ou todos os arquivos enviados na requisição atual.
 ### `public static set_header(name, value)`
 
 Define o valor de um parâmetro header da requisição atual.
+
+```php
+Request::set_header($name, $value)
+```
 
 - `$name` `string|int` — Nome do parâmetro.
 - `$value` `mixed` — Valor a definir.
@@ -146,6 +204,10 @@ Define o valor de um parâmetro header da requisição atual.
 
 Define o valor de um parâmetro query da requisição atual.
 
+```php
+Request::set_query($name, $value)
+```
+
 - `$name` `string|int` — Nome do parâmetro.
 - `$value` `mixed` — Valor a definir.
 
@@ -157,6 +219,10 @@ Define o valor de um parâmetro query da requisição atual.
 
 Define o valor de um parâmetro do corpo da requisição atual.
 
+```php
+Request::set_body($name, $value)
+```
+
 - `$name` `string|int` — Nome do parâmetro.
 - `$value` `mixed` — Valor a definir.
 
@@ -167,6 +233,10 @@ Define o valor de um parâmetro do corpo da requisição atual.
 ### `public static set_route(name, value)`
 
 Define o valor de um parâmetro de rota da requisição atual.
+
+```php
+Request::set_route($name, $value)
+```
 
 - `$name` `string|int` — Nome do parâmetro.
 - `$value` `mixed` — Valor a definir.

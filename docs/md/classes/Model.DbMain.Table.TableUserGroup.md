@@ -26,6 +26,10 @@ Grupos de permissão de usuário
 
 Define se na próxima consulta os dados maracados como removidos deve ser exibidos.
 
+```php
+$tableUserGroup->showDeleted($showDeleted)
+```
+
 - `$showDeleted` `?bool` — TRUE: Apenas removidos, FLASE: Apenas não removidos, NULL: Mostrar ambos
 
 **Returns:** `self`
@@ -37,6 +41,12 @@ Define se na próxima consulta os dados maracados como removidos deve ser exibid
  _(herdado de `PhpMx\Datalayer\Driver\Table`)_
 
 Retorna os esquemas dos registros encontrados pela consulta.
+
+```php
+$tableUserGroup->getAll_scheme()
+$tableUserGroup->getAll_scheme($scheme)
+$tableUserGroup->getAll_scheme($scheme, ...$args)
+```
 
 - `$scheme` `array` — Campos do esquema a retornar.
 - `$args` `mixed` — Parâmetros de consulta.
@@ -51,6 +61,12 @@ Retorna os esquemas dos registros encontrados pela consulta.
 
 Retorna o esquema de um único registro encontrado pela consulta.
 
+```php
+$tableUserGroup->getOne_scheme()
+$tableUserGroup->getOne_scheme($scheme)
+$tableUserGroup->getOne_scheme($scheme, ...$args)
+```
+
 - `$scheme` `array` — Campos do esquema a retornar.
 - `$args` `mixed` — Parâmetros de consulta.
 
@@ -63,6 +79,14 @@ Retorna o esquema de um único registro encontrado pela consulta.
  _(herdado de `PhpMx\Datalayer\Driver\Table`)_
 
 Retorna o esquema de um registro buscado por idKey.
+
+```php
+$tableUserGroup->getOneKey_scheme()
+$tableUserGroup->getOneKey_scheme($scheme)
+$tableUserGroup->getOneKey_scheme($scheme, $idKey)
+$tableUserGroup->getOneKey_scheme($scheme, $idKey, $errMessage)
+$tableUserGroup->getOneKey_scheme($scheme, $idKey, $errMessage, $errCode)
+```
 
 - `$scheme` `array` — Campos do esquema a retornar.
 - `$idKey` `?string` — IdKey do registro.
@@ -79,6 +103,12 @@ Retorna o esquema de um registro buscado por idKey.
 
 Retorna os esquemas completos dos registros encontrados pela consulta.
 
+```php
+$tableUserGroup->getAll_schemeAll()
+$tableUserGroup->getAll_schemeAll($fieldsRemove)
+$tableUserGroup->getAll_schemeAll($fieldsRemove, ...$args)
+```
+
 - `$fieldsRemove` `array` — Campos a remover do esquema completo.
 - `$args` `mixed` — Parâmetros de consulta.
 
@@ -92,6 +122,12 @@ Retorna os esquemas completos dos registros encontrados pela consulta.
 
 Retorna o esquema completo de um único registro encontrado pela consulta.
 
+```php
+$tableUserGroup->getOne_schemeAll()
+$tableUserGroup->getOne_schemeAll($fieldsRemove)
+$tableUserGroup->getOne_schemeAll($fieldsRemove, ...$args)
+```
+
 - `$fieldsRemove` `array` — Campos a remover do esquema completo.
 - `$args` `mixed` — Parâmetros de consulta.
 
@@ -104,6 +140,14 @@ Retorna o esquema completo de um único registro encontrado pela consulta.
  _(herdado de `PhpMx\Datalayer\Driver\Table`)_
 
 Retorna o esquema completo de um registro buscado por idKey.
+
+```php
+$tableUserGroup->getOneKey_schemeAll()
+$tableUserGroup->getOneKey_schemeAll($fieldsRemove)
+$tableUserGroup->getOneKey_schemeAll($fieldsRemove, $idKey)
+$tableUserGroup->getOneKey_schemeAll($fieldsRemove, $idKey, $errMessage)
+$tableUserGroup->getOneKey_schemeAll($fieldsRemove, $idKey, $errMessage, $errCode)
+```
 
 - `$fieldsRemove` `array` — Campos a remover do esquema completo.
 - `$idKey` `?string` — IdKey do registro.
@@ -120,6 +164,11 @@ Retorna o esquema completo de um registro buscado por idKey.
 
 Retorna ou define o registro marcado como ativo na tabela.
 
+```php
+$tableUserGroup->active()
+$tableUserGroup->active($record)
+```
+
 - `$record` `?PhpMx\Datalayer\Driver\Record` — Sem argumentos retorna o ativo atual. Com argumentos define o novo registro ativo.
 
 **Returns:** `mixed`
@@ -131,6 +180,11 @@ Retorna ou define o registro marcado como ativo na tabela.
  _(herdado de `PhpMx\Datalayer\Driver\Table`)_
 
 Retorna o número de registros encontrados pela consulta.
+
+```php
+$tableUserGroup->count()
+$tableUserGroup->count(...$args)
+```
 
 - `$args` `mixed` — Parâmetros de consulta.
 
@@ -144,6 +198,11 @@ Retorna o número de registros encontrados pela consulta.
 
 Verifica se existe ao menos um registro que corresponde à consulta.
 
+```php
+$tableUserGroup->check()
+$tableUserGroup->check(...$args)
+```
+
 - `$args` `mixed` — Parâmetros de consulta.
 
 **Returns:** `bool`
@@ -155,6 +214,11 @@ Verifica se existe ao menos um registro que corresponde à consulta.
  _(herdado de `PhpMx\Datalayer\Driver\Table`)_
 
 Retorna um array de objetos de registro encontrados pela consulta.
+
+```php
+$tableUserGroup->getAll()
+$tableUserGroup->getAll(...$args)
+```
 
 - `$args` `mixed` — Parâmetros de consulta.
 
@@ -168,6 +232,11 @@ Retorna um array de objetos de registro encontrados pela consulta.
 
 Retorna um único objeto de registro encontrado pela consulta. Aceita: sem args (novo), null/false (nulo), true (ativo), idKey, id numérico, where string ou array.
 
+```php
+$tableUserGroup->getOne()
+$tableUserGroup->getOne(...$args)
+```
+
 - `$args` `mixed` — Parâmetros de consulta.
 
 **Returns:** `mixed`
@@ -179,6 +248,13 @@ Retorna um único objeto de registro encontrado pela consulta. Aceita: sem args 
  _(herdado de `PhpMx\Datalayer\Driver\Table`)_
 
 Retorna um registro buscado por idKey, lançando Exception se não encontrado e errMessage for informado.
+
+```php
+$tableUserGroup->getOneKey()
+$tableUserGroup->getOneKey($idKey)
+$tableUserGroup->getOneKey($idKey, $errMessage)
+$tableUserGroup->getOneKey($idKey, $errMessage, $errCode)
+```
 
 - `$idKey` `?string` — IdKey do registro.
 - `$errMessage` `string|int|null` — Mensagem de erro, código HTTP (usa mensagem padrão do env STM_*), ou null para não lançar erro.
@@ -194,6 +270,10 @@ Retorna um registro buscado por idKey, lançando Exception se não encontrado e 
 
 Retorna um objeto de registro novo (id = 0).
 
+```php
+$tableUserGroup->getNew()
+```
+
 **Returns:** `mixed`
 
 ---
@@ -204,6 +284,10 @@ Retorna um objeto de registro novo (id = 0).
 
 Retorna um objeto de registro nulo (id = null).
 
+```php
+$tableUserGroup->getNull()
+```
+
 **Returns:** `mixed`
 
 ---
@@ -213,6 +297,10 @@ Retorna um objeto de registro nulo (id = null).
  _(herdado de `PhpMx\Datalayer\Driver\Table`)_
 
 Converte um ID numérico em idKey cifrado.
+
+```php
+$tableUserGroup->idToIdkey($id)
+```
 
 - `$id` `?int` — ID do registro.
 
@@ -226,6 +314,10 @@ Converte um ID numérico em idKey cifrado.
 
 Converte um idKey cifrado em ID numérico.
 
+```php
+$tableUserGroup->idKeyToId($idKey)
+```
+
 - `$idKey` `?string` — IdKey do registro.
 
 **Returns:** `?int`
@@ -238,9 +330,29 @@ Converte um idKey cifrado em ID numérico.
 
 Converte um array de resultados de consulta em um array de objetos de registro.
 
+```php
+$tableUserGroup->_convert($arrayRecord)
+```
+
 - `$arrayRecord` `array` — Array de arrays de dados.
 
 **Returns:** `array`
+
+---
+
+### `public _cacheStatus(status)`
+
+ _(herdado de `PhpMx\Datalayer\Driver\Table`)_
+
+Ativa ou desativa o uso do cache na tabela.
+
+```php
+$tableUserGroup->_cacheStatus($status)
+```
+
+- `$status` `?bool` — Se verdadeiro ativa o cache.
+
+**Returns:** `void`
 
 ---
 
@@ -264,18 +376,6 @@ Armazena um objeto de registro no cache da tabela.
 Remove um objeto de registro do cache da tabela.
 
 - `$id` `int` — ID do registro a remover.
-
-**Returns:** `void`
-
----
-
-### `public _cacheStatus(status)`
-
- _(herdado de `PhpMx\Datalayer\Driver\Table`)_
-
-Ativa ou desativa o uso do cache na tabela.
-
-- `$status` `?bool` — Se verdadeiro ativa o cache.
 
 **Returns:** `void`
 

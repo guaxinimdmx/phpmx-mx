@@ -14,6 +14,11 @@ Classe utilitária para envio e download de arquivos via resposta HTTP.
 
 Envia um arquivo do projeto como resposta da requisição.
 
+```php
+Assets::send()
+Assets::send(...$path)
+```
+
 - `$path` `string` — Partes do caminho do arquivo.
 
 **Returns:** `void`
@@ -24,6 +29,11 @@ Envia um arquivo do projeto como resposta da requisição.
 
 Realiza o download de um arquivo do projeto como resposta da requisição.
 
+```php
+Assets::download()
+Assets::download(...$path)
+```
+
 - `$path` `string` — Partes do caminho do arquivo.
 
 **Returns:** `void`
@@ -33,6 +43,11 @@ Realiza o download de um arquivo do projeto como resposta da requisição.
 ### `public static load(path)`
 
 Carrega um arquivo do projeto na resposta da requisição.
+
+```php
+Assets::load()
+Assets::load(...$path)
+```
 
 - `$path` `string` — Partes do caminho do arquivo.
 

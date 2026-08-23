@@ -14,4 +14,8 @@ Controller de download a arquivos em library/download
 
 Gerencia e força o download de arquivos localizados na pasta de downloads da biblioteca
 
+```php
+$download()
+```
+
 **Returns:** `mixed`

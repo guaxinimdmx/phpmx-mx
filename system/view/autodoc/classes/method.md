@@ -6,6 +6,8 @@
 
 [#description]
 
+[#usage]
+
 [#params]
 
 **Returns:** `[#return]`

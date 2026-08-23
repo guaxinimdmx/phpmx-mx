@@ -21,23 +21,22 @@ Classe base para todos os query builders. Fornece tabela, dbName, execução e m
 
 Retorna o array de dados necessários para execução da query.
 
+```php
+$baseQuery->query()
+```
+
 **Returns:** `array`
-
----
-
-### `protected check(dataCheck)`
-
-Verifica se os campos obrigatórios da query foram definidos.
-
-- `$dataCheck` `array` — Lista de propriedades a verificar.
-
-**Returns:** `void`
 
 ---
 
 ### `public run(dbName)`
 
 Executa a query no banco de dados e retorna o resultado.
+
+```php
+$baseQuery->run()
+$baseQuery->run($dbName)
+```
 
 - `$dbName` `?string` — Nome do banco de dados (opcional, usa 'main' por padrão).
 
@@ -49,6 +48,10 @@ Executa a query no banco de dados e retorna o resultado.
 
 Define o banco de dados que deve receber a query.
 
+```php
+$baseQuery->dbName($dbName)
+```
+
 - `$dbName` `?string` — Nome do banco de dados.
 
 **Returns:** `static`
@@ -59,9 +62,23 @@ Define o banco de dados que deve receber a query.
 
 Define a tabela alvo da query.
 
+```php
+$baseQuery->table($table)
+```
+
 - `$table` `array|string|null` — Nome da tabela (string), array name=>alias, ou null.
 
 **Returns:** `static`
+
+---
+
+### `protected check(dataCheck)`
+
+Verifica se os campos obrigatórios da query foram definidos.
+
+- `$dataCheck` `array` — Lista de propriedades a verificar.
+
+**Returns:** `void`
 
 ---
 

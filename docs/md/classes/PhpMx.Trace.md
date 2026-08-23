@@ -14,6 +14,10 @@ Classe utilitária para registro estruturado de traces e escopos.
 
 Habilita ou desabilita o registro de traces.
 
+```php
+Trace::useTrace($useTrace)
+```
+
 - `$useTrace` `bool` — True para habilitar, false para desabilitar.
 
 **Returns:** `void`
@@ -23,6 +27,11 @@ Habilita ou desabilita o registro de traces.
 ### `public static add(typeScope, message, scope)`
 
 Adiciona uma linha de trace ou abre um escopo de execução via Closure.
+
+```php
+Trace::add($typeScope, $message)
+Trace::add($typeScope, $message, $scope)
+```
 
 - `$typeScope` `string` — Categoria do trace.
 - `$message` `string` — Mensagem do trace.
@@ -36,6 +45,10 @@ Adiciona uma linha de trace ou abre um escopo de execução via Closure.
 
 Altera os dados da linha do escopo que está aberto no momento.
 
+```php
+Trace::changeScope($newType, $message)
+```
+
 - `$newType` `string` — Novo tipo/categoria.
 - `$message` `string` — Nova mensagem.
 
@@ -47,6 +60,10 @@ Altera os dados da linha do escopo que está aberto no momento.
 
 Registra uma exceção detalhada no trace.
 
+```php
+Trace::exception($e)
+```
+
 - `$e` `Throwable` — A exceção a ser registrada.
 
 **Returns:** `void`
@@ -57,6 +74,10 @@ Registra uma exceção detalhada no trace.
 
 Retorna o trace processado com contadores de categorias.
 
+```php
+Trace::get()
+```
+
 **Returns:** `array`
 
 ---
@@ -65,6 +86,10 @@ Retorna o trace processado com contadores de categorias.
 
 Retorna o trace formatado em um array de strings.
 
+```php
+Trace::getArray()
+```
+
 **Returns:** `array`
 
 ---
@@ -72,5 +97,9 @@ Retorna o trace formatado em um array de strings.
 ### `public static getString()`
 
 Retorna o trace formatado como uma string completa.
+
+```php
+Trace::getString()
+```
 
 **Returns:** `string`

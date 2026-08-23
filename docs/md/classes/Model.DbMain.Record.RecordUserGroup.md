@@ -24,6 +24,329 @@ Grupos de permissão de usuário
 
 ---
 
+### `public name()`
+
+ _(herdado de `Model\DbMain\Driver\DriverRecordUserGroup`)_
+
+Nome do grupo
+
+```php
+$recordUserGroup->name()
+```
+
+**Returns:** `$this|string`
+
+---
+
+### `public final id()`
+
+ _(herdado de `PhpMx\Datalayer\Driver\Record`)_
+
+Retorna a chave de identificação numérica do registro.
+
+```php
+$recordUserGroup->id()
+```
+
+**Returns:** `?int`
+
+---
+
+### `public final idKey()`
+
+ _(herdado de `PhpMx\Datalayer\Driver\Record`)_
+
+Retorna a chave de identificação cifrada (idKey) do registro.
+
+```php
+$recordUserGroup->idKey()
+```
+
+**Returns:** `?string`
+
+---
+
+### `public final _created()`
+
+ _(herdado de `PhpMx\Datalayer\Driver\Record`)_
+
+Retorna o momento em que o registro foi criado.
+
+```php
+$recordUserGroup->_created()
+```
+
+**Returns:** `?string`
+
+---
+
+### `public final _updated()`
+
+ _(herdado de `PhpMx\Datalayer\Driver\Record`)_
+
+Retorna o momento da última atualização do registro.
+
+```php
+$recordUserGroup->_updated()
+```
+
+**Returns:** `?string`
+
+---
+
+### `public final _changed()`
+
+ _(herdado de `PhpMx\Datalayer\Driver\Record`)_
+
+Retorna o momento da última mudança do registro (criação ou atualização).
+
+```php
+$recordUserGroup->_changed()
+```
+
+**Returns:** `?string`
+
+---
+
+### `public final _deleted()`
+
+ _(herdado de `PhpMx\Datalayer\Driver\Record`)_
+
+Retorna o momento em que o registro foi marcado como removido.
+
+```php
+$recordUserGroup->_deleted()
+```
+
+**Returns:** `?string`
+
+---
+
+### `public final _schemeValue(field)`
+
+ _(herdado de `PhpMx\Datalayer\Driver\Record`)_
+
+Retorna o valor do esquema de um campo do registro.
+
+```php
+$recordUserGroup->_schemeValue($field)
+```
+
+- `$field` `string` — Nome do campo.
+
+**Returns:** `mixed`
+
+---
+
+### `public final _scheme(fields)`
+
+ _(herdado de `PhpMx\Datalayer\Driver\Record`)_
+
+Retorna os campos solicitados do registro tratados em forma de array de esquema.
+
+```php
+$recordUserGroup->_scheme($fields)
+```
+
+- `$fields` `array` — Campos a retornar, podendo ser strings, arrays associativos [alias => callable] ou callables.
+
+**Returns:** `array`
+
+---
+
+### `public final _schemeAll(fieldsRemove)`
+
+ _(herdado de `PhpMx\Datalayer\Driver\Record`)_
+
+Retorna todos os campos e esquemas personalizados do registro em forma de array.
+
+```php
+$recordUserGroup->_schemeAll()
+$recordUserGroup->_schemeAll($fieldsRemove)
+```
+
+- `$fieldsRemove` `array` — Campos a excluir do retorno.
+
+**Returns:** `array`
+
+---
+
+### `public final _makeActive()`
+
+ _(herdado de `PhpMx\Datalayer\Driver\Record`)_
+
+Marca o registro como ativo na tabela correspondente.
+
+```php
+$recordUserGroup->_makeActive()
+```
+
+**Returns:** `static`
+
+---
+
+### `public final _array(fields)`
+
+ _(herdado de `PhpMx\Datalayer\Driver\Record`)_
+
+Retorna os campos do registro em forma de array.
+
+```php
+$recordUserGroup->_array()
+$recordUserGroup->_array(...$fields)
+```
+
+- `$fields` `string` — Campos a retornar (opcional, retorna todos por padrão).
+
+**Returns:** `mixed`
+
+---
+
+### `public final _arraySet(scheme)`
+
+ _(herdado de `PhpMx\Datalayer\Driver\Record`)_
+
+Define os valores dos campos do registro com base em um array.
+
+```php
+$recordUserGroup->_arraySet($scheme)
+```
+
+- `$scheme` `mixed` — Array associativo [campo => valor].
+
+**Returns:** `static`
+
+---
+
+### `public final _arrayChange(changes)`
+
+ _(herdado de `PhpMx\Datalayer\Driver\Record`)_
+
+Aplica um array de mudanças incrementais aos campos do registro.
+
+```php
+$recordUserGroup->_arrayChange($changes)
+```
+
+- `$changes` `array` — Array de mudanças a aplicar.
+
+**Returns:** `static`
+
+---
+
+### `public final _checkInDb(deleted)`
+
+ _(herdado de `PhpMx\Datalayer\Driver\Record`)_
+
+Verifica se o registro existe no banco de dados (id > 0).
+
+```php
+$recordUserGroup->_checkInDb()
+$recordUserGroup->_checkInDb($deleted)
+```
+
+- `$deleted` `?bool` — NULL: ignora estado de deleção, FALSE: apenas ativos, TRUE: apenas deletados.
+
+**Returns:** `bool`
+
+---
+
+### `public final _checkChange(fields)`
+
+ _(herdado de `PhpMx\Datalayer\Driver\Record`)_
+
+Verifica se algum dos campos fornecidos foi alterado desde o último carregamento.
+
+```php
+$recordUserGroup->_checkChange()
+$recordUserGroup->_checkChange(...$fields)
+```
+
+- `$fields` `string` — Campos a verificar (opcional, verifica todos por padrão).
+
+**Returns:** `bool`
+
+---
+
+### `public final _checkSave()`
+
+ _(herdado de `PhpMx\Datalayer\Driver\Record`)_
+
+Verifica se o registro pode ser salvo no banco de dados (id não nulo).
+
+```php
+$recordUserGroup->_checkSave()
+```
+
+**Returns:** `bool`
+
+---
+
+### `public final _delete(delete)`
+
+ _(herdado de `PhpMx\Datalayer\Driver\Record`)_
+
+Prepara o registro para ser marcado como excluído no próximo _save().
+
+```php
+$recordUserGroup->_delete($delete)
+```
+
+- `$delete` `bool` — Se verdadeiro marca para exclusão.
+
+**Returns:** `static`
+
+---
+
+### `public final _undelete(undelete)`
+
+ _(herdado de `PhpMx\Datalayer\Driver\Record`)_
+
+Prepara o registro para ser desmarcado como excluído no próximo _save().
+
+```php
+$recordUserGroup->_undelete($undelete)
+```
+
+- `$undelete` `bool` — Se verdadeiro marca para recuperação.
+
+**Returns:** `static`
+
+---
+
+### `public final _hardDelete(hardDelete)`
+
+ _(herdado de `PhpMx\Datalayer\Driver\Record`)_
+
+Prepara o registro para ser removido permanentemente do banco no próximo _save().
+
+```php
+$recordUserGroup->_hardDelete($hardDelete)
+```
+
+- `$hardDelete` `bool` — Se verdadeiro marca para remoção permanente.
+
+**Returns:** `static`
+
+---
+
+### `public final _save(forceUpdate)`
+
+ _(herdado de `PhpMx\Datalayer\Driver\Record`)_
+
+Salva o registro no banco de dados, disparando create, update, delete ou undelete conforme o estado atual (definido por _delete(), _undelete() e _hardDelete()). Não faz nada se o registro for nulo.
+
+```php
+$recordUserGroup->_save()
+$recordUserGroup->_save($forceUpdate)
+```
+
+- `$forceUpdate` `bool` — Se verdadeiro força o UPDATE mesmo sem alterações detectadas.
+
+**Returns:** `static`
+
+---
+
 ### `protected _onCreate()`
 
 **Returns:** `mixed`
@@ -42,112 +365,6 @@ Grupos de permissão de usuário
 
 ---
 
-### `public name()`
-
- _(herdado de `Model\DbMain\Driver\DriverRecordUserGroup`)_
-
-Nome do grupo
-
-**Returns:** `$this|string`
-
----
-
-### `public final id()`
-
- _(herdado de `PhpMx\Datalayer\Driver\Record`)_
-
-Retorna a chave de identificação numérica do registro.
-
-**Returns:** `?int`
-
----
-
-### `public final idKey()`
-
- _(herdado de `PhpMx\Datalayer\Driver\Record`)_
-
-Retorna a chave de identificação cifrada (idKey) do registro.
-
-**Returns:** `?string`
-
----
-
-### `public final _created()`
-
- _(herdado de `PhpMx\Datalayer\Driver\Record`)_
-
-Retorna o momento em que o registro foi criado.
-
-**Returns:** `?string`
-
----
-
-### `public final _updated()`
-
- _(herdado de `PhpMx\Datalayer\Driver\Record`)_
-
-Retorna o momento da última atualização do registro.
-
-**Returns:** `?string`
-
----
-
-### `public final _changed()`
-
- _(herdado de `PhpMx\Datalayer\Driver\Record`)_
-
-Retorna o momento da última mudança do registro (criação ou atualização).
-
-**Returns:** `?string`
-
----
-
-### `public final _deleted()`
-
- _(herdado de `PhpMx\Datalayer\Driver\Record`)_
-
-Retorna o momento em que o registro foi marcado como removido.
-
-**Returns:** `?string`
-
----
-
-### `public final _schemeValue(field)`
-
- _(herdado de `PhpMx\Datalayer\Driver\Record`)_
-
-Retorna o valor do esquema de um campo do registro.
-
-- `$field` `string` — Nome do campo.
-
-**Returns:** `mixed`
-
----
-
-### `public final _scheme(fields)`
-
- _(herdado de `PhpMx\Datalayer\Driver\Record`)_
-
-Retorna os campos solicitados do registro tratados em forma de array de esquema.
-
-- `$fields` `array` — Campos a retornar, podendo ser strings, arrays associativos [alias => callable] ou callables.
-
-**Returns:** `array`
-
----
-
-### `public final _schemeAll(fieldsRemove)`
-
- _(herdado de `PhpMx\Datalayer\Driver\Record`)_
-
-Retorna todos os campos e esquemas personalizados do registro em forma de array.
-
-- `$fieldsRemove` `array` — Campos a excluir do retorno.
-
-**Returns:** `array`
-
----
-
 ### `protected final _scheme__changed()`
 
  _(herdado de `PhpMx\Datalayer\Driver\Record`)_
@@ -155,134 +372,6 @@ Retorna todos os campos e esquemas personalizados do registro em forma de array.
 Retorna o esquema de _changed
 
 **Returns:** `mixed`
-
----
-
-### `public final _makeActive()`
-
- _(herdado de `PhpMx\Datalayer\Driver\Record`)_
-
-Marca o registro como ativo na tabela correspondente.
-
-**Returns:** `static`
-
----
-
-### `public final _array(fields)`
-
- _(herdado de `PhpMx\Datalayer\Driver\Record`)_
-
-Retorna os campos do registro em forma de array.
-
-- `$fields` `string` — Campos a retornar (opcional, retorna todos por padrão).
-
-**Returns:** `mixed`
-
----
-
-### `public final _arraySet(scheme)`
-
- _(herdado de `PhpMx\Datalayer\Driver\Record`)_
-
-Define os valores dos campos do registro com base em um array.
-
-- `$scheme` `mixed` — Array associativo [campo => valor].
-
-**Returns:** `static`
-
----
-
-### `public final _arrayChange(changes)`
-
- _(herdado de `PhpMx\Datalayer\Driver\Record`)_
-
-Aplica um array de mudanças incrementais aos campos do registro.
-
-- `$changes` `array` — Array de mudanças a aplicar.
-
-**Returns:** `static`
-
----
-
-### `public final _checkInDb(deleted)`
-
- _(herdado de `PhpMx\Datalayer\Driver\Record`)_
-
-Verifica se o registro existe no banco de dados (id > 0).
-
-- `$deleted` `?bool` — NULL: ignora estado de deleção, FALSE: apenas ativos, TRUE: apenas deletados.
-
-**Returns:** `bool`
-
----
-
-### `public final _checkChange(fields)`
-
- _(herdado de `PhpMx\Datalayer\Driver\Record`)_
-
-Verifica se algum dos campos fornecidos foi alterado desde o último carregamento.
-
-- `$fields` `string` — Campos a verificar (opcional, verifica todos por padrão).
-
-**Returns:** `bool`
-
----
-
-### `public final _checkSave()`
-
- _(herdado de `PhpMx\Datalayer\Driver\Record`)_
-
-Verifica se o registro pode ser salvo no banco de dados (id não nulo).
-
-**Returns:** `bool`
-
----
-
-### `public final _delete(delete)`
-
- _(herdado de `PhpMx\Datalayer\Driver\Record`)_
-
-Prepara o registro para ser marcado como excluído no próximo _save().
-
-- `$delete` `bool` — Se verdadeiro marca para exclusão.
-
-**Returns:** `static`
-
----
-
-### `public final _undelete(undelete)`
-
- _(herdado de `PhpMx\Datalayer\Driver\Record`)_
-
-Prepara o registro para ser desmarcado como excluído no próximo _save().
-
-- `$undelete` `bool` — Se verdadeiro marca para recuperação.
-
-**Returns:** `static`
-
----
-
-### `public final _hardDelete(hardDelete)`
-
- _(herdado de `PhpMx\Datalayer\Driver\Record`)_
-
-Prepara o registro para ser removido permanentemente do banco no próximo _save().
-
-- `$hardDelete` `bool` — Se verdadeiro marca para remoção permanente.
-
-**Returns:** `static`
-
----
-
-### `public final _save(forceUpdate)`
-
- _(herdado de `PhpMx\Datalayer\Driver\Record`)_
-
-Salva o registro no banco de dados, disparando create, update, delete ou undelete conforme o estado atual (definido por _delete(), _undelete() e _hardDelete()). Não faz nada se o registro for nulo.
-
-- `$forceUpdate` `bool` — Se verdadeiro força o UPDATE mesmo sem alterações detectadas.
-
-**Returns:** `static`
 
 ---
 

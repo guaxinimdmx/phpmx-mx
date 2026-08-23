@@ -22,19 +22,13 @@ Campo JSON, com conversão automática entre array e string JSON para armazename
 
 Define o valor JSON do campo. Strings são decodificadas para array; não-arrays são convertidos para null.
 
+```php
+$fJson->set($value)
+```
+
 - `$value` `mixed` — Valor a definir (array ou string JSON).
 
 **Returns:** `static`
-
----
-
-### `public __internalValue(validate)`
-
-Retorna o valor codificado como string JSON para persistência no banco de dados.
-
-- `$validate` `bool` — Se verdadeiro valida o valor antes de retornar.
-
-**Returns:** `mixed`
 
 ---
 
@@ -43,6 +37,20 @@ Retorna o valor codificado como string JSON para persistência no banco de dados
  _(herdado de `PhpMx\Datalayer\Driver\Field`)_
 
 Retorna o valor do campo para ser usado no sistema.
+
+```php
+$fJson->get()
+```
+
+**Returns:** `mixed`
+
+---
+
+### `public __internalValue(validate)`
+
+Retorna o valor codificado como string JSON para persistência no banco de dados.
+
+- `$validate` `bool` — Se verdadeiro valida o valor antes de retornar.
 
 **Returns:** `mixed`
 

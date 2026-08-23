@@ -18,6 +18,10 @@ Extrai o esquema de reflexão de um arquivo de middleware.
 
 Retorna o esquema de metadados de um arquivo de middleware.
 
+```php
+ReflectionMiddlewareFile::scheme($file)
+```
+
 - `$file` `string` — Caminho absoluto do arquivo de middleware.
 
 **Returns:** `array`

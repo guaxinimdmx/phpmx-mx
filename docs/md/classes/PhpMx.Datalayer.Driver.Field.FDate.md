@@ -22,6 +22,10 @@ Campo de data (DATE), com conversão automática de timestamp inteiro para strin
 
 Define o valor de data. Aceita timestamp inteiro (convertido para Y-m-d) ou false (null).
 
+```php
+$fDate->set($value)
+```
+
 - `$value` `mixed` — Valor a definir.
 
 **Returns:** `static`

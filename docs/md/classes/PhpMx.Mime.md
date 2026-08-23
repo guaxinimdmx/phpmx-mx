@@ -18,6 +18,10 @@ Classe utilitária para detecção, tradução e validação de MIME types.
 
 Retorna a extensão correspondente a um MIME type.
 
+```php
+Mime::getExMime($mime)
+```
+
 - `$mime` `string` — O MIME type para busca (ex: 'text/html').
 
 **Returns:** `?string`
@@ -27,6 +31,10 @@ Retorna a extensão correspondente a um MIME type.
 ### `public static getMimeEx(ex)`
 
 Retorna o MIME type correspondente a uma extensão.
+
+```php
+Mime::getMimeEx($ex)
+```
 
 - `$ex` `string` — A extensão para busca (ex: 'jpg').
 
@@ -38,6 +46,10 @@ Retorna o MIME type correspondente a uma extensão.
 
 Identifica o MIME type de um arquivo físico baseado em seu conteúdo.
 
+```php
+Mime::getMimeFile($file)
+```
+
 - `$file` `string` — Caminho para o arquivo.
 
 **Returns:** `?string`
@@ -47,6 +59,11 @@ Identifica o MIME type de um arquivo físico baseado em seu conteúdo.
 ### `public static checkMimeEx(ex, compare)`
 
 Verifica se uma extensão corresponde a um ou mais MIME types ou outras extensões.
+
+```php
+Mime::checkMimeEx($ex)
+Mime::checkMimeEx($ex, ...$compare)
+```
 
 - `$ex` `string` — Extensão base.
 - `$compare` `string` — MIME types ou extensões para comparar.
@@ -59,6 +76,11 @@ Verifica se uma extensão corresponde a um ou mais MIME types ou outras extensõ
 
 Compara um MIME type contra uma lista de outros MIME types ou extensões.
 
+```php
+Mime::checkMimeMime($mime)
+Mime::checkMimeMime($mime, ...$compare)
+```
+
 - `$mime` `string` — MIME type base.
 - `$compare` `string` — MIME types ou extensões para comparar.
 
@@ -69,6 +91,11 @@ Compara um MIME type contra uma lista de outros MIME types ou extensões.
 ### `public static checkMimeFile(file, compare)`
 
 Verifica se o MIME type real de um arquivo corresponde aos tipos fornecidos.
+
+```php
+Mime::checkMimeFile($file)
+Mime::checkMimeFile($file, ...$compare)
+```
 
 - `$file` `string` — Caminho para o arquivo.
 - `$compare` `string` — MIME types ou extensões para comparar.

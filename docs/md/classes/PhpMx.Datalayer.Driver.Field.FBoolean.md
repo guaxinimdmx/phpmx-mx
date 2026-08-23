@@ -22,19 +22,13 @@ Campo booleano (BOOLEAN), com conversão automática para inteiro ao persistir n
 
 Define o valor booleano do campo, convertendo qualquer não-nulo para bool.
 
+```php
+$fBoolean->set($value)
+```
+
 - `$value` `mixed` — Valor a definir.
 
 **Returns:** `static`
-
----
-
-### `public __internalValue(validate)`
-
-Retorna o valor como inteiro (0 ou 1) para persistência no banco de dados.
-
-- `$validate` `bool` — Se verdadeiro valida o valor antes de retornar.
-
-**Returns:** `mixed`
 
 ---
 
@@ -43,6 +37,20 @@ Retorna o valor como inteiro (0 ou 1) para persistência no banco de dados.
  _(herdado de `PhpMx\Datalayer\Driver\Field`)_
 
 Retorna o valor do campo para ser usado no sistema.
+
+```php
+$fBoolean->get()
+```
+
+**Returns:** `mixed`
+
+---
+
+### `public __internalValue(validate)`
+
+Retorna o valor como inteiro (0 ou 1) para persistência no banco de dados.
+
+- `$validate` `bool` — Se verdadeiro valida o valor antes de retornar.
 
 **Returns:** `mixed`
 

@@ -16,6 +16,10 @@ Campo de tempo (TIME), com conversão automática de timestamp inteiro para stri
 
 Define o valor de tempo. Aceita timestamp inteiro (convertido para H:i:s) ou false (null).
 
+```php
+$fTime->set($value)
+```
+
 - `$value` `mixed` — Valor a definir.
 
 **Returns:** `static`
@@ -25,6 +29,11 @@ Define o valor de tempo. Aceita timestamp inteiro (convertido para H:i:s) ou fal
 ### `public get(format)`
 
 Retorna o valor de tempo. Com $format null retorna a string H:i:s, true retorna float timestamp, false retorna int timestamp, ou string formata via date().
+
+```php
+$fTime->get()
+$fTime->get($format)
+```
 
 - `$format` `null|bool|string` — Formato de retorno.
 

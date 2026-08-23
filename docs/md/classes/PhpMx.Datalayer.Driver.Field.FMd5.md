@@ -22,6 +22,10 @@ Campo hash MD5, com conversão automática do valor e verificação de igualdade
 
 Define o valor do campo convertendo-o para hash MD5 se ainda não estiver no formato correto.
 
+```php
+$fMd5->set($value)
+```
+
 - `$value` `mixed` — Valor a definir.
 
 **Returns:** `static`
@@ -31,6 +35,10 @@ Define o valor do campo convertendo-o para hash MD5 se ainda não estiver no for
 ### `public compare(value)`
 
 Verifica se um valor corresponde ao hash MD5 armazenado.
+
+```php
+$fMd5->compare($value)
+```
 
 - `$value` `mixed` — Valor a comparar (convertido para MD5 automaticamente se necessário).
 
@@ -43,6 +51,10 @@ Verifica se um valor corresponde ao hash MD5 armazenado.
  _(herdado de `PhpMx\Datalayer\Driver\Field`)_
 
 Retorna o valor do campo para ser usado no sistema.
+
+```php
+$fMd5->get()
+```
 
 **Returns:** `mixed`
 

@@ -16,6 +16,10 @@ Campo de timestamp (TIMESTAMP), com microsegundos no formato Y-m-d H:i:s.u. Reto
 
 Define o valor de timestamp com microsegundos. Aceita true ou 'CURRENT_TIMESTAMP' (microtime atual), int (sem micros) ou float (com micros), ou false (null).
 
+```php
+$fTimestamp->set($value)
+```
+
 - `$value` `mixed` — Valor a definir.
 
 **Returns:** `static`
@@ -25,6 +29,11 @@ Define o valor de timestamp com microsegundos. Aceita true ou 'CURRENT_TIMESTAMP
 ### `public get(format)`
 
 Retorna o valor de timestamp. Com $format true (padrão) retorna float com microsegundos, false retorna int, null retorna a string Y-m-d H:i:s.u, ou string formata via DateTime::format().
+
+```php
+$fTimestamp->get()
+$fTimestamp->get($format)
+```
 
 - `$format` `null|bool|string` — Formato de retorno.
 

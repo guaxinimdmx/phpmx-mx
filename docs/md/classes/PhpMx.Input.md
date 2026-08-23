@@ -16,6 +16,11 @@ Classe para gerenciamento de campos e validação de inputs da requisição.
 
 ### `public __construct(dataValue)`
 
+```php
+new Input()
+new Input($dataValue)
+```
+
 - `$dataValue` `?array` — Dados de entrada (opcional, usa Request::data() por padrão).
 
 **Returns:** `mixed`
@@ -25,6 +30,12 @@ Classe para gerenciamento de campos e validação de inputs da requisição.
 ### `public field(name, alias, default)`
 
 Retorna o objeto de um campo de input genérico.
+
+```php
+$input->field($name)
+$input->field($name, $alias)
+$input->field($name, $alias, $default)
+```
 
 - `$name` `string` — Nome do campo.
 - `$alias` `string|null` — Rótulo amigável para mensagens de erro.
@@ -38,6 +49,12 @@ Retorna o objeto de um campo de input genérico.
 
 Retorna o objeto de um campo de input preparado para receber um valor booleano.
 
+```php
+$input->fieldBool($name)
+$input->fieldBool($name, $alias)
+$input->fieldBool($name, $alias, $default)
+```
+
 - `$name` `string` — Nome do campo.
 - `$alias` `string|null` — Rótulo amigável para mensagens de erro.
 - `$default` `mixed` — Valor padrão caso o campo não seja recebido.
@@ -49,6 +66,12 @@ Retorna o objeto de um campo de input preparado para receber um valor booleano.
 ### `public fieldList(name, alias, default)`
 
 Retorna o objeto de um campo de input preparado para receber um valor de lista.
+
+```php
+$input->fieldList($name)
+$input->fieldList($name, $alias)
+$input->fieldList($name, $alias, $default)
+```
 
 - `$name` `string` — Nome do campo.
 - `$alias` `string|null` — Rótulo amigável para mensagens de erro.
@@ -62,6 +85,12 @@ Retorna o objeto de um campo de input preparado para receber um valor de lista.
 
 Retorna o objeto de um campo de input preparado para receber um arquivo de upload.
 
+```php
+$input->fieldUpload($name)
+$input->fieldUpload($name, $alias)
+$input->fieldUpload($name, $alias, $default)
+```
+
 - `$name` `string` — Nome do campo.
 - `$alias` `string|null` — Rótulo amigável para mensagens de erro.
 - `$default` `mixed` — Valor padrão caso o campo não seja recebido.
@@ -73,6 +102,12 @@ Retorna o objeto de um campo de input preparado para receber um arquivo de uploa
 ### `public fieldUploadImage(name, alias, default)`
 
 Retorna o objeto de um campo de input preparado para receber uma imagem em base64.
+
+```php
+$input->fieldUploadImage($name)
+$input->fieldUploadImage($name, $alias)
+$input->fieldUploadImage($name, $alias, $default)
+```
 
 - `$name` `string` — Nome do campo.
 - `$alias` `string|null` — Rótulo amigável para mensagens de erro.
@@ -86,6 +121,12 @@ Retorna o objeto de um campo de input preparado para receber uma imagem em base6
 
 Retorna o objeto de um campo de input preparado para receber um código Captcha.
 
+```php
+$input->fieldCaptcha($name)
+$input->fieldCaptcha($name, $alias)
+$input->fieldCaptcha($name, $alias, $default)
+```
+
 - `$name` `string` — Nome do campo.
 - `$alias` `string|null` — Rótulo amigável para mensagens de erro.
 - `$default` `mixed` — Valor padrão caso o campo não seja recebido.
@@ -97,6 +138,12 @@ Retorna o objeto de um campo de input preparado para receber um código Captcha.
 ### `public fieldScheme(name, alias, default)`
 
 Retorna o objeto de um campo de input preparado para receber um array scheme.
+
+```php
+$input->fieldScheme($name)
+$input->fieldScheme($name, $alias)
+$input->fieldScheme($name, $alias, $default)
+```
 
 - `$name` `string` — Nome do campo.
 - `$alias` `string|null` — Rótulo amigável para mensagens de erro.
@@ -110,6 +157,10 @@ Retorna o objeto de um campo de input preparado para receber um array scheme.
 
 Retorna o valor verificado e sanitizado de um campo do input.
 
+```php
+$input->get($fieldName)
+```
+
 - `$fieldName` `string` — Nome do campo.
 
 **Returns:** `mixed`
@@ -120,6 +171,10 @@ Retorna o valor verificado e sanitizado de um campo do input.
 
 Verifica se todos os campos do input passam na validação, lançando Exception em caso de falha.
 
+```php
+$input->check()
+```
+
 **Returns:** `bool`
 
 ---
@@ -127,6 +182,11 @@ Verifica se todos os campos do input passam na validação, lançando Exception 
 ### `public data(nameFields)`
 
 Retorna os valores validados dos campos do input em forma de array.
+
+```php
+$input->data()
+$input->data($nameFields)
+```
 
 - `$nameFields` `?array` — Lista de campos a retornar (opcional, retorna todos por padrão).
 
@@ -138,6 +198,11 @@ Retorna os valores validados dos campos do input em forma de array.
 
 Retorna apenas os valores dos campos efetivamente recebidos na requisição.
 
+```php
+$input->dataReceived()
+$input->dataReceived($nameFields)
+```
+
 - `$nameFields` `?array` — Lista de campos a considerar (opcional, considera todos por padrão).
 
 **Returns:** `array`
@@ -147,6 +212,11 @@ Retorna apenas os valores dos campos efetivamente recebidos na requisição.
 ### `public send(message, status)`
 
 Lança uma Exception em nome do input com mensagem e status HTTP definidos.
+
+```php
+$input->send($message)
+$input->send($message, $status)
+```
 
 - `$message` `string` — Mensagem de erro.
 - `$status` `int|bool` — Status HTTP (false usa STS_BAD_REQUEST, true usa STS_OK).

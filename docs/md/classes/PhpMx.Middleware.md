@@ -14,6 +14,10 @@ Classe responsável pela execução encadeada de middlewares.
 
 Executa uma fila de middlewares retornando a action.
 
+```php
+Middleware::run($queue, $action)
+```
+
 - `$queue` `array` — Lista de middlewares a serem executados em ordem.
 - `$action` `Closure` — Ação final executada após a fila.
 

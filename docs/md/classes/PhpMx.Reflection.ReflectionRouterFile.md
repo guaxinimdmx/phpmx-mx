@@ -18,6 +18,10 @@ Extrai o esquema de reflexão de um arquivo de rotas.
 
 Retorna o esquema de metadados de todas as rotas declaradas em um arquivo de rotas.
 
+```php
+ReflectionRouterFile::scheme($file)
+```
+
 - `$file` `string` — Caminho absoluto do arquivo de rotas.
 
 **Returns:** `array`

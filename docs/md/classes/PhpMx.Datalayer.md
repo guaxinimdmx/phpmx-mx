@@ -19,6 +19,10 @@ Gerencia conexões reutilizáveis com múltiplos bancos de dados.
 
 Retorna a conexão ativa com o banco de dados, registrando-a na primeira chamada.
 
+```php
+Datalayer::get($dbName)
+```
+
 - `$dbName` `string` — Nome do banco de dados.
 
 **Returns:** `PhpMx\Datalayer\Connection\BaseConnection`
@@ -28,6 +32,11 @@ Retorna a conexão ativa com o banco de dados, registrando-a na primeira chamada
 ### `public static register(dbName, data)`
 
 Registra uma nova conexão com o banco de dados.
+
+```php
+Datalayer::register($dbName)
+Datalayer::register($dbName, $data)
+```
 
 - `$dbName` `string` — Nome do banco de dados.
 - `$data` `array` — Dados de configuração da conexão (opcional, usa variáveis de ambiente por padrão).
@@ -40,6 +49,10 @@ Registra uma nova conexão com o banco de dados.
 
 Remove o registro de uma conexão com o banco de dados.
 
+```php
+Datalayer::unregister($dbName)
+```
+
 - `$dbName` `string` — Nome do banco de dados.
 
 **Returns:** `void`
@@ -50,6 +63,10 @@ Remove o registro de uma conexão com o banco de dados.
 
 Converte um nome para o formato interno de uso no banco de dados (snake_case).
 
+```php
+Datalayer::internalName($name)
+```
+
 - `$name` `string` — Nome a converter.
 
 **Returns:** `string`
@@ -59,6 +76,11 @@ Converte um nome para o formato interno de uso no banco de dados (snake_case).
 ### `public static externalName(name, prefix)`
 
 Converte um nome para o formato externo de uso no código (camelCase).
+
+```php
+Datalayer::externalName($name)
+Datalayer::externalName($name, $prefix)
+```
 
 - `$name` `string` — Nome a converter.
 - `$prefix` `?string` — Prefixo a concatenar ao nome (opcional).

@@ -22,6 +22,10 @@ Campo inteiro (INT), com suporte a valor mínimo, máximo e arredondamento confi
 
 Define o valor inteiro do campo, aplicando intervalo min/max e arredondamento configurados. Valores não numéricos são convertidos para null.
 
+```php
+$fInt->set($value)
+```
+
 - `$value` `mixed` — Valor a definir.
 
 **Returns:** `static`
@@ -33,6 +37,10 @@ Define o valor inteiro do campo, aplicando intervalo min/max e arredondamento co
  _(herdado de `PhpMx\Datalayer\Driver\Field`)_
 
 Retorna o valor do campo para ser usado no sistema.
+
+```php
+$fInt->get()
+```
 
 **Returns:** `mixed`
 

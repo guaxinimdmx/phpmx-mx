@@ -14,6 +14,11 @@ Classe utilitária criação e leitura de JWT.
 
 Retorna o token JWT
 
+```php
+Jwt::on($payload)
+Jwt::on($payload, $key)
+```
+
 - `$payload` `mixed` — Dados que deve estar no JWT
 - `$key` `?string` — Chave para criação do token (caso vazio, usa a chave padrão)
 
@@ -25,6 +30,11 @@ Retorna o token JWT
 
 Retorna o token conteúdo de um token JWT
 
+```php
+Jwt::off($token)
+Jwt::off($token, $key)
+```
+
 - `$token` `mixed` — Dados contidos no JWT
 - `$key` `?string` — Chave para verificação do token (caso vazio, usa a chave padrão)
 
@@ -35,6 +45,11 @@ Retorna o token conteúdo de um token JWT
 ### `public static check(var, key)`
 
 Verifica se uma variavel é um token JWT válido
+
+```php
+Jwt::check($var)
+Jwt::check($var, $key)
+```
 
 - `$var` `mixed` — Variavel que deve ser verificada
 - `$key` `?string` — Chave para verificação do token (caso vazio, usa a chave padrão)

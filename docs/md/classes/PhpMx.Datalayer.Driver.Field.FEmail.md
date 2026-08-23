@@ -16,6 +16,10 @@ Campo de e-mail, com sanitização, normalização e validação de formato auto
 
 Define o valor do campo normalizando para minúsculas, removendo acentos e sanitizando o e-mail.
 
+```php
+$fEmail->set($value)
+```
+
 - `$value` `mixed` — Valor a definir.
 
 **Returns:** `static`

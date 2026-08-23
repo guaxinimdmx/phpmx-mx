@@ -14,6 +14,11 @@ Classe utilitária para substituição de templates em textos.
 
 Prepara um texto substituindo ocorrências do template pelos dados fornecidos. Aceita: - Sequencial: `[#]` - Referência: `[#key]` ou `[#user.name]` (Dot Notation) - Funções: `[#key:param1,param2]` (Executa closures no array de dados)
 
+```php
+Prepare::prepare($string)
+Prepare::prepare($string, $prepare)
+```
+
 - `$string` `?string` — Texto base contendo as tags.
 - `$prepare` `array|string` — Dados para substituição.
 
@@ -25,6 +30,10 @@ Prepara um texto substituindo ocorrências do template pelos dados fornecidos. A
 
 Retorna as tags prepare existentes em uma string (sem os colchetes).
 
+```php
+Prepare::tags($string)
+```
+
 - `$string` `string` — O texto a ser analisado.
 
 **Returns:** `array`
@@ -35,6 +44,10 @@ Retorna as tags prepare existentes em uma string (sem os colchetes).
 
 Retorna as chaves disponíveis em um array de prepare processado.
 
+```php
+Prepare::keys($prepare)
+```
+
 - `$prepare` `array|string` — Os dados de prepare a serem analisados.
 
 **Returns:** `array`
@@ -44,6 +57,11 @@ Retorna as chaves disponíveis em um array de prepare processado.
 ### `public static scape(string, prepare)`
 
 Escapa as tags prepare para evitar que sejam processadas.
+
+```php
+Prepare::scape($string)
+Prepare::scape($string, $prepare)
+```
 
 - `$string` `string` — Texto original.
 - `$prepare` `?array` — Se informado, escapa apenas chaves específicas.

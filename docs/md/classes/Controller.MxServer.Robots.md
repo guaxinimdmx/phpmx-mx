@@ -14,4 +14,8 @@ Entrega de robots.txt padrão
 
 Configura as instruções para motores de busca bloqueando a indexação de todo o site
 
+```php
+$robots()
+```
+
 **Returns:** `mixed`

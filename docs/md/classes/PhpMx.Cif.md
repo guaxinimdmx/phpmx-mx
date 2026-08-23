@@ -24,6 +24,11 @@ Classe utilitária para cifrar e decifrar variáveis de forma segura.
 
 Converte uma variável em uma string cifrada.
 
+```php
+Cif::on($var)
+Cif::on($var, $charKey)
+```
+
 - `$var` `mixed` — Variável de qualquer tipo para cifrar.
 - `$charKey` `?string` — Chave de caractere específica para forçar um índice de cifra.
 
@@ -35,6 +40,10 @@ Converte uma variável em uma string cifrada.
 
 Decifra uma string e retorna o valor original da variável.
 
+```php
+Cif::off($var)
+```
+
 - `$var` `mixed` — String cifrada para processamento.
 
 **Returns:** `mixed`
@@ -45,6 +54,10 @@ Decifra uma string e retorna o valor original da variável.
 
 Verifica se uma variável atende aos requisitos estruturais para ser uma cifra MX.
 
+```php
+Cif::check($var)
+```
+
 - `$var` `mixed` — Variável para verificação.
 
 **Returns:** `bool`
@@ -54,6 +67,11 @@ Verifica se uma variável atende aos requisitos estruturais para ser uma cifra M
 ### `public static compare(initial, compare)`
 
 Compara múltiplas variáveis para verificar se resultam na mesma cifra.
+
+```php
+Cif::compare($initial)
+Cif::compare($initial, ...$compare)
+```
 
 - `$initial` `mixed` — Valor base para comparação.
 - `$compare` `mixed` — Outros valores para comparar.

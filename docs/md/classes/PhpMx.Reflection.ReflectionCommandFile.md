@@ -18,6 +18,10 @@ Extrai o esquema de reflexão de um arquivo de comando.
 
 Retorna o esquema de um arquivo de comando de terminal, extraindo nome, parâmetros e documentação.
 
+```php
+ReflectionCommandFile::scheme($file)
+```
+
 - `$file` `string` — Caminho do arquivo de comando.
 
 **Returns:** `array`
@@ -27,6 +31,10 @@ Retorna o esquema de um arquivo de comando de terminal, extraindo nome, parâmet
 ### `public static variations(params)`
 
 Retorna as combinações válidas de argumentos para chamar um comando, a partir do seu esquema de parâmetros.
+
+```php
+ReflectionCommandFile::variations($params)
+```
 
 - `$params` `array` — Esquema de parâmetros do comando (com 'name', 'optional' e 'variadic').
 

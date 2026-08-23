@@ -18,6 +18,10 @@ Extrai o esquema de reflexão de um arquivo de helper.
 
 Retorna o esquema completo de um arquivo helper (constantes, funções e variáveis de ambiente).
 
+```php
+ReflectionHelperFile::scheme($file)
+```
+
 - `$file` `string` — Caminho do arquivo.
 
 **Returns:** `array`
@@ -27,6 +31,10 @@ Retorna o esquema completo de um arquivo helper (constantes, funções e variáv
 ### `public static schemeConstants(file)`
 
 Extrai e retorna os esquemas de todas as constantes definidas em um arquivo.
+
+```php
+ReflectionHelperFile::schemeConstants($file)
+```
 
 - `$file` `string` — Caminho do arquivo.
 
@@ -38,6 +46,10 @@ Extrai e retorna os esquemas de todas as constantes definidas em um arquivo.
 
 Extrai e retorna os esquemas de todas as funções definidas em um arquivo.
 
+```php
+ReflectionHelperFile::schemeFunctions($file)
+```
+
 - `$file` `string` — Caminho do arquivo.
 
 **Returns:** `array`
@@ -47,6 +59,10 @@ Extrai e retorna os esquemas de todas as funções definidas em um arquivo.
 ### `public static schemeEnvironments(file)`
 
 Extrai e retorna os esquemas de todas as variáveis de ambiente configuradas via Env::default em um arquivo.
+
+```php
+ReflectionHelperFile::schemeEnvironments($file)
+```
 
 - `$file` `string` — Caminho do arquivo.
 

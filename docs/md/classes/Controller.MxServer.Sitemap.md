@@ -14,4 +14,8 @@ Entrega de sitemap.xml padrão
 
 Gera a estrutura inicial do mapa do site para indexação em motores de busca
 
+```php
+$sitemap()
+```
+
 **Returns:** `mixed`

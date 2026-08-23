@@ -22,6 +22,10 @@ Campo de ponto flutuante (FLOAT), com suporte a valor mínimo e máximo configur
 
 Define o valor numérico do campo, aplicando intervalo min/max configurado. Valores não numéricos são convertidos para null.
 
+```php
+$fFloat->set($value)
+```
+
 - `$value` `mixed` — Valor a definir.
 
 **Returns:** `static`
@@ -33,6 +37,10 @@ Define o valor numérico do campo, aplicando intervalo min/max configurado. Valo
  _(herdado de `PhpMx\Datalayer\Driver\Field`)_
 
 Retorna o valor do campo para ser usado no sistema.
+
+```php
+$fFloat->get()
+```
 
 **Returns:** `mixed`
 

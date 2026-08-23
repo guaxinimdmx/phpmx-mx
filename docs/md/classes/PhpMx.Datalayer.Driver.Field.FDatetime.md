@@ -22,6 +22,10 @@ Campo de data e hora (DATETIME), no formato Y-m-d H:i:s, sem microsegundos.
 
 Define o valor de data e hora. Aceita true ou 'CURRENT_TIMESTAMP' (momento atual), timestamp numérico (convertido para Y-m-d H:i:s) ou false (null).
 
+```php
+$fDatetime->set($value)
+```
+
 - `$value` `mixed` — Valor a definir.
 
 **Returns:** `static`
@@ -31,6 +35,11 @@ Define o valor de data e hora. Aceita true ou 'CURRENT_TIMESTAMP' (momento atual
 ### `public get(format)`
 
 Retorna o valor de data e hora. Com $format null retorna a string Y-m-d H:i:s, true retorna float timestamp, false retorna int timestamp, ou string formata via date().
+
+```php
+$fDatetime->get()
+$fDatetime->get($format)
+```
 
 - `$format` `null|bool|string` — Formato de retorno.
 

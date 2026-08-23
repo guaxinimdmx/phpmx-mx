@@ -18,6 +18,10 @@ Extrai o esquema de reflexão de um arquivo de classe, trait ou interface.
 
 Retorna o esquema completo de uma classe, trait, interface ou enum de um arquivo PHP.
 
+```php
+ReflectionSourceFile::scheme($file)
+```
+
 - `$file` `string` — Caminho do arquivo fonte.
 
 **Returns:** `array`

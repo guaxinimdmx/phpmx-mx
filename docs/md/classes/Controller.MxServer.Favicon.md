@@ -14,4 +14,8 @@ Entrega de favicon padrão
 
 Gerencia a entrega do ícone do site buscando primeiro no projeto local e depois no framework
 
+```php
+$favicon()
+```
+
 **Returns:** `mixed`

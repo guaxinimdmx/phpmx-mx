@@ -14,6 +14,10 @@ Classe utilitária para gerenciamento de mensagens de erro de inputs. Centraliza
 
 Define ou altera uma mensagem padrão para um tipo de validação.
 
+```php
+InputMessage::set($type, $message)
+```
+
 - `$type` `string|int` — Constante FILTER_VALIDATE_* ou chave textual (ex: 'required', 'equal').
 - `$message` `?string` — Mensagem a associar ao tipo (suporta tags de prepare como [#name]).
 
@@ -24,6 +28,10 @@ Define ou altera uma mensagem padrão para um tipo de validação.
 ### `public static get(type)`
 
 Retorna a mensagem padrão para um tipo de validação.
+
+```php
+InputMessage::get($type)
+```
 
 - `$type` `string` — Constante FILTER_VALIDATE_* ou chave textual.
 

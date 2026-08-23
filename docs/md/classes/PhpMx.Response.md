@@ -24,6 +24,11 @@ Classe para construção e envio de respostas HTTP.
 
 Define o status HTTP da resposta.
 
+```php
+Response::status($status)
+Response::status($status, $replace)
+```
+
 - `$status` `?int` — Código de status HTTP.
 - `$replace` `bool` — Se falso, mantém o status já definido.
 
@@ -34,6 +39,11 @@ Define o status HTTP da resposta.
 ### `public static header(name, value)`
 
 Define um cabeçalho para a resposta.
+
+```php
+Response::header($name)
+Response::header($name, $value)
+```
 
 - `$name` `array|string` — Nome do cabeçalho ou array associativo de cabeçalhos.
 - `$value` `?string` — Valor do cabeçalho (ignorado quando $name é array).
@@ -46,6 +56,11 @@ Define um cabeçalho para a resposta.
 
 Define o Content-Type da resposta a partir de uma extensão ou mime type.
 
+```php
+Response::type($type)
+Response::type($type, $replace)
+```
+
 - `$type` `?string` — Extensão ou mime type desejado.
 - `$replace` `bool` — Se falso, mantém o tipo já definido.
 
@@ -56,6 +71,11 @@ Define o Content-Type da resposta a partir de uma extensão ou mime type.
 ### `public static content(content, replace)`
 
 Define o conteúdo da resposta.
+
+```php
+Response::content($content)
+Response::content($content, $replace)
+```
 
 - `$content` `mixed` — Conteúdo a ser enviado.
 - `$replace` `bool` — Se falso, mantém o conteúdo já definido.
@@ -68,6 +88,10 @@ Define o conteúdo da resposta.
 
 Define se e por quanto tempo a resposta deve ser armazenada em cache.
 
+```php
+Response::cache($strToTime)
+```
+
 - `$strToTime` `string|bool|null` — String de tempo (ex: '+1 hour'), false para desativar ou null para usar o padrão.
 
 **Returns:** `void`
@@ -77,6 +101,10 @@ Define se e por quanto tempo a resposta deve ser armazenada em cache.
 ### `public static download(download)`
 
 Define se o navegador deve fazer download da resposta.
+
+```php
+Response::download($download)
+```
 
 - `$download` `string|bool|null` — True para forçar download, string para definir o nome do arquivo.
 
@@ -88,6 +116,10 @@ Define se o navegador deve fazer download da resposta.
 
 Envia a resposta ao navegador do cliente encerrando a execução.
 
+```php
+Response::send()
+```
+
 **Returns:** `void`
 
 ---
@@ -95,6 +127,10 @@ Envia a resposta ao navegador do cliente encerrando a execução.
 ### `public static getStatus()`
 
 Retorna o status HTTP atual da resposta.
+
+```php
+Response::getStatus()
+```
 
 **Returns:** `?int`
 
@@ -104,6 +140,10 @@ Retorna o status HTTP atual da resposta.
 
 Retorna o conteúdo atual da resposta.
 
+```php
+Response::getContent()
+```
+
 **Returns:** `mixed`
 
 ---
@@ -111,6 +151,11 @@ Retorna o conteúdo atual da resposta.
 ### `public static checkType(types)`
 
 Verifica se o tipo da resposta corresponde a um dos tipos informados.
+
+```php
+Response::checkType()
+Response::checkType(...$types)
+```
 
 - `$types` `string` — Tipos a verificar.
 

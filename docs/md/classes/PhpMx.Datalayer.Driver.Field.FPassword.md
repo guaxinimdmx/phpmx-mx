@@ -22,6 +22,10 @@ Campo de senha (PASSWORD), com hash automático via bcrypt e verificação de va
 
 Define a senha do campo gerando hash bcrypt automaticamente se o valor não for já um hash.
 
+```php
+$fPassword->set($value)
+```
+
 - `$value` `mixed` — Valor a definir (texto simples ou hash bcrypt).
 
 **Returns:** `static`
@@ -31,6 +35,10 @@ Define a senha do campo gerando hash bcrypt automaticamente se o valor não for 
 ### `public compare(value)`
 
 Verifica se um valor corresponde ao hash de senha armazenado.
+
+```php
+$fPassword->compare($value)
+```
 
 - `$value` `mixed` — Valor a comparar.
 
@@ -43,6 +51,10 @@ Verifica se um valor corresponde ao hash de senha armazenado.
  _(herdado de `PhpMx\Datalayer\Driver\Field`)_
 
 Retorna o valor do campo para ser usado no sistema.
+
+```php
+$fPassword->get()
+```
 
 **Returns:** `mixed`
 

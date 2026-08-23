@@ -14,6 +14,12 @@ Camada de exibição de dados no terminal
 
 Exibe uma linha de texto no terminal com quebra de linha.
 
+```php
+TerminalEchoTrait::echol()
+TerminalEchoTrait::echol($text)
+TerminalEchoTrait::echol($text, $prepare)
+```
+
 - `$text` `string` — Texto que deve ser exibido
 - `$prepare` `array|string` — Dados prepare para compor o texto
 
@@ -24,6 +30,12 @@ Exibe uma linha de texto no terminal com quebra de linha.
 ### `public static echod(text, prepare)`
 
 Exibe uma linha de texto dinâmica, substituindo a escrita anterior do echod. Guardar o tamanho do último texto exibido para limpar corretamente na próxima chamada.
+
+```php
+TerminalEchoTrait::echod()
+TerminalEchoTrait::echod($text)
+TerminalEchoTrait::echod($text, $prepare)
+```
 
 - `$text` `string` — Texto que deve ser exibido
 - `$prepare` `array|string` — Dados prepare para compor o texto
@@ -36,6 +48,12 @@ Exibe uma linha de texto dinâmica, substituindo a escrita anterior do echod. Gu
 
 Exibe uma linha de texto no terminal sem quebra de linha.
 
+```php
+TerminalEchoTrait::echo()
+TerminalEchoTrait::echo($text)
+TerminalEchoTrait::echo($text, $prepare)
+```
+
 - `$text` `string` — Texto que deve ser exibido
 - `$prepare` `array|string` — Dados prepare para compor o texto
 
@@ -46,6 +64,13 @@ Exibe uma linha de texto no terminal sem quebra de linha.
 ### `public static confirm(text, prepare, default)`
 
 Solicita confirmação do usuário (y/n)
+
+```php
+TerminalEchoTrait::confirm()
+TerminalEchoTrait::confirm($text)
+TerminalEchoTrait::confirm($text, $prepare)
+TerminalEchoTrait::confirm($text, $prepare, $default)
+```
 
 - `$text` `string` — Mensagem de texto que deve ser exibida
 - `$prepare` `array|string` — Dados prepare para compor o texto
@@ -58,6 +83,14 @@ Solicita confirmação do usuário (y/n)
 ### `public static input(text, prepare, default, required)`
 
 Solicita entrada de texto do usuário
+
+```php
+TerminalEchoTrait::input()
+TerminalEchoTrait::input($text)
+TerminalEchoTrait::input($text, $prepare)
+TerminalEchoTrait::input($text, $prepare, $default)
+TerminalEchoTrait::input($text, $prepare, $default, $required)
+```
 
 - `$text` `string` — Mensagem de texto que deve ser exibida
 - `$prepare` `array|string` — Dados prepare para compor o texto
@@ -72,6 +105,14 @@ Solicita entrada de texto do usuário
 
 Solicita entrada de senha (texto oculto)
 
+```php
+TerminalEchoTrait::password()
+TerminalEchoTrait::password($text)
+TerminalEchoTrait::password($text, $prepare)
+TerminalEchoTrait::password($text, $prepare, $expected)
+TerminalEchoTrait::password($text, $prepare, $expected, $required)
+```
+
 - `$text` `string` — Mensagem de texto que deve ser exibida
 - `$prepare` `array|string` — Dados prepare para compor o texto
 - `$expected` `?string` — Valor experado para validação rápida
@@ -84,6 +125,14 @@ Solicita entrada de senha (texto oculto)
 ### `public static select(text, prepare, options, default)`
 
 Solicita uma escolha entre opções numeradas
+
+```php
+TerminalEchoTrait::select()
+TerminalEchoTrait::select($text)
+TerminalEchoTrait::select($text, $prepare)
+TerminalEchoTrait::select($text, $prepare, $options)
+TerminalEchoTrait::select($text, $prepare, $options, $default)
+```
 
 - `$text` `string` — Mensagem de texto que deve ser exibida
 - `$prepare` `array|string` — Dados prepare para compor o texto
@@ -98,6 +147,14 @@ Solicita uma escolha entre opções numeradas
 
 Exibe uma barra de progresso
 
+```php
+TerminalEchoTrait::progress()
+TerminalEchoTrait::progress($text)
+TerminalEchoTrait::progress($text, $prepare)
+TerminalEchoTrait::progress($text, $prepare, $current)
+TerminalEchoTrait::progress($text, $prepare, $current, $total)
+```
+
 - `$text` `string` — Mensagem de texto que deve ser exibida
 - `$prepare` `array|string` — Dados prepare para compor o texto
 - `$current` `int` — Valor atual da barra
@@ -111,6 +168,11 @@ Exibe uma barra de progresso
 
 Exibe uma tabela a partir de uma matriz
 
+```php
+TerminalEchoTrait::table($data)
+TerminalEchoTrait::table($data, $hasHeader)
+```
+
 - `$data` `array` — Dados da tabela
 - `$hasHeader` `bool` — Se a primeira linha da tabela deve ser tratada como cabeçalho
 
@@ -121,6 +183,10 @@ Exibe uma tabela a partir de uma matriz
 ### `public static echoThrow(e)`
 
 Exibe os detalhes de uma exception (tipo, mensagem e stack trace).
+
+```php
+TerminalEchoTrait::echoThrow($e)
+```
 
 - `$e` `Throwable` — Exception a ser exibida
 

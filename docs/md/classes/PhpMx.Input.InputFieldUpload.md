@@ -14,6 +14,12 @@ Campo de input para validação de arquivos enviados via upload. Verifica automa
 
 ### `public __construct(name, alias, value)`
 
+```php
+new InputFieldUpload($name)
+new InputFieldUpload($name, $alias)
+new InputFieldUpload($name, $alias, $value)
+```
+
 - `$name` `string` — Nome do campo.
 - `$alias` `?string` — Rótulo amigável para mensagens de erro.
 - `$value` `mixed` — Valor inicial (array de arquivo do $_FILES).

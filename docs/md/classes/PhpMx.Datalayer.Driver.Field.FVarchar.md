@@ -22,9 +22,27 @@ Campo de texto com tamanho variável (VARCHAR), com suporte a corte automático 
 
 Define o valor do campo como string, aplicando corte se configurado e removendo espaços nas extremidades.
 
+```php
+$fVarchar->set($value)
+```
+
 - `$value` `mixed` — Valor a definir.
 
 **Returns:** `static`
+
+---
+
+### `public get()`
+
+ _(herdado de `PhpMx\Datalayer\Driver\Field`)_
+
+Retorna o valor do campo para ser usado no sistema.
+
+```php
+$fVarchar->get()
+```
+
+**Returns:** `mixed`
 
 ---
 
@@ -35,16 +53,6 @@ Valida se o valor não excede o tamanho máximo configurado para o campo.
 - `$value` `mixed` — Valor a validar.
 
 **Returns:** `void`
-
----
-
-### `public get()`
-
- _(herdado de `PhpMx\Datalayer\Driver\Field`)_
-
-Retorna o valor do campo para ser usado no sistema.
-
-**Returns:** `mixed`
 
 ---
 

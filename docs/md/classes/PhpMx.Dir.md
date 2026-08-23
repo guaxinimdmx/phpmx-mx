@@ -14,6 +14,10 @@ Classe utilitária para manipulação de diretórios.
 
 Cria um diretório de forma recursiva.
 
+```php
+Dir::create($path)
+```
+
 - `$path` `string` — Caminho do diretório.
 
 **Returns:** `?bool`
@@ -23,6 +27,11 @@ Cria um diretório de forma recursiva.
 ### `public static remove(path, recursive)`
 
 Remove um diretório e seu conteúdo.
+
+```php
+Dir::remove($path)
+Dir::remove($path, $recursive)
+```
 
 - `$path` `string` — Caminho do diretório.
 - `$recursive` `bool` — Se true, remove subdiretórios e arquivos recursivamente.
@@ -34,6 +43,11 @@ Remove um diretório e seu conteúdo.
 ### `public static copy(path_from, path_to, replace)`
 
 Cria uma cópia de um diretório.
+
+```php
+Dir::copy($path_from, $path_to)
+Dir::copy($path_from, $path_to, $replace)
+```
 
 - `$path_from` `string` — Caminho de origem.
 - `$path_to` `string` — Caminho de destino.
@@ -47,6 +61,10 @@ Cria uma cópia de um diretório.
 
 Altera o local ou nome de um diretório.
 
+```php
+Dir::move($path_from, $path_to)
+```
+
 - `$path_from` `string` — Caminho de origem.
 - `$path_to` `string` — Caminho de destino.
 
@@ -57,6 +75,11 @@ Altera o local ou nome de um diretório.
 ### `public static seekForFile(path, recursive)`
 
 Lista apenas os arquivos contidos em um diretório.
+
+```php
+Dir::seekForFile($path)
+Dir::seekForFile($path, $recursive)
+```
 
 - `$path` `string` — Caminho do diretório.
 - `$recursive` `bool` — Se true, busca arquivos em subdiretórios.
@@ -69,6 +92,11 @@ Lista apenas os arquivos contidos em um diretório.
 
 Lista apenas os diretórios contidos em um diretório.
 
+```php
+Dir::seekForDir($path)
+Dir::seekForDir($path, $recursive)
+```
+
 - `$path` `string` — Caminho do diretório.
 - `$recursive` `bool` — Se true, busca subdiretórios recursivamente.
 
@@ -79,6 +107,11 @@ Lista apenas os diretórios contidos em um diretório.
 ### `public static seekForAll(path, recursive)`
 
 Lista todos os arquivos e diretórios contidos em um caminho.
+
+```php
+Dir::seekForAll($path)
+Dir::seekForAll($path, $recursive)
+```
 
 - `$path` `string` — Caminho do diretório.
 - `$recursive` `bool` — Se true, vasculha de forma profunda.
@@ -91,6 +124,10 @@ Lista todos os arquivos e diretórios contidos em um caminho.
 
 Retorna o caminho do diretório pai, removendo o nome do arquivo se presente.
 
+```php
+Dir::getOnly($path)
+```
+
 - `$path` `string` — Caminho original.
 
 **Returns:** `string`
@@ -100,6 +137,10 @@ Retorna o caminho do diretório pai, removendo o nome do arquivo se presente.
 ### `public static check(path)`
 
 Verifica se o caminho informado é um diretório válido.
+
+```php
+Dir::check($path)
+```
 
 - `$path` `string` — O caminho a verificar.
 

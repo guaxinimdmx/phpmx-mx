@@ -22,6 +22,10 @@ Campo de texto longo (TEXT), com conversão automática do valor para string.
 
 Define o valor do campo convertendo-o para string, exceto null.
 
+```php
+$fText->set($value)
+```
+
 - `$value` `mixed` — Valor a definir.
 
 **Returns:** `static`
@@ -33,6 +37,10 @@ Define o valor do campo convertendo-o para string, exceto null.
  _(herdado de `PhpMx\Datalayer\Driver\Field`)_
 
 Retorna o valor do campo para ser usado no sistema.
+
+```php
+$fText->get()
+```
 
 **Returns:** `mixed`
 

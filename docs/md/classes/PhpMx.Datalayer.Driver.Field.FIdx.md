@@ -23,6 +23,10 @@ Campo de índice de referência (IDX / foreign key), com acesso direto ao regist
 
 Define o ID do registro referenciado. Aceita: ID numérico, true (usa o registro ativo), false/null (limpa), ou objeto Record.
 
+```php
+$fIdx->set($value)
+```
+
 - `$value` `mixed` — ID numérico, bool, null ou instância de Record.
 
 **Returns:** `static`
@@ -33,6 +37,10 @@ Define o ID do registro referenciado. Aceita: ID numérico, true (usa o registro
 
 Retorna o objeto de registro referenciado pelo campo.
 
+```php
+$fIdx->_record()
+```
+
 **Returns:** `PhpMx\Datalayer\Driver\Record`
 
 ---
@@ -40,6 +48,10 @@ Retorna o objeto de registro referenciado pelo campo.
 ### `public _save()`
 
 Salva o registro referenciado no banco de dados e atualiza o ID armazenado.
+
+```php
+$fIdx->_save()
+```
 
 **Returns:** `static`
 
@@ -49,6 +61,10 @@ Salva o registro referenciado no banco de dados e atualiza o ID armazenado.
 
 Retorna a chave de identificação numérica do registro referenciado.
 
+```php
+$fIdx->id()
+```
+
 **Returns:** `int|null`
 
 ---
@@ -56,6 +72,10 @@ Retorna a chave de identificação numérica do registro referenciado.
 ### `public idKey()`
 
 Retorna a chave de identificação cifrada do registro referenciado.
+
+```php
+$fIdx->idKey()
+```
 
 **Returns:** `?string`
 
@@ -65,6 +85,10 @@ Retorna a chave de identificação cifrada do registro referenciado.
 
 Verifica se o objeto referenciado foi carregado em memória.
 
+```php
+$fIdx->_checkLoad()
+```
+
 **Returns:** `bool`
 
 ---
@@ -72,6 +96,10 @@ Verifica se o objeto referenciado foi carregado em memória.
 ### `public _checkSave()`
 
 Verifica se o registro referenciado pode ser salvo no banco de dados.
+
+```php
+$fIdx->_checkSave()
+```
 
 **Returns:** `bool`
 
@@ -81,9 +109,28 @@ Verifica se o registro referenciado pode ser salvo no banco de dados.
 
 Verifica se o registro referenciado existe no banco de dados (id > 0).
 
+```php
+$fIdx->_checkInDb()
+$fIdx->_checkInDb($deleted)
+```
+
 - `$deleted` `?bool` — NULL: ignora estado de deleção (sem SELECT), FALSE: apenas ativos, TRUE: apenas deletados.
 
 **Returns:** `bool`
+
+---
+
+### `public get()`
+
+ _(herdado de `PhpMx\Datalayer\Driver\Field`)_
+
+Retorna o valor do campo para ser usado no sistema.
+
+```php
+$fIdx->get()
+```
+
+**Returns:** `mixed`
 
 ---
 
@@ -103,16 +150,6 @@ Chamada mágica de método: delega ao registro referenciado.
 
 - `$name` `string` — Nome do método.
 - `$arguments` `array` — Argumentos da chamada.
-
-**Returns:** `mixed`
-
----
-
-### `public get()`
-
- _(herdado de `PhpMx\Datalayer\Driver\Field`)_
-
-Retorna o valor do campo para ser usado no sistema.
 
 **Returns:** `mixed`
 

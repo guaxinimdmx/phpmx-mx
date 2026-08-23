@@ -14,6 +14,11 @@ Factory para criação de queries SQL (Select, Insert, Update, Delete).
 
 Retorna uma instância de query do tipo Delete.
 
+```php
+Query::delete()
+Query::delete($table)
+```
+
 - `$table` `array|string|null` — Tabela alvo da query.
 
 **Returns:** `PhpMx\Datalayer\Query\Delete`
@@ -23,6 +28,11 @@ Retorna uma instância de query do tipo Delete.
 ### `public static insert(table)`
 
 Retorna uma instância de query do tipo Insert.
+
+```php
+Query::insert()
+Query::insert($table)
+```
 
 - `$table` `array|string|null` — Tabela alvo da query.
 
@@ -34,6 +44,11 @@ Retorna uma instância de query do tipo Insert.
 
 Retorna uma instância de query do tipo Select.
 
+```php
+Query::select()
+Query::select($table)
+```
+
 - `$table` `array|string|null` — Tabela alvo da query.
 
 **Returns:** `PhpMx\Datalayer\Query\Select`
@@ -43,6 +58,11 @@ Retorna uma instância de query do tipo Select.
 ### `public static update(table)`
 
 Retorna uma instância de query do tipo Update.
+
+```php
+Query::update()
+Query::update($table)
+```
 
 - `$table` `array|string|null` — Tabela alvo da query.
 

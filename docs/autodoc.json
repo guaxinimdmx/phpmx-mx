@@ -5150,9 +5150,7 @@
             "name": "PhpMx\\DImage",
             "file": "class/PhpMx/DImage.php",
             "description": [
-                "Motor de manipulação de imagens (GD) com suporte a BMP, JPEG, GIF, PNG e WEBP.",
-                "Gerencia redimensionamento, filtros e correção automática de orientação via EXIF.",
-                "Utilize os metodos DImage::_color(), DImage::_url() e DImage::_file() para criar objetos."
+                "Motor de manipulação de imagens (GD) com suporte a BMP, JPEG, GIF, PNG e WEBP."
             ],
             "interface": [
                 "Stringable"

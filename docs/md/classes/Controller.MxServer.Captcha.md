@@ -14,6 +14,12 @@ Controler para desafios alfanumérico
 
 Gera um desafio de captcha alfanumérico com imagem em base64 e chave criptografada
 
+```php
+$captcha()
+$captcha($color)
+$captcha($color, $background)
+```
+
 - `$color` `string` — Cor das letras do captcha
 - `$background` `string` — Cor de fundo do captcha
 
