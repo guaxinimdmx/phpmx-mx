@@ -1,5 +1,5 @@
 # Routes
 
-[← Index](../index.md)
+[← Index](../autodoc.md)
 
 [#routes]

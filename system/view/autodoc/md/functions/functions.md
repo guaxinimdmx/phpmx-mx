@@ -1,5 +1,5 @@
 # Functions
 
-[← Index](../index.md)
+[← Index](../autodoc.md)
 
 [#functions]

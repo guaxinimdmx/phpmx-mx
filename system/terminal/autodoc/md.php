@@ -7,14 +7,14 @@ use PhpMx\Terminal;
 use PhpMx\Trait\AutodocTrait;
 use PhpMx\View;
 
-/** Gera docs/md a partir dos dados do projeto */
+/** Gera .autodoc/md a partir dos dados do projeto */
 return new class {
 
     use AutodocTrait;
 
     function __invoke()
     {
-        Dir::remove('docs/md', true);
+        Dir::remove('.autodoc/md', true);
 
         $constants = $this->exportConstants();
         $functions = $this->exportFunctions();
@@ -25,7 +25,7 @@ return new class {
         $classes = $this->exportClasses();
         $database = $this->exportDatabase();
 
-        $index = View::render('autodoc/md/index.md', [
+        $index = View::render('autodoc/md/autodoc.md', [
             'project' => $this->exportProject(),
             'sections' => $this->renderIndexSections([
                 ['label' => 'Constants', 'link' => 'md/constants.md', 'count' => count($constants)],
@@ -38,55 +38,55 @@ return new class {
                 ['label' => 'Database', 'link' => 'md/database.md', 'count' => count($database)],
             ]),
         ]);
-        $this->save('docs/index.md', $index);
+        $this->save('.autodoc/autodoc.md', $index);
 
         $constantsPage = View::render('autodoc/md/constants.md', [
             'constants' => $this->renderConstants($constants),
         ]);
-        $this->save('docs/md/constants.md', $constantsPage);
+        $this->save('.autodoc/md/constants.md', $constantsPage);
 
         $functionsPage = View::render('autodoc/md/functions.md', [
             'functions' => $this->renderFunctions($functions),
         ]);
-        $this->save('docs/md/functions.md', $functionsPage);
+        $this->save('.autodoc/md/functions.md', $functionsPage);
 
         $environmentPage = View::render('autodoc/md/environment.md', [
             'environment' => $this->renderEnvironment($environment),
         ]);
-        $this->save('docs/md/environment.md', $environmentPage);
+        $this->save('.autodoc/md/environment.md', $environmentPage);
 
         $middlewarePage = View::render('autodoc/md/middleware.md', [
             'middleware' => $this->renderMiddleware($middleware),
         ]);
-        $this->save('docs/md/middleware.md', $middlewarePage);
+        $this->save('.autodoc/md/middleware.md', $middlewarePage);
 
         $terminalPage = View::render('autodoc/md/terminal.md', [
             'terminal' => $this->renderTerminal($terminal),
         ]);
-        $this->save('docs/md/terminal.md', $terminalPage);
+        $this->save('.autodoc/md/terminal.md', $terminalPage);
 
         $routesPage = View::render('autodoc/md/routes.md', [
             'routes' => $this->renderRoutes($routes),
         ]);
-        $this->save('docs/md/routes.md', $routesPage);
+        $this->save('.autodoc/md/routes.md', $routesPage);
 
         $classesPage = View::render('autodoc/md/classes.md', [
             'classes' => $this->renderClassesIndex($classes),
         ]);
-        $this->save('docs/md/classes.md', $classesPage);
+        $this->save('.autodoc/md/classes.md', $classesPage);
 
         $this->writeClassPages($classes);
 
         $databasePage = View::render('autodoc/md/database.md', [
             'database' => $this->renderDatabaseIndex($database),
         ]);
-        $this->save('docs/md/database.md', $databasePage);
+        $this->save('.autodoc/md/database.md', $databasePage);
 
         $this->writeDatabasePages($database);
 
-        $this->ensureDocLink('README.md', 'docs/index.md', 'Documentação em markdown [docs/index.md](docs/index.md)');
+        $this->ensureDocLink('README.md', '.autodoc/autodoc.md', 'Documentação em markdown [.autodoc/autodoc.md](.autodoc/autodoc.md)');
 
-        Terminal::echol('Exported to [#c:p,#]', 'docs/');
+        Terminal::echol('Exported to [#c:p,#]', '.autodoc/');
     }
 
     protected function save(string $path, string $content): void
@@ -103,7 +103,7 @@ return new class {
 
         foreach ($sections as $section)
             if ($section['count'] > 0)
-                $lines[] = View::render('autodoc/md/index/section.md', $section);
+                $lines[] = View::render('autodoc/md/autodoc/section.md', $section);
 
         return implode("\n\n", $lines);
     }
@@ -308,7 +308,7 @@ return new class {
                 'methods' => $this->renderClassMethods($item['methods'] ?? [], $name),
             ]);
 
-            $this->save('docs/md/classes/' . $this->classFilename($name), $content);
+            $this->save('.autodoc/md/classes/' . $this->classFilename($name), $content);
         }
     }
 
@@ -441,7 +441,7 @@ return new class {
                     'fields' => $this->renderDatabaseFields($table['fields'] ?? [], $dbName),
                 ]);
 
-                $this->save('docs/md/database/' . $this->databaseFilename($dbName, $tableName), $content);
+                $this->save('.autodoc/md/database/' . $this->databaseFilename($dbName, $tableName), $content);
             }
         }
     }

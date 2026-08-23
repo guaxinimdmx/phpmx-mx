@@ -1,5 +1,5 @@
 # Database
 
-[← Index](../index.md)
+[← Index](../autodoc.md)
 
 [#database]

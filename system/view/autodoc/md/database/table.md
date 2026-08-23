@@ -1,6 +1,6 @@
 # `[#name]`
 
-[← Database](../database.md) · [← Index](../../index.md)
+[← Database](../database.md) · [← Index](../../autodoc.md)
 
 [#comment]
 

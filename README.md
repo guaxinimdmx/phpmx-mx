@@ -7,6 +7,6 @@ composer require phpmx/mx
 ./vendor/bin/mx install
 ```
 
-Documentação json `docs/autodoc.json`
+Documentação em markdown [.autodoc/autodoc.md](.autodoc/autodoc.md)
 
-Documentação em markdown [docs/index.md](docs/index.md)
+Documentação json `.autodoc/autodoc.json`

@@ -140,12 +140,20 @@ abstract class File
     static function setEx(string $path, string $extension = 'php'): string
     {
         $extension = trim($extension, '.');
+
         if (!str_ends_with($path, ".$extension")) {
-            $path = explode('.', $path);
-            if (count($path) > 1) array_pop($path);
-            $path[] = $extension;
-            $path = implode('.', $path);
+            $slash = strrpos($path, '/');
+            $dir = $slash === false ? '' : substr($path, 0, $slash + 1);
+            $file = $slash === false ? $path : substr($path, $slash + 1);
+
+            $file = explode('.', $file);
+            if (count($file) > 1) array_pop($file);
+            $file[] = $extension;
+            $file = implode('.', $file);
+
+            $path = $dir . $file;
         }
+
         return $path;
     }
 

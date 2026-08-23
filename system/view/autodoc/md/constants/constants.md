@@ -1,5 +1,5 @@
 # Constants
 
-[← Index](../index.md)
+[← Index](../autodoc.md)
 
 [#constants]

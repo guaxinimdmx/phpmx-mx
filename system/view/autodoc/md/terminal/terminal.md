@@ -1,5 +1,5 @@
 # Terminal Commands
 
-[← Index](../index.md)
+[← Index](../autodoc.md)
 
 [#terminal]

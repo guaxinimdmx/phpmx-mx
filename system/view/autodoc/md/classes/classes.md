@@ -1,5 +1,5 @@
 # Classes
 
-[← Index](../index.md)
+[← Index](../autodoc.md)
 
 [#classes]

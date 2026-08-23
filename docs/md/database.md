@@ -1,3 +1,0 @@
-# Database
-
-[← Index](../index.md)

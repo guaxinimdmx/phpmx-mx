@@ -20,6 +20,8 @@ return new class {
         $this->isEqual('setEx: troca extensão', fn() => File::setEx('arquivo.php', 'txt'), 'arquivo.txt');
         $this->isEqual('setEx: adiciona extensão', fn() => File::setEx('arquivo', 'php'), 'arquivo.php');
         $this->isEqual('setEx: não duplica', fn() => File::setEx('arquivo.php', 'php'), 'arquivo.php');
+        $this->isEqual('setEx: não confunde ponto de pasta oculta com extensão', fn() => File::setEx('.autodoc/autodoc', 'json'), '.autodoc/autodoc.json');
+        $this->isEqual('setEx: pasta oculta com extensão já presente', fn() => File::setEx('.autodoc/autodoc.md', 'md'), '.autodoc/autodoc.md');
 
         // create / check
         $this->isTrue('create: cria arquivo', fn() => File::create(self::TMP, 'conteúdo') === true);

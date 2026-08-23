@@ -1,5 +1,5 @@
 # Middleware
 
-[← Index](../index.md)
+[← Index](../autodoc.md)
 
 [#middleware]

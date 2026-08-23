@@ -4,7 +4,7 @@ use PhpMx\Json;
 use PhpMx\Terminal;
 use PhpMx\Trait\AutodocTrait;
 
-/** Exporta a documentação pública do projeto para docs/autodoc.json */
+/** Exporta a documentação pública do projeto para .autodoc/autodoc.json */
 return new class {
 
     use AutodocTrait;
@@ -24,12 +24,12 @@ return new class {
             'database' => $this->exportDatabase(),
         ]);
 
-        Json::export('docs/autodoc', $doc);
+        Json::export('.autodoc/autodoc', $doc);
 
-        $this->ensureDocLink('README.md', 'docs/autodoc.json', 'Documentação json `docs/autodoc.json`');
-        $this->ensureDocLink('CLAUDE.md', 'docs/autodoc.json', 'Documentação json `docs/autodoc.json`', createIfMissing: true);
+        $this->ensureDocLink('README.md', '.autodoc/autodoc.json', 'Documentação json `.autodoc/autodoc.json`');
+        $this->ensureDocLink('CLAUDE.md', '.autodoc/autodoc.json', 'Documentação json `.autodoc/autodoc.json`', createIfMissing: true);
 
-        Terminal::echol('Exported to [#c:p,#]', 'docs/autodoc.json');
+        Terminal::echol('Exported to [#c:p,#]', '.autodoc/autodoc.json');
     }
 
 };

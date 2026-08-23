@@ -1,5 +1,5 @@
 # Environment
 
-[← Index](../index.md)
+[← Index](../autodoc.md)
 
 [#environment]

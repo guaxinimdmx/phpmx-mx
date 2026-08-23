@@ -1,6 +1,6 @@
 # `[#name]`
 
-[← Classes](../classes.md) · [← Index](../../index.md)
+[← Classes](../classes.md) · [← Index](../../autodoc.md)
 
 **Type:** `[#badge]`
 
