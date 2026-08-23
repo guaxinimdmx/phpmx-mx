@@ -1,0 +1,51 @@
+# Environment
+
+[← Index](../autodoc.md)
+
+- `DEV` — Define se o sistema está em modo de desenvolvimento (exibe erros detalhados)
+- `CIF` — Define o certificado padrão utilizado pelo motor de criptografia Cif
+- `MX5_KEY` — Chave de segurança utilizada para a geração de hashes MX5
+- `USE_CACHE_FILE` — Habilita ou desabilita o armazenamento de cache em arquivos físicos
+- `FORCE_SSL` — Obriga o redirecionamento de todas as requisições para HTTPS
+- `JWT_KEY` — Chave secreta utilizada para assinatura e validação de tokens JWT
+- `CACHE` — Tempo de expiração global para o sistema de cache
+- `CACHE_JS` — Tempo de cache no navegador para arquivos Javascript (.js)
+- `CACHE_CSS` — Tempo de cache no navegador para arquivos de folha de estilo (.css)
+- `CACHE_ICO` — Tempo de cache no navegador para ícones de favoritos (.ico)
+- `CACHE_PNG` — Tempo de cache no navegador para imagens PNG
+- `CACHE_JPG` — Tempo de cache no navegador para imagens JPG/JPEG
+- `CACHE_BMP` — Tempo de cache no navegador para imagens BMP
+- `CACHE_GIF` — Tempo de cache no navegador para imagens GIF
+- `CACHE_WEBP` — Tempo de cache no navegador para imagens de formato WEBP
+- `CACHE_MP3` — Tempo de cache no navegador para arquivos de áudio MP3
+- `CACHE_MP4` — Tempo de cache no navegador para arquivos de vídeo MP4
+- `CAPTCHA_TIME` — Tempo em segundos que um captcha é válido
+- `STM_200` — Mensagem padrão para status HTTP 200 (Success)
+- `STM_201` — Mensagem padrão para status HTTP 201 (Created)
+- `STM_202` — Mensagem padrão para status HTTP 202 (Accepted)
+- `STM_204` — Mensagem padrão para status HTTP 204 (No Content)
+- `STM_301` — Mensagem padrão para status HTTP 301 (Moved Permanently)
+- `STM_302` — Mensagem padrão para status HTTP 302 (Found)
+- `STM_303` — Mensagem padrão para status HTTP 303 (See Other/Redirect)
+- `STM_304` — Mensagem padrão para status HTTP 304 (Not Modified)
+- `STM_400` — Mensagem padrão para status HTTP 400 (Bad Request)
+- `STM_401` — Mensagem padrão para status HTTP 401 (Unauthorized)
+- `STM_403` — Mensagem padrão para status HTTP 403 (Forbidden)
+- `STM_404` — Mensagem padrão para status HTTP 404 (Not Found)
+- `STM_405` — Mensagem padrão para status HTTP 405 (Method Not Allowed)
+- `STM_409` — Mensagem padrão para status HTTP 409 (Conflict)
+- `STM_422` — Mensagem padrão para status HTTP 422 (Unprocessable Entity)
+- `STM_429` — Mensagem padrão para status HTTP 429 (Too Many Requests)
+- `STM_500` — Mensagem padrão para status HTTP 500 (Internal Server Error)
+- `STM_501` — Mensagem padrão para status HTTP 501 (Not Implemented)
+- `STM_502` — Mensagem padrão para status HTTP 502 (Bad Gateway)
+- `STM_503` — Mensagem padrão para status HTTP 503 (Service Unavailable)
+- `STM_504` — Mensagem padrão para status HTTP 504 (Gateway Timeout)
+- `AUTODOC_CONSTANTS` — Inclui constantes públicas na documentação gerada pelo autodoc
+- `AUTODOC_FUNCTIONS` — Inclui funções públicas na documentação gerada pelo autodoc
+- `AUTODOC_ENVIRONMENT` — Inclui variáveis de ambiente públicas na documentação gerada pelo autodoc
+- `AUTODOC_MIDDLEWARE` — Inclui middlewares na documentação gerada pelo autodoc
+- `AUTODOC_TERMINAL` — Inclui comandos de terminal na documentação gerada pelo autodoc
+- `AUTODOC_ROUTES` — Inclui rotas na documentação gerada pelo autodoc
+- `AUTODOC_CLASSES` — Inclui classes públicas na documentação gerada pelo autodoc
+- `AUTODOC_DATABASE` — Inclui o esquema do banco de dados na documentação gerada pelo autodoc (expõe nomes de tabela, campo e relacionamentos)
