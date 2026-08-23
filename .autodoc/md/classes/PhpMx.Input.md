@@ -1,6 +1,6 @@
 # `PhpMx\Input`
 
-[← Classes](../classes.md) · [← Index](../../autodoc.md)
+[← Index](../../autodoc.md) · [← Classes](../classes.md)
 
 **Type:** `class`
 

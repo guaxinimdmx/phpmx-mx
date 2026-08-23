@@ -9,11 +9,7 @@
 /library/cacheTime
 /library/certificate/*
 !/library/certificate/base.crt
+/library/sqlite
 /library/tmp
 
-/library/sqlite
-
 /system/datalayer/*
-
-/.claude
-/CLAUDE.md

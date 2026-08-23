@@ -6,7 +6,6 @@ use PhpMx\Datalayer;
 use PhpMx\Datalayer\Scheme\SchemeMap;
 use PhpMx\Dir;
 use PhpMx\File;
-use PhpMx\Import;
 use PhpMx\Json;
 use PhpMx\Reflection\ReflectionCommandFile;
 use PhpMx\Reflection\ReflectionHelperFile;
@@ -151,19 +150,6 @@ trait AutodocTrait
         }
 
         return $scheme;
-    }
-
-    protected function ensureDocLink(string $file, string $reference, string $line, bool $createIfMissing = false): void
-    {
-        if (!File::check($file)) {
-            if ($createIfMissing) File::create($file, "$line\n");
-            return;
-        }
-
-        $content = Import::content($file);
-        if (str_contains($content, $reference)) return;
-
-        File::create($file, rtrim($content) . "\n\n$line\n", true);
     }
 
     protected function isPublic(array $item): bool

@@ -26,9 +26,6 @@ return new class {
 
         Json::export('.autodoc/autodoc', $doc);
 
-        $this->ensureDocLink('README.md', '.autodoc/autodoc.json', 'Documentação json `.autodoc/autodoc.json`');
-        $this->ensureDocLink('CLAUDE.md', '.autodoc/autodoc.json', 'Documentação json `.autodoc/autodoc.json`', createIfMissing: true);
-
         Terminal::echol('Exported to [#c:p,#]', '.autodoc/autodoc.json');
     }
 

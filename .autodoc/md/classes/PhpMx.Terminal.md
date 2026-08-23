@@ -1,6 +1,6 @@
 # `PhpMx\Terminal`
 
-[← Classes](../classes.md) · [← Index](../../autodoc.md)
+[← Index](../../autodoc.md) · [← Classes](../classes.md)
 
 **Type:** `abstract class`
 

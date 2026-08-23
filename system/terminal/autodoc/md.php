@@ -84,8 +84,6 @@ return new class {
 
         $this->writeDatabasePages($database);
 
-        $this->ensureDocLink('README.md', '.autodoc/autodoc.md', 'Documentação em markdown [.autodoc/autodoc.md](.autodoc/autodoc.md)');
-
         Terminal::echol('Exported to [#c:p,#]', '.autodoc/');
     }
 

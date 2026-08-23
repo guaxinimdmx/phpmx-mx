@@ -1,6 +1,6 @@
 # `PhpMx\Datalayer\Driver\Field\FIdx`
 
-[← Classes](../classes.md) · [← Index](../../autodoc.md)
+[← Index](../../autodoc.md) · [← Classes](../classes.md)
 
 **Type:** `class`
 

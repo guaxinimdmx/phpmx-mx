@@ -37,13 +37,13 @@ return new class {
         self::blockFile('.gitignore', 'MX', [
             '/.env',
             '/vendor',
-            '/.claude',
             '/.vscode',
-            '/CLAUDE.md',
             '/class/Model/Db*/Driver',
             '/library/cache',
+            '/library/cacheTime',
             '/library/certificate',
             '/library/sqlite',
+            '/library/tmp',
             '/system/datalayer/*/scheme',
         ]);
 

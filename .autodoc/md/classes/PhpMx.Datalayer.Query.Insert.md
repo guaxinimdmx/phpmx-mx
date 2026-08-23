@@ -1,6 +1,6 @@
 # `PhpMx\Datalayer\Query\Insert`
 
-[← Classes](../classes.md) · [← Index](../../autodoc.md)
+[← Index](../../autodoc.md) · [← Classes](../classes.md)
 
 **Type:** `class`
 
