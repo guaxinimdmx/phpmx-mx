@@ -2,6 +2,10 @@
 
 [← Index](../index.md)
 
+### dimage
+
+- [dimage.basics](examples/dimage.basics.md) — DImage
+
 ### input
 
 - [input.validation](examples/input.validation.md) — Validando input com Input

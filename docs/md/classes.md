@@ -29,7 +29,7 @@
 
 - [PhpMx\Assets](classes/PhpMx.Assets.md) — Classe utilitária para envio e download de arquivos via resposta HTTP.
 - [PhpMx\Cif](classes/PhpMx.Cif.md) — Classe utilitária para cifrar e decifrar variáveis de forma segura.
-- [PhpMx\DImage](classes/PhpMx.DImage.md) — Motor de manipulação de imagens (GD) com suporte a BMP, JPEG, GIF, PNG e WEBP. Gerencia redimensionamento, filtros e correção automática de orientação via EXIF. Utilize os metodos DImage::_color(), DImage::_url() e DImage::_file() para criar objetos.
+- [PhpMx\DImage](classes/PhpMx.DImage.md) — Motor de manipulação de imagens (GD) com suporte a BMP, JPEG, GIF, PNG e WEBP.
 - [PhpMx\Datalayer](classes/PhpMx.Datalayer.md) — Gerencia conexões reutilizáveis com múltiplos bancos de dados.
 - [PhpMx\Dir](classes/PhpMx.Dir.md) — Classe utilitária para manipulação de diretórios.
 - [PhpMx\Env](classes/PhpMx.Env.md) — Classe utilitária para gerenciamento de variáveis de ambiente.

@@ -18,6 +18,6 @@ Framework base para aplicações modernas em PHP
 
 ## [Classes](md/classes.md) <b><small>(80)</small></b>
 
-## [Examples](md/examples.md) <b><small>(5)</small></b>
+## [Examples](md/examples.md) <b><small>(6)</small></b>
 
 ## [Database](md/database.md) <b><small>(2)</small></b>

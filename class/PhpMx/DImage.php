@@ -8,8 +8,6 @@ use GdImage;
 
 /**
  * Motor de manipulação de imagens (GD) com suporte a BMP, JPEG, GIF, PNG e WEBP.
- * Gerencia redimensionamento, filtros e correção automática de orientação via EXIF.
- * Utilize os metodos DImage::_color(), DImage::_url() e DImage::_file() para criar objetos.
  */
 class DImage
 {
@@ -360,7 +358,7 @@ class DImage
     }
 
     /**
-     * Recorta a imagem para um aspect-ratio específico (ex: 1.1 para 1:1, 1.6 para 16:9).
+     * Recorta a imagem para um aspect-ratio específico (ex: 1.1 para 1:1, 16.9 para 16:9).
      * @param float|null $ratio Proporção desejada.
      * @param int $position Ponto de ancoragem para o corte.
      * @return static

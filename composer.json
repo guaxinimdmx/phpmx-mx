@@ -50,5 +50,11 @@
     },
     "bin": [
         "mx"
-    ]
+    ],
+    "suggest": {
+        "ext-pdo_mysql": "Required if you intend to use MySQL or MariaDB connections.",
+        "ext-pdo_sqlite": "Required if you intend to use SQLite connections.",
+        "ext-pdo_pgsql": "Required if you intend to use PostgreSQL connections.",
+        "ext-gd": "Required if you intend to use Captcha input and DImage."
+    }
 }
