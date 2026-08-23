@@ -8,11 +8,14 @@
 namespace [#namespace]\Driver;
 
 /**
+ * Driver de registro gerado automáticamente
  * @internal[#autocomplete]
  */
 abstract class Driver[#recordClass] extends \PhpMx\Datalayer\Driver\Record
 {
+    /** @ignore */
     protected string $DATALAYER = '[#datalayer]';
+    /** @ignore */
     protected string $TABLE = '[#tableName]';
 
     /** @ignore */

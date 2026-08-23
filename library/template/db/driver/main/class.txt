@@ -9,7 +9,10 @@ namespace [#namespace]\Driver;
 
 use PhpMx\Snap;
 
-/** @internal */
+/**
+ * Driver de conexão gerado automáticamente
+ * @internal
+ */
 abstract class [#mainClass]
 {[#varTable]    [#method]
 }
