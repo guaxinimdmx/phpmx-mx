@@ -191,6 +191,53 @@ trait AutodocTrait
         return $result;
     }
 
+    protected function joinDescription(array|string $description): string
+    {
+        return is_array($description) ? implode(' ', $description) : $description;
+    }
+
+    protected function functionUsage(string $name, array $params): string
+    {
+        return $this->callVariations($name, $params);
+    }
+
+    protected function classMethodUsage(string $className, string $method, array $params, bool $static): string
+    {
+        $short = str_contains($className, '\\') ? substr($className, strrpos($className, '\\') + 1) : $className;
+
+        if ($method === '__construct')
+            return $this->callVariations("new $short", $params);
+
+        if ($method === '__invoke')
+            return $this->callVariations('$' . lcfirst($short), $params);
+
+        $caller = $static ? "$short::" : '$' . lcfirst($short) . '->';
+
+        return $this->callVariations("$caller$method", $params);
+    }
+
+    protected function callVariations(string $prefix, array $params): string
+    {
+        $args = [];
+        $requiredCount = 0;
+
+        foreach ($params as $param) {
+            $argPrefix = !empty($param['variadic']) ? '...' : '';
+            $args[] = $argPrefix . '$' . ($param['name'] ?? '');
+            if (empty($param['optional'])) $requiredCount++;
+        }
+
+        $total = count($args);
+        $lines = [];
+
+        for ($i = $requiredCount; $i <= $total; $i++)
+            $lines[] = "$prefix(" . implode(', ', array_slice($args, 0, $i)) . ")";
+
+        if (empty($lines)) $lines[] = "$prefix()";
+
+        return implode("\n", array_values(array_unique($lines)));
+    }
+
     protected function exportProject(): array
     {
         $composer = $this->getComposerScheme();

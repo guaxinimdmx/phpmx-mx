@@ -24,7 +24,7 @@ abstract class RenderHtml extends View
         $preserved = [];
 
         $content = preg_replace_callback(
-            '#<pre(.*?)>(.*?)</pre(.*?)>#is',
+            '#<pre([^>]*)>(.*?)</pre([^>]*)>#is',
             function ($matches) use (&$preserved) {
                 $key = '@@MINIFY_BLOCK_' . count($preserved) . '@@';
                 $inner = $matches[2];
@@ -43,7 +43,7 @@ abstract class RenderHtml extends View
         $content = count($html) ? self::formatPage($content) : self::formatFragment($content);
 
         $content = preg_replace_callback(
-            '#<(script|style)(.*?)>(.*?)</\1>#is',
+            '#<(script|style)([^>]*)>(.*?)</\1>#is',
             function ($matches) use (&$preserved) {
                 $key = '@@MINIFY_BLOCK_' . count($preserved) . '@@';
                 $preserved[$key] = "<{$matches[1]}{$matches[2]}>{$matches[3]}</{$matches[1]}>";
@@ -138,10 +138,10 @@ abstract class RenderHtml extends View
         $script = RenderJs::format($script);
         if (!empty($script)) $script = "<script>\n$script\n</script>";
 
-        preg_match('/(.*?)(<html\b.*?>.*?<\/html>)(.*)/is', $content, $structure);
-        $before = $structure[1];
-        $content   = $structure[2];
-        $after  = $structure[3];
+        preg_match('/(.*?)(<html\b[^>]*>.*?<\/html>)(.*)/is', $content, $structure);
+        $before = $structure[1] ?? '';
+        $content   = $structure[2] ?? '';
+        $after  = $structure[3] ?? '';
 
         if (preg_match('/<!DOCTYPE[^>]*>/i', $before, $match)) {
             $doctype = $match[0];

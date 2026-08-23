@@ -1,0 +1,1900 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Framework base para aplicações modernas em PHP">
+<title>Functions · phpmx/mx
+</title>
+<style>
+:root {
+--php-rgb: 120, 124, 180;
+--base-rgb: 30, 30, 32;
+--text-rgb: 245, 245, 247;
+--line-rgb: 255, 255, 255;
+--code-rgb: 20, 20, 22;
+--php: rgb(var(--php-rgb));
+--base: rgb(var(--base-rgb));
+--text: rgb(var(--text-rgb));
+--line: rgba(var(--line-rgb), 0.1);
+--code: rgb(var(--code-rgb));
+--font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+--font-mono: "Fira Code", "SF Mono", Monaco, Inconsolata, "Roboto Mono", Consolas, "Courier New", monospace;
+--topbar-height: 56px;
+--sidebar-width: 260px;
+}
+* {
+box-sizing: border-box;
+}
+html {
+background: var(--base);
+}
+body {
+margin: 0;
+font-family: var(--font-sans);
+color: var(--text);
+line-height: 1.6;
+}
+a {
+color: inherit;
+}
+.topbar {
+height: var(--topbar-height);
+display: flex;
+align-items: center;
+padding: 0 20px;
+background: var(--php);
+position: sticky;
+top: 0;
+z-index: 10;
+}
+.topbar .brand {
+font-weight: 700;
+font-size: 1.1rem;
+text-decoration: none;
+}
+.shell {
+display: flex;
+flex-direction: column;
+min-height: calc(100vh - var(--topbar-height));
+}
+.sidebar {
+flex-shrink: 0;
+padding: 16px;
+border-bottom: 1px solid var(--line);
+}
+.sidebar .search input {
+width: 100%;
+padding: 8px 12px;
+background: var(--code);
+border: 1px solid var(--line);
+border-radius: 6px;
+color: var(--text);
+font-family: var(--font-sans);
+font-size: 0.9rem;
+}
+.sidebar .search input:focus {
+outline: none;
+border-color: var(--php);
+}
+.sidebar .nav {
+margin-top: 16px;
+}
+.sidebar .nav ul {
+list-style: none;
+margin: 0;
+padding: 0;
+}
+.sidebar .nav .nav-link {
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 8px;
+padding: 8px 10px;
+border-radius: 6px;
+text-decoration: none;
+font-size: 0.9rem;
+color: rgba(var(--text-rgb), 0.85);
+}
+.sidebar .nav .nav-link:hover {
+background: rgba(var(--php-rgb), 0.15);
+color: var(--text);
+}
+.sidebar .nav .nav-count {
+font-size: 0.75rem;
+color: rgba(var(--text-rgb), 0.5);
+}
+.content {
+flex-grow: 1;
+min-width: 0;
+padding: 24px;
+}
+.content h1 {
+font-size: 1.8rem;
+margin-bottom: 0.5em;
+}
+.content p a {
+color: var(--php);
+text-decoration: none;
+}
+.content p a:hover {
+text-decoration: underline;
+}
+.content code {
+font-family: var(--font-mono);
+background: var(--code);
+border: 1px solid var(--line);
+border-radius: 4px;
+padding: 2px 6px;
+font-size: 0.85em;
+}
+.content pre {
+background: var(--code);
+border: 1px solid var(--line);
+border-radius: 6px;
+padding: 12px 16px;
+overflow-x: auto;
+}
+.content pre code {
+background: none;
+border: none;
+padding: 0;
+font-size: 0.85em;
+}
+.content .doc-item {
+padding: 24px 0;
+border-bottom: 1px solid var(--line);
+}
+.content .doc-item:first-of-type {
+padding-top: 0;
+}
+.content .doc-item h2 {
+font-family: var(--font-mono);
+font-size: 1.1rem;
+color: var(--php);
+margin-bottom: 0.5em;
+}
+.content .doc-item .returns {
+margin-top: 1em;
+font-size: 0.9rem;
+}
+.content .param-list {
+list-style: none;
+margin: 1em 0 0;
+padding: 0;
+}
+.content .param-list li {
+display: flex;
+flex-wrap: wrap;
+gap: 8px;
+align-items: baseline;
+padding: 6px 0;
+font-size: 0.9rem;
+}
+.content .param-list .type {
+color: var(--php);
+font-size: 0.8rem;
+}
+.content .param-list .description {
+color: rgba(var(--text-rgb), 0.75);
+}
+.content .constant-list {
+list-style: none;
+margin: 1.5em 0 0;
+padding: 0;
+}
+.content .constant-list li {
+display: flex;
+flex-wrap: wrap;
+gap: 10px;
+align-items: baseline;
+padding: 10px 0;
+border-bottom: 1px solid var(--line);
+}
+.content .constant-list .description {
+color: rgba(var(--text-rgb), 0.75);
+font-size: 0.9rem;
+}
+@media screen and (min-width: 700px) {
+.shell {
+flex-direction: row;
+}
+.sidebar {
+width: var(--sidebar-width);
+position: sticky;
+top: var(--topbar-height);
+height: calc(100vh - var(--topbar-height));
+overflow-y: auto;
+border-bottom: none;
+border-right: 1px solid var(--line);
+}
+.content {
+padding: 32px 48px;
+}
+}
+@media print {
+.topbar, .sidebar {
+display: none;
+}
+.content {
+padding: 0;
+}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+<a class="brand" href="../index.html">phpmx/mx
+</a>
+</header>
+<div class="shell">
+<aside class="sidebar">
+<div class="search">
+<input type="search" placeholder="Buscar na documentação" aria-label="Buscar na documentação">
+</div>
+<nav class="nav">
+<ul>
+<li>
+<a class="nav-link" href="constants.html">
+<span class="nav-label">Constants
+</span>
+<span class="nav-count">23
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="functions.html">
+<span class="nav-label">Functions
+</span>
+<span class="nav-count">57
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="environment.html">
+<span class="nav-label">Environment
+</span>
+<span class="nav-count">48
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="middleware.html">
+<span class="nav-label">Middleware
+</span>
+<span class="nav-count">2
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="terminal.html">
+<span class="nav-label">Terminal Commands
+</span>
+<span class="nav-count">44
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="routes.html">
+<span class="nav-label">Routes
+</span>
+<span class="nav-count">7
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="classes.html">
+<span class="nav-label">Classes
+</span>
+<span class="nav-count">80
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="examples.html">
+<span class="nav-label">Examples
+</span>
+<span class="nav-count">6
+</span>
+</a>
+</li>
+<li>
+<a class="nav-link" href="database.html">
+<span class="nav-label">Database
+</span>
+<span class="nav-count">2
+</span>
+</a>
+</li>
+</ul>
+</nav>
+</aside>
+<main class="content">
+<h1>Functions
+</h1>
+<p>
+<a href="../index.html">&larr; Index
+</a>
+</p>
+<section class="doc-item">
+<h2>cache(cacheName, action)
+</h2>
+<p>Armazena e recupera o retorno de uma Closure em /library/cache.
+</p>
+<pre><code>cache($cacheName, $action)</code></pre>
+<ul class="param-list">
+<li>
+<code>$cacheName
+</code>
+<span class="type">string
+</span>
+<span class="description">Nome identificador do cache.
+</span>
+</li>
+<li>
+<code>$action
+</code>
+<span class="type">Closure
+</span>
+<span class="description">Função que gera o valor caso o cache não exista ou esteja em DEV.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>mixed
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>cacheTime(cacheName, seconds, action)
+</h2>
+<p>Armazena e recupera o retorno de uma Closure em /library/cache por um período determinado.
+</p>
+<pre><code>cacheTime($cacheName, $seconds, $action)</code></pre>
+<ul class="param-list">
+<li>
+<code>$cacheName
+</code>
+<span class="type">string
+</span>
+<span class="description">Nome identificador do cache.
+</span>
+</li>
+<li>
+<code>$seconds
+</code>
+<span class="type">int
+</span>
+<span class="description">Tempo de vida do cache em segundos.
+</span>
+</li>
+<li>
+<code>$action
+</code>
+<span class="type">Closure
+</span>
+<span class="description">Função que gera o valor caso o cache tenha expirado.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>mixed
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>applyChanges(array, changes)
+</h2>
+<p>Aplica mudanças em um array de forma recursiva.
+</p>
+<pre><code>applyChanges($array, $changes)</code></pre>
+<ul class="param-list">
+<li>
+<code>$array
+</code>
+<span class="type">array
+</span>
+<span class="description">Array original que receberá as alterações (passado por referência).
+</span>
+</li>
+<li>
+<code>$changes
+</code>
+<span class="type">array
+</span>
+<span class="description">Mapa de alterações a serem aplicadas.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>void
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>getChanges(changed, original)
+</h2>
+<p>Compara dois arrays e retorna as diferenças estruturais.
+</p>
+<pre><code>getChanges($changed, $original)</code></pre>
+<ul class="param-list">
+<li>
+<code>$changed
+</code>
+<span class="type">array
+</span>
+<span class="description">Array com as versões novas dos dados.
+</span>
+</li>
+<li>
+<code>$original
+</code>
+<span class="type">array
+</span>
+<span class="description">Array com os dados originais.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>array
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>colorRGB(color)
+</h2>
+<p>Converte uma string de cor Hexadecimal (com ou sem #) em uma string RGB separada por vírgulas. Suporta formatos de 6, 3 ou 1 caractere (ex: &#039;FF0000&#039;, &#039;F00&#039;, &#039;F&#039;).
+</p>
+<pre><code>colorRGB($color)</code></pre>
+<ul class="param-list">
+<li>
+<code>$color
+</code>
+<span class="type">string
+</span>
+<span class="description">A cor em hexadecimal ou já em formato RGB.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>colorHex(color)
+</h2>
+<p>Converte uma string de cor RGB (separada por vírgulas) em Hexadecimal de 6 caracteres.
+</p>
+<pre><code>colorHex($color)</code></pre>
+<ul class="param-list">
+<li>
+<code>$color
+</code>
+<span class="type">string
+</span>
+<span class="description">Valores RGB (ex: &#039;255,0,0&#039;) ou hexadecimal.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>d(params)
+</h2>
+<p>Realiza o var_dump de múltiplas variáveis com configurações otimizadas de profundidade e exibição.
+</p>
+<pre><code>d()
+d(...$params)</code></pre>
+<ul class="param-list">
+<li>
+<code>$params
+</code>
+<span class="type">mixed
+</span>
+<span class="description">Variáveis para depuração.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>void
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>dd(params)
+</h2>
+<p>Exibe os dados das variáveis (dump) e encerra a execução do sistema (die).
+</p>
+<pre><code>dd()
+dd(...$params)</code></pre>
+<ul class="param-list">
+<li>
+<code>$params
+</code>
+<span class="type">mixed
+</span>
+<span class="description">Variáveis para depuração.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>void
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>dpre(params)
+</h2>
+<p>Realiza o var_dump de variáveis dentro de uma tag HTML pre.
+</p>
+<pre><code>dpre()
+dpre(...$params)</code></pre>
+<ul class="param-list">
+<li>
+<code>$params
+</code>
+<span class="type">mixed
+</span>
+<span class="description">Variáveis para depuração.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>void
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>ddpre(params)
+</h2>
+<p>Realiza o var_dump de variáveis dentro de uma tag HTML pre encerrando a execução do sistema.
+</p>
+<pre><code>ddpre()
+ddpre(...$params)</code></pre>
+<ul class="param-list">
+<li>
+<code>$params
+</code>
+<span class="type">mixed
+</span>
+<span class="description">Variáveis para depuração.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>void
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>env(name)
+</h2>
+<p>Recupera o valor de uma variável de ambiente carregada pelo Env.
+</p>
+<pre><code>env($name)</code></pre>
+<ul class="param-list">
+<li>
+<code>$name
+</code>
+<span class="type">string
+</span>
+<span class="description">Nome da variável de ambiente.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>mixed
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>htmlToInlineCss(html)
+</h2>
+<p>Converte os estilos CSS de blocos &lt;style&gt; para atributos style inline em cada elemento HTML. Seletores com pseudo-classes (:hover, :focus) e @media são ignorados. Estilos inline já existentes nos elementos têm prioridade sobre os do &lt;style&gt;.
+</p>
+<pre><code>htmlToInlineCss($html)</code></pre>
+<ul class="param-list">
+<li>
+<code>$html
+</code>
+<span class="type">string
+</span>
+<span class="description">HTML de entrada com blocos &lt;style&gt; (fragmento ou página completa).
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>idKeyType(idKey)
+</h2>
+<p>Retorna o tipo de um idKey (nome da tabela associada ao registro).
+</p>
+<pre><code>idKeyType($idKey)</code></pre>
+<ul class="param-list">
+<li>
+<code>$idKey
+</code>
+<span class="type">string
+</span>
+<span class="description">IdKey a ser decodificado.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>?string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>idKeyId(idKey)
+</h2>
+<p>Retorna o id numérico de um idKey.
+</p>
+<pre><code>idKeyId($idKey)</code></pre>
+<ul class="param-list">
+<li>
+<code>$idKey
+</code>
+<span class="type">string
+</span>
+<span class="description">IdKey a ser decodificado.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>?int
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>is_base64(var)
+</h2>
+<p>Verifica se uma variável é uma string codificada em Base64 válida.
+</p>
+<pre><code>is_base64($var)</code></pre>
+<ul class="param-list">
+<li>
+<code>$var
+</code>
+<span class="type">mixed
+</span>
+<span class="description">A variável a ser verificada.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>is_blank(var)
+</h2>
+<p>Verifica se uma variável é nula, vazia ou composta apenas de espaços em branco. Diferente de empty(), retorna false para números (0) e booleanos.
+</p>
+<pre><code>is_blank($var)</code></pre>
+<ul class="param-list">
+<li>
+<code>$var
+</code>
+<span class="type">mixed
+</span>
+<span class="description">A variável a ser verificada.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>is_class(object, class)
+</h2>
+<p>Verifica se um objeto ou string de classe é exatamente a classe informada ou a estende.
+</p>
+<pre><code>is_class($object, $class)</code></pre>
+<ul class="param-list">
+<li>
+<code>$object
+</code>
+<span class="type">mixed
+</span>
+<span class="description">Objeto ou nome da classe para verificar.
+</span>
+</li>
+<li>
+<code>$class
+</code>
+<span class="type">object|string
+</span>
+<span class="description">Classe de referência.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>is_cif(var)
+</h2>
+<p>Atalho para verificar se uma variável é uma cifra MX válida (via Cif::check).
+</p>
+<pre><code>is_cif($var)</code></pre>
+<ul class="param-list">
+<li>
+<code>$var
+</code>
+<span class="type">mixed
+</span>
+<span class="description">A variável a ser verificada.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>is_closure(var)
+</h2>
+<p>Verifica se uma variável é uma função anônima ou um objeto invocável (callable).
+</p>
+<pre><code>is_closure($var)</code></pre>
+<ul class="param-list">
+<li>
+<code>$var
+</code>
+<span class="type">mixed
+</span>
+<span class="description">A variável a ser verificada.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>is_extend(object, class)
+</h2>
+<p>Verifica especificamente se um objeto ou classe estende uma classe pai.
+</p>
+<pre><code>is_extend($object, $class)</code></pre>
+<ul class="param-list">
+<li>
+<code>$object
+</code>
+<span class="type">mixed
+</span>
+<span class="description">Objeto ou nome da classe a verificar.
+</span>
+</li>
+<li>
+<code>$class
+</code>
+<span class="type">object|string
+</span>
+<span class="description">Classe pai de referência.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>is_idKey(idKey)
+</h2>
+<p>Verifica se uma variável é um idKey válido.
+</p>
+<pre><code>is_idKey($idKey)</code></pre>
+<ul class="param-list">
+<li>
+<code>$idKey
+</code>
+<span class="type">mixed
+</span>
+<span class="description">Variável a verificar.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>is_image_base64(var)
+</h2>
+<p>Verifica se uma string é uma URL de imagem codificada em Base64 (data:image/...).
+</p>
+<pre><code>is_image_base64($var)</code></pre>
+<ul class="param-list">
+<li>
+<code>$var
+</code>
+<span class="type">mixed
+</span>
+<span class="description">A variável a ser verificada.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>is_implement(object, interface)
+</h2>
+<p>Verifica se um objeto ou classe implementa uma interface específica.
+</p>
+<pre><code>is_implement($object, $interface)</code></pre>
+<ul class="param-list">
+<li>
+<code>$object
+</code>
+<span class="type">mixed
+</span>
+<span class="description">Objeto ou nome da classe a verificar.
+</span>
+</li>
+<li>
+<code>$interface
+</code>
+<span class="type">object|string
+</span>
+<span class="description">Interface de referência.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>is_json(var)
+</h2>
+<p>Verifica se uma string é um JSON válido.
+</p>
+<pre><code>is_json($var)</code></pre>
+<ul class="param-list">
+<li>
+<code>$var
+</code>
+<span class="type">mixed
+</span>
+<span class="description">A variável a ser verificada.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>is_httpStatus(var)
+</h2>
+<p>Verifica se uma variável corresponde a um status HTTP válido (100~599).
+</p>
+<pre><code>is_httpStatus($var)</code></pre>
+<ul class="param-list">
+<li>
+<code>$var
+</code>
+<span class="type">mixed
+</span>
+<span class="description">Variável a verificar.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>is_httpStatusError(var)
+</h2>
+<p>Verifica se uma variável corresponde a um status de erro HTTP (400~599).
+</p>
+<pre><code>is_httpStatusError($var)</code></pre>
+<ul class="param-list">
+<li>
+<code>$var
+</code>
+<span class="type">mixed
+</span>
+<span class="description">Variável a verificar.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>is_md5(var)
+</h2>
+<p>Verifica se uma string possui o formato hexadecimal de 32 caracteres de um MD5.
+</p>
+<pre><code>is_md5($var)</code></pre>
+<ul class="param-list">
+<li>
+<code>$var
+</code>
+<span class="type">mixed
+</span>
+<span class="description">A variável a ser verificada.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>is_password(value)
+</h2>
+<p>Verifica se uma string é um hash de senha BCRYPT válido de 60 caracteres.
+</p>
+<pre><code>is_password($value)</code></pre>
+<ul class="param-list">
+<li>
+<code>$value
+</code>
+<span class="type">string
+</span>
+<span class="description">O hash a ser verificado.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>is_mx5(var)
+</h2>
+<p>Atalho para verificar se uma variável é um hash MX5 válido.
+</p>
+<pre><code>is_mx5($var)</code></pre>
+<ul class="param-list">
+<li>
+<code>$var
+</code>
+<span class="type">mixed
+</span>
+<span class="description">A variável a ser verificada.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>is_serialized(var, strict)
+</h2>
+<p>Verifica se uma variável corresponde a uma string serializada pelo PHP.
+</p>
+<pre><code>is_serialized($var)
+is_serialized($var, $strict)</code></pre>
+<ul class="param-list">
+<li>
+<code>$var
+</code>
+<span class="type">mixed
+</span>
+<span class="description">Váriavel que deve ser serializada
+</span>
+</li>
+<li>
+<code>$strict
+</code>
+<span class="type">bool
+</span>
+<span class="description">Se deve realizar uma verificação rigorosa de fim de linha.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>is_stringable(var)
+</h2>
+<p>Verifica se uma variável pode ser convertida para string (string, número ou objeto com __toString).
+</p>
+<pre><code>is_stringable($var)</code></pre>
+<ul class="param-list">
+<li>
+<code>$var
+</code>
+<span class="type">mixed
+</span>
+<span class="description">A variável a ser verificada.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>is_trait(object, trait)
+</h2>
+<p>Verifica se um objeto ou classe utiliza uma Trait específica (incluindo herança).
+</p>
+<pre><code>is_trait($object, $trait)</code></pre>
+<ul class="param-list">
+<li>
+<code>$object
+</code>
+<span class="type">mixed
+</span>
+<span class="description">Objeto ou nome da classe a verificar.
+</span>
+</li>
+<li>
+<code>$trait
+</code>
+<span class="type">object|string|null
+</span>
+<span class="description">Nome da Trait de referência.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>mdToHtml(md)
+</h2>
+<p>Converte uma string Markdown em HTML. Suporta títulos, parágrafos, listas, blockquotes, blocos de código, links, imagens e formatação inline.
+</p>
+<pre><code>mdToHtml($md)</code></pre>
+<ul class="param-list">
+<li>
+<code>$md
+</code>
+<span class="type">string
+</span>
+<span class="description">Conteúdo em formato Markdown.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>mx5(var)
+</h2>
+<p>Atalho para converter uma variável em um hash MX5.
+</p>
+<pre><code>mx5($var)</code></pre>
+<ul class="param-list">
+<li>
+<code>$var
+</code>
+<span class="type">mixed
+</span>
+<span class="description">Variável para codificação.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>num_format(number, decimals, roundType)
+</h2>
+<p>Formata um número para o tipo float com controle de casas decimais e tipo de arredondamento.
+</p>
+<pre><code>num_format($number)
+num_format($number, $decimals)
+num_format($number, $decimals, $roundType)</code></pre>
+<ul class="param-list">
+<li>
+<code>$number
+</code>
+<span class="type">string|int|float
+</span>
+<span class="description">O número a ser formatado.
+</span>
+</li>
+<li>
+<code>$decimals
+</code>
+<span class="type">int
+</span>
+<span class="description">Quantidade de casas decimais.
+</span>
+</li>
+<li>
+<code>$roundType
+</code>
+<span class="type">int
+</span>
+<span class="description">Tipo de arredondamento (-1: baixo, 0: comum, 1: cima).
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>float
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>num_round(number, roundType)
+</h2>
+<p>Arredonda um número de acordo com o tipo especificado.
+</p>
+<pre><code>num_round($number)
+num_round($number, $roundType)</code></pre>
+<ul class="param-list">
+<li>
+<code>$number
+</code>
+<span class="type">string|int|float
+</span>
+<span class="description">O número para arredondar.
+</span>
+</li>
+<li>
+<code>$roundType
+</code>
+<span class="type">int
+</span>
+<span class="description">-1 para baixo (floor), 0 para comum (round), 1 para cima (ceil).
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>int
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>num_interval(number, min, max)
+</h2>
+<p>Garante que um número esteja contido dentro de um intervalo mínimo e máximo.
+</p>
+<pre><code>num_interval($number)
+num_interval($number, $min)
+num_interval($number, $min, $max)</code></pre>
+<ul class="param-list">
+<li>
+<code>$number
+</code>
+<span class="type">string|int|float
+</span>
+<span class="description">O valor base.
+</span>
+</li>
+<li>
+<code>$min
+</code>
+<span class="type">string|int|float
+</span>
+<span class="description">Valor mínimo permitido.
+</span>
+</li>
+<li>
+<code>$max
+</code>
+<span class="type">string|int|float
+</span>
+<span class="description">Valor máximo permitido.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>int|float
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>num_positive(number)
+</h2>
+<p>Retorna o valor absoluto (positivo) de um número.
+</p>
+<pre><code>num_positive($number)</code></pre>
+<ul class="param-list">
+<li>
+<code>$number
+</code>
+<span class="type">string|int|float
+</span>
+<span class="description">O número de entrada.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>int|float
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>num_negative(number)
+</h2>
+<p>Retorna a representação negativa de um número.
+</p>
+<pre><code>num_negative($number)</code></pre>
+<ul class="param-list">
+<li>
+<code>$number
+</code>
+<span class="type">string|int|float
+</span>
+<span class="description">O número de entrada.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>int|float
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>path(segments)
+</h2>
+<p>Formata e normaliza um caminho de diretório a partir de um ou mais segmentos.
+</p>
+<pre><code>path()
+path(...$segments)</code></pre>
+<ul class="param-list">
+<li>
+<code>$segments
+</code>
+<span class="type">string
+</span>
+<span class="description">Segmentos do caminho (ex: &#039;pasta&#039;, &#039;sub&#039;, &#039;arquivo.php&#039;).
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>phpex(extension, throw)
+</h2>
+<p>Verifica se uma extensão do PHP está ativa e carregada no servidor.
+</p>
+<pre><code>phpex($extension)
+phpex($extension, $throw)</code></pre>
+<ul class="param-list">
+<li>
+<code>$extension
+</code>
+<span class="type">string
+</span>
+<span class="description">Nome da extensão (ex: &#039;mbstring&#039;, &#039;gd&#039;, &#039;xdebug&#039;).
+</span>
+</li>
+<li>
+<code>$throw
+</code>
+<span class="type">bool
+</span>
+<span class="description">Se deve lançar uma exceção caso a extensão não esteja ativa.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>bool
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>prepare(string, prepare)
+</h2>
+<p>Processa uma string de template, substituindo as tags pelos valores fornecidos.
+</p>
+<pre><code>prepare($string)
+prepare($string, $prepare)</code></pre>
+<ul class="param-list">
+<li>
+<code>$string
+</code>
+<span class="type">?string
+</span>
+<span class="description">O texto original contendo as tags de template.
+</span>
+</li>
+<li>
+<code>$prepare
+</code>
+<span class="type">array|string
+</span>
+<span class="description">Os dados para substituição (array associativo ou valor único).
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>redirect(pathParams)
+</h2>
+<p>Lança uma Exception de redirecionamento para a URL composta pelos argumentos fornecidos.
+</p>
+<pre><code>redirect()
+redirect(...$pathParams)</code></pre>
+<ul class="param-list">
+<li>
+<code>$pathParams
+</code>
+<span class="type">string
+</span>
+<span class="description">Partes da URL de destino.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>void
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>remove_accents(string)
+</h2>
+<p>Remove a acentuação e caracteres especiais de uma string utilizando um mapa de normalização.
+</p>
+<pre><code>remove_accents($string)</code></pre>
+<ul class="param-list">
+<li>
+<code>$string
+</code>
+<span class="type">string
+</span>
+<span class="description">O texto original com acentos.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>str_get_var(var)
+</h2>
+<p>Extrai e converte um valor de dentro de uma string para seu tipo real (bool, int, float ou null).
+</p>
+<pre><code>str_get_var($var)</code></pre>
+<ul class="param-list">
+<li>
+<code>$var
+</code>
+<span class="type">mixed
+</span>
+<span class="description">O valor a ser analisado e convertido.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>mixed
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>str_replace_all(search, replace, subject, loop)
+</h2>
+<p>Substitui repetidamente as ocorrências de uma string até que não haja mais mudanças ou atinja o limite.
+</p>
+<pre><code>str_replace_all($search, $replace, $subject)
+str_replace_all($search, $replace, $subject, $loop)</code></pre>
+<ul class="param-list">
+<li>
+<code>$search
+</code>
+<span class="type">array|string
+</span>
+<span class="description">Valor(es) a buscar na string.
+</span>
+</li>
+<li>
+<code>$replace
+</code>
+<span class="type">array|string
+</span>
+<span class="description">Valor(es) de substituição.
+</span>
+</li>
+<li>
+<code>$subject
+</code>
+<span class="type">string
+</span>
+<span class="description">A string alvo da substituição.
+</span>
+</li>
+<li>
+<code>$loop
+</code>
+<span class="type">int
+</span>
+<span class="description">Limite de iterações para evitar loops infinitos.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>str_replace_first(search, replace, subject)
+</h2>
+<p>Substitui apenas a primeira ocorrência encontrada da string de pesquisa.
+</p>
+<pre><code>str_replace_first($search, $replace, $subject)</code></pre>
+<ul class="param-list">
+<li>
+<code>$search
+</code>
+<span class="type">array|string
+</span>
+<span class="description">Valor(es) a buscar na string.
+</span>
+</li>
+<li>
+<code>$replace
+</code>
+<span class="type">array|string
+</span>
+<span class="description">Valor(es) de substituição.
+</span>
+</li>
+<li>
+<code>$subject
+</code>
+<span class="type">string
+</span>
+<span class="description">A string alvo da substituição.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>str_replace_last(search, replace, subject)
+</h2>
+<p>Substitui apenas a última ocorrência encontrada da string de pesquisa.
+</p>
+<pre><code>str_replace_last($search, $replace, $subject)</code></pre>
+<ul class="param-list">
+<li>
+<code>$search
+</code>
+<span class="type">array|string
+</span>
+<span class="description">Valor(es) a buscar na string.
+</span>
+</li>
+<li>
+<code>$replace
+</code>
+<span class="type">array|string
+</span>
+<span class="description">Valor(es) de substituição.
+</span>
+</li>
+<li>
+<code>$subject
+</code>
+<span class="type">string
+</span>
+<span class="description">A string alvo da substituição.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>str_trim(string, substring, characters)
+</h2>
+<p>Remove espaços ou caracteres específicos do entorno de uma substring dentro de uma string maior.
+</p>
+<pre><code>str_trim($string, $substring)
+str_trim($string, $substring, $characters)</code></pre>
+<ul class="param-list">
+<li>
+<code>$string
+</code>
+<span class="type">string
+</span>
+<span class="description">O texto completo.
+</span>
+</li>
+<li>
+<code>$substring
+</code>
+<span class="type">array|string
+</span>
+<span class="description">A parte que deve ser limpa.
+</span>
+</li>
+<li>
+<code>$characters
+</code>
+<span class="type">array|string
+</span>
+<span class="description">Caracteres a serem removidos.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>mb_str_replace(search, replace, subject, count)
+</h2>
+<p>Versão multibyte segura da função str_replace.
+</p>
+<pre><code>mb_str_replace($search, $replace, $subject)
+mb_str_replace($search, $replace, $subject, $count)</code></pre>
+<ul class="param-list">
+<li>
+<code>$search
+</code>
+<span class="type">array|string
+</span>
+<span class="description">Valor(es) a buscar na string.
+</span>
+</li>
+<li>
+<code>$replace
+</code>
+<span class="type">array|string
+</span>
+<span class="description">Valor(es) de substituição.
+</span>
+</li>
+<li>
+<code>$subject
+</code>
+<span class="type">string
+</span>
+<span class="description">A string alvo da substituição.
+</span>
+</li>
+<li>
+<code>$count
+</code>
+<span class="type">int
+</span>
+<span class="description">Referência para contagem de substituições.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>mb_str_replace_all(search, replace, subject, loop)
+</h2>
+<p>Versão multibyte segura da função str_replace_all.
+</p>
+<pre><code>mb_str_replace_all($search, $replace, $subject)
+mb_str_replace_all($search, $replace, $subject, $loop)</code></pre>
+<ul class="param-list">
+<li>
+<code>$search
+</code>
+<span class="type">array|string
+</span>
+<span class="description">Valor(es) a buscar na string.
+</span>
+</li>
+<li>
+<code>$replace
+</code>
+<span class="type">array|string
+</span>
+<span class="description">Valor(es) de substituição.
+</span>
+</li>
+<li>
+<code>$subject
+</code>
+<span class="type">string
+</span>
+<span class="description">A string alvo da substituição.
+</span>
+</li>
+<li>
+<code>$loop
+</code>
+<span class="type">int
+</span>
+<span class="description">Limite de iterações para evitar loops infinitos.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>strToCamelCase(string)
+</h2>
+<p>Converte uma string para o formato camelCase.
+</p>
+<pre><code>strToCamelCase($string)</code></pre>
+<ul class="param-list">
+<li>
+<code>$string
+</code>
+<span class="type">string
+</span>
+<span class="description">A string a ser convertida.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>strToKebabCase(string)
+</h2>
+<p>Converte uma string para o formato kebab-case.
+</p>
+<pre><code>strToKebabCase($string)</code></pre>
+<ul class="param-list">
+<li>
+<code>$string
+</code>
+<span class="type">string
+</span>
+<span class="description">A string a ser convertida.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>strToPascalCase(string)
+</h2>
+<p>Converte uma string para o formato PascalCase.
+</p>
+<pre><code>strToPascalCase($string)</code></pre>
+<ul class="param-list">
+<li>
+<code>$string
+</code>
+<span class="type">string
+</span>
+<span class="description">A string a ser convertida.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>strToSnakeCase(string)
+</h2>
+<p>Converte uma string para o formato snake_case.
+</p>
+<pre><code>strToSnakeCase($string)</code></pre>
+<ul class="param-list">
+<li>
+<code>$string
+</code>
+<span class="type">string
+</span>
+<span class="description">A string a ser convertida.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>url(params)
+</h2>
+<p>Retorna uma string de URL composta pelos argumentos fornecidos. Argumentos em array ou iniciados com &#039;?&#039; são tratados como query string. URLs relativas são resolvidas automaticamente com base no host e protocolo da requisição atual.
+</p>
+<pre><code>url()
+url(...$params)</code></pre>
+<ul class="param-list">
+<li>
+<code>$params
+</code>
+<span class="type">array|string
+</span>
+<span class="description">Partes da URL ou arrays/strings de query string.
+</span>
+</li>
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+<section class="doc-item">
+<h2>uuid()
+</h2>
+<p>Gera uma string de identificação única curta e personalizada.
+</p>
+<pre><code>uuid()</code></pre>
+<ul class="param-list">
+</ul>
+<p class="returns">
+<strong>Returns:
+</strong>
+<code>string
+</code>
+</p>
+</section>
+</main>
+</div>
+</body>
+</html>

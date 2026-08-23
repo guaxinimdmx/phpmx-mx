@@ -6,7 +6,7 @@
 
 ### `autodoc.html`
 
-Gera docs/index.html a partir dos dados do projeto
+Gera docs/index.html e docs/html a partir dos dados do projeto
 
 ```bash
 php mx autodoc.html

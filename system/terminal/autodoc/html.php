@@ -16,6 +16,8 @@ return new class {
         Dir::remove('docs/html', true);
 
         $project = $this->exportProject();
+        $project['name'] = $this->esc($project['name'] ?? '');
+        $project['description'] = $this->esc($project['description'] ?? '');
 
         $constants = $this->exportConstants();
         $functions = $this->exportFunctions();
@@ -52,14 +54,13 @@ return new class {
             'home' => '../index.html',
             'constants' => $this->renderConstants($constants),
         ]);
-        $constantsPage = View::render('autodoc/html/index', [
-            'project' => $project,
-            'title' => 'Constants · ' . ($project['name'] ?? ''),
+        $this->save('docs/html/constants.html', $this->renderPage('Constants', $project, $sections, $constantsContent));
+
+        $functionsContent = View::render('autodoc/html/functions', [
             'home' => '../index.html',
-            'nav' => $this->renderNav($sections),
-            'content' => $constantsContent,
+            'functions' => $this->renderFunctions($functions),
         ]);
-        $this->save('docs/html/constants.html', $constantsPage);
+        $this->save('docs/html/functions.html', $this->renderPage('Functions', $project, $sections, $functionsContent));
 
         Terminal::echol('Exported to [#c:p,#]', 'docs/');
     }
@@ -68,6 +69,22 @@ return new class {
     {
         File::create($path, $content, true);
         Terminal::echol('  [#c:p,#]', $path);
+    }
+
+    protected function esc(string $text): string
+    {
+        return htmlspecialchars($text, ENT_QUOTES, 'UTF-8');
+    }
+
+    protected function renderPage(string $title, array $project, array $sections, string $content): string
+    {
+        return View::render('autodoc/html/index', [
+            'project' => $project,
+            'title' => $title . ' · ' . ($project['name'] ?? ''),
+            'home' => '../index.html',
+            'nav' => $this->renderNav($sections),
+            'content' => $content,
+        ]);
     }
 
     protected function renderNav(array $sections, string $base = ''): string
@@ -91,16 +108,45 @@ return new class {
 
         foreach ($items as $item)
             $lines[] = View::render('autodoc/html/constants/item.html', [
-                'name' => $item['name'] ?? '',
-                'description' => $this->joinDescription($item['description'] ?? []),
+                'name' => $this->esc($item['name'] ?? ''),
+                'description' => $this->esc($this->joinDescription($item['description'] ?? [])),
             ]);
 
         return implode("\n", $lines);
     }
 
-    protected function joinDescription(array|string $description): string
+    protected function renderFunctions(array $items): string
     {
-        return is_array($description) ? implode(' ', $description) : $description;
+        $lines = [];
+
+        foreach ($items as $item) {
+            $params = $item['params'] ?? [];
+
+            $lines[] = View::render('autodoc/html/functions/item.html', [
+                'name' => $this->esc($item['name'] ?? ''),
+                'paramNames' => $this->esc(implode(', ', array_column($params, 'name'))),
+                'description' => $this->esc($this->joinDescription($item['description'] ?? [])),
+                'usage' => $this->functionUsage($item['name'] ?? '', $params),
+                'params' => $this->renderFunctionParams($params),
+                'return' => $this->esc($item['return'] ?? 'mixed'),
+            ]);
+        }
+
+        return implode("\n", $lines);
+    }
+
+    protected function renderFunctionParams(array $params): string
+    {
+        $lines = [];
+
+        foreach ($params as $param)
+            $lines[] = View::render('autodoc/html/functions/param.html', [
+                'name' => $this->esc($param['name'] ?? ''),
+                'type' => $this->esc($param['type'] ?? 'mixed'),
+                'description' => $this->esc($this->joinDescription($param['description'] ?? [])),
+            ]);
+
+        return implode("\n", $lines);
     }
 
 };
