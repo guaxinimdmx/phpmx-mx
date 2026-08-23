@@ -12,7 +12,7 @@ Framework base para aplicações modernas em PHP
 
 - [Middleware](md/middleware.md) (2)
 
-- [Terminal Commands](md/terminal.md) (43)
+- [Terminal Commands](md/terminal.md) (44)
 
 - [Routes](md/routes.md) (7)
 

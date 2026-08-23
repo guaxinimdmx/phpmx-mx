@@ -4,6 +4,16 @@
 
 ---
 
+### `autodoc.html`
+
+Gera docs/index.html a partir dos dados do projeto
+
+```bash
+php mx autodoc.html
+```
+
+---
+
 ### `autodoc.json`
 
 Exporta a documentação pública do projeto para docs/autodoc.json

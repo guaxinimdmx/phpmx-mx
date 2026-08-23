@@ -26,7 +26,7 @@ return new class {
         $examples = $this->exportExamples();
         $database = $this->exportDatabase();
 
-        $index = View::render('autodoc/index.md', [
+        $index = View::render('autodoc/md/index.md', [
             'project' => $this->exportProject(),
             'sections' => $this->renderIndexSections([
                 ['label' => 'Constants', 'link' => 'md/constants.md', 'count' => count($constants)],
@@ -42,51 +42,51 @@ return new class {
         ]);
         $this->save('docs/index.md', $index);
 
-        $constantsPage = View::render('autodoc/constants.md', [
+        $constantsPage = View::render('autodoc/md/constants.md', [
             'constants' => $this->renderConstants($constants),
         ]);
         $this->save('docs/md/constants.md', $constantsPage);
 
-        $functionsPage = View::render('autodoc/functions.md', [
+        $functionsPage = View::render('autodoc/md/functions.md', [
             'functions' => $this->renderFunctions($functions),
         ]);
         $this->save('docs/md/functions.md', $functionsPage);
 
-        $environmentPage = View::render('autodoc/environment.md', [
+        $environmentPage = View::render('autodoc/md/environment.md', [
             'environment' => $this->renderEnvironment($environment),
         ]);
         $this->save('docs/md/environment.md', $environmentPage);
 
-        $middlewarePage = View::render('autodoc/middleware.md', [
+        $middlewarePage = View::render('autodoc/md/middleware.md', [
             'middleware' => $this->renderMiddleware($middleware),
         ]);
         $this->save('docs/md/middleware.md', $middlewarePage);
 
-        $terminalPage = View::render('autodoc/terminal.md', [
+        $terminalPage = View::render('autodoc/md/terminal.md', [
             'terminal' => $this->renderTerminal($terminal),
         ]);
         $this->save('docs/md/terminal.md', $terminalPage);
 
-        $routesPage = View::render('autodoc/routes.md', [
+        $routesPage = View::render('autodoc/md/routes.md', [
             'routes' => $this->renderRoutes($routes),
         ]);
         $this->save('docs/md/routes.md', $routesPage);
 
-        $classesPage = View::render('autodoc/classes.md', [
+        $classesPage = View::render('autodoc/md/classes.md', [
             'classes' => $this->renderClassesIndex($classes),
         ]);
         $this->save('docs/md/classes.md', $classesPage);
 
         $this->writeClassPages($classes);
 
-        $examplesPage = View::render('autodoc/examples.md', [
+        $examplesPage = View::render('autodoc/md/examples.md', [
             'examples' => $this->renderExamplesIndex($examples),
         ]);
         $this->save('docs/md/examples.md', $examplesPage);
 
         $this->writeExamplePages($examples);
 
-        $databasePage = View::render('autodoc/database.md', [
+        $databasePage = View::render('autodoc/md/database.md', [
             'database' => $this->renderDatabaseIndex($database),
         ]);
         $this->save('docs/md/database.md', $databasePage);
@@ -112,7 +112,7 @@ return new class {
 
         foreach ($sections as $section)
             if ($section['count'] > 0)
-                $lines[] = View::render('autodoc/index/section.md', $section);
+                $lines[] = View::render('autodoc/md/index/section.md', $section);
 
         return implode("\n\n", $lines);
     }
@@ -122,7 +122,7 @@ return new class {
         $lines = [];
 
         foreach ($items as $item)
-            $lines[] = View::render('autodoc/constants/item.md', [
+            $lines[] = View::render('autodoc/md/constants/item.md', [
                 'name' => $item['name'] ?? '',
                 'description' => $this->joinDescription($item['description'] ?? []),
             ]);
@@ -137,7 +137,7 @@ return new class {
         foreach ($items as $item) {
             $params = $item['params'] ?? [];
 
-            $lines[] = View::render('autodoc/functions/item.md', [
+            $lines[] = View::render('autodoc/md/functions/item.md', [
                 'name' => $item['name'] ?? '',
                 'paramNames' => implode(', ', array_column($params, 'name')),
                 'description' => $this->joinDescription($item['description'] ?? []),
@@ -197,7 +197,7 @@ return new class {
         $lines = [];
 
         foreach ($params as $param)
-            $lines[] = View::render('autodoc/functions/param.md', [
+            $lines[] = View::render('autodoc/md/functions/param.md', [
                 'name' => $param['name'] ?? '',
                 'type' => $param['type'] ?? 'mixed',
                 'description' => $this->joinDescription($param['description'] ?? []),
@@ -211,7 +211,7 @@ return new class {
         $lines = [];
 
         foreach ($items as $item)
-            $lines[] = View::render('autodoc/environment/item.md', [
+            $lines[] = View::render('autodoc/md/environment/item.md', [
                 'name' => $item['name'] ?? '',
                 'description' => $this->joinDescription($item['description'] ?? []),
             ]);
@@ -224,7 +224,7 @@ return new class {
         $lines = [];
 
         foreach ($items as $item)
-            $lines[] = View::render('autodoc/middleware/item.md', [
+            $lines[] = View::render('autodoc/md/middleware/item.md', [
                 'name' => $item['name'] ?? '',
                 'description' => $this->joinDescription($item['description'] ?? []),
             ]);
@@ -240,7 +240,7 @@ return new class {
             $params = $item['params'] ?? [];
             $name = $item['name'] ?? '';
 
-            $lines[] = View::render('autodoc/terminal/item.md', [
+            $lines[] = View::render('autodoc/md/terminal/item.md', [
                 'name' => $name,
                 'usage' => $this->usageBlock($name, $params),
                 'description' => $this->joinDescription($item['description'] ?? []),
@@ -265,7 +265,7 @@ return new class {
         $lines = [];
 
         foreach ($params as $param)
-            $lines[] = View::render('autodoc/terminal/param.md', [
+            $lines[] = View::render('autodoc/md/terminal/param.md', [
                 'name' => $param['name'] ?? '',
                 'type' => $param['type'] ?? 'mixed',
                 'description' => $this->joinDescription($param['description'] ?? []),
@@ -281,7 +281,7 @@ return new class {
         foreach ($items as $item) {
             $middlewares = $item['middlewares'] ?? [];
 
-            $lines[] = View::render('autodoc/routes/item.md', [
+            $lines[] = View::render('autodoc/md/routes/item.md', [
                 'method' => $item['method'] ?? '',
                 'path' => $item['path'] ?? '',
                 'response' => $this->renderRouteResponse($item['response'] ?? []),
@@ -295,11 +295,11 @@ return new class {
     protected function renderRouteResponse(array $response): string
     {
         if (($response['type'] ?? '') === 'status')
-            return View::render('autodoc/routes/response-status.md', [
+            return View::render('autodoc/md/routes/response-status.md', [
                 'code' => $response['code'] ?? '',
             ]);
 
-        return View::render('autodoc/routes/response-class.md', [
+        return View::render('autodoc/md/routes/response-class.md', [
             'class' => $response['class'] ?? '',
             'method' => $response['method'] ?? '__invoke',
             'description' => $this->joinDescription($response['description'] ?? []),
@@ -327,7 +327,7 @@ return new class {
             foreach ($classes as $item) {
                 $name = $item['name'] ?? '';
 
-                $lines[] = View::render('autodoc/classes/link.md', [
+                $lines[] = View::render('autodoc/md/classes/link.md', [
                     'name' => $name,
                     'link' => 'classes/' . $this->classFilename($name),
                     'description' => $this->joinDescription($item['description'] ?? []),
@@ -347,7 +347,7 @@ return new class {
             $type = $item['type'] ?? 'class';
             $badge = trim((!empty($item['abstract']) ? 'abstract ' : '') . (!empty($item['final']) ? 'final ' : '') . $type);
 
-            $content = View::render('autodoc/classes/item.md', [
+            $content = View::render('autodoc/md/classes/item.md', [
                 'name' => $name,
                 'badge' => $badge,
                 'description' => $this->joinDescription($item['description'] ?? []),
@@ -369,7 +369,7 @@ return new class {
 
         $lines = [];
         foreach ($constants as $const)
-            $lines[] = View::render('autodoc/classes/constant.md', [
+            $lines[] = View::render('autodoc/md/classes/constant.md', [
                 'visibility' => $const['visibility'] ?? 'public',
                 'name' => $const['name'] ?? '',
                 'description' => $this->joinDescription($const['description'] ?? []),
@@ -385,7 +385,7 @@ return new class {
 
         $lines = [];
         foreach ($properties as $prop)
-            $lines[] = View::render('autodoc/classes/property.md', [
+            $lines[] = View::render('autodoc/md/classes/property.md', [
                 'visibility' => $prop['visibility'] ?? 'public',
                 'static' => !empty($prop['static']) ? 'static ' : '',
                 'type' => $prop['type'] ?? 'mixed',
@@ -433,7 +433,7 @@ return new class {
 
             $usage = ($isPublic && (!$isMagic || $isPrimaryMagic)) ? $this->classMethodUsage($className, $name, $params, !empty($method['static'])) : '';
 
-            $lines[] = View::render('autodoc/classes/method.md', [
+            $lines[] = View::render('autodoc/md/classes/method.md', [
                 'modifiers' => $modifiers,
                 'name' => $name,
                 'paramNames' => implode(', ', array_column($params, 'name')),
@@ -453,7 +453,7 @@ return new class {
         $lines = [];
 
         foreach ($params as $param)
-            $lines[] = View::render('autodoc/classes/param.md', [
+            $lines[] = View::render('autodoc/md/classes/param.md', [
                 'name' => $param['name'] ?? '',
                 'type' => $param['type'] ?? 'mixed',
                 'description' => $this->joinDescription($param['description'] ?? []),
@@ -483,7 +483,7 @@ return new class {
             foreach ($examples as $item) {
                 $name = $item['name'] ?? '';
 
-                $lines[] = View::render('autodoc/examples/link.md', [
+                $lines[] = View::render('autodoc/md/examples/link.md', [
                     'name' => $name,
                     'link' => 'examples/' . $this->exampleFilename($name),
                     'description' => $this->exampleSummary($item['content'] ?? ''),
@@ -508,7 +508,7 @@ return new class {
         foreach ($items as $item) {
             $name = $item['name'] ?? '';
 
-            $content = View::render('autodoc/examples/item.md', [
+            $content = View::render('autodoc/md/examples/item.md', [
                 'content' => $item['content'] ?? '',
             ]);
 
@@ -529,7 +529,7 @@ return new class {
             $lines = ["### $dbName", ''];
 
             foreach ($db['tables'] ?? [] as $tableName => $table)
-                $lines[] = View::render('autodoc/database/link.md', [
+                $lines[] = View::render('autodoc/md/database/link.md', [
                     'name' => $tableName,
                     'link' => 'database/' . $this->databaseFilename($dbName, $tableName),
                     'comment' => $table['comment'] ?? '',
@@ -545,7 +545,7 @@ return new class {
     {
         foreach ($database as $dbName => $db) {
             foreach ($db['tables'] ?? [] as $tableName => $table) {
-                $content = View::render('autodoc/database/table.md', [
+                $content = View::render('autodoc/md/database/table.md', [
                     'name' => $tableName,
                     'comment' => $table['comment'] ?? '',
                     'fields' => $this->renderDatabaseFields($table['fields'] ?? [], $dbName),
@@ -566,7 +566,7 @@ return new class {
         $lines = [];
 
         foreach ($fields as $name => $field)
-            $lines[] = View::render('autodoc/database/field.md', [
+            $lines[] = View::render('autodoc/md/database/field.md', [
                 'name' => $this->escapeTableCell($name),
                 'type' => $this->escapeTableCell($this->formatDatabaseType($field, $dbName)),
                 'null' => ($field['null'] ?? true) ? 'sim' : 'não',
