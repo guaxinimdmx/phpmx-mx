@@ -4,6 +4,10 @@
     --text-rgb: 245, 245, 247;
     --line-rgb: 255, 255, 255;
     --code-rgb: 20, 20, 22;
+    --tok-string-rgb: 206, 145, 120;
+    --tok-number-rgb: 181, 206, 168;
+    --tok-var-rgb: 156, 220, 254;
+    --tok-comment-rgb: 106, 153, 85;
 
     --php: rgb(var(--php-rgb));
     --base: rgb(var(--base-rgb));
@@ -223,6 +227,26 @@ a {
             border: none;
             padding: 0;
             font-size: 0.85em;
+        }
+
+        .tok-keyword {
+            color: var(--php);
+        }
+
+        .tok-string {
+            color: rgb(var(--tok-string-rgb));
+        }
+
+        .tok-number {
+            color: rgb(var(--tok-number-rgb));
+        }
+
+        .tok-var {
+            color: rgb(var(--tok-var-rgb));
+        }
+
+        .tok-comment {
+            color: rgb(var(--tok-comment-rgb));
         }
     }
 

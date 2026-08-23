@@ -140,12 +140,135 @@ return new class {
         return preg_replace_callback(
             '/@@CODE:([a-zA-Z0-9_-]*):([A-Za-z0-9+\/=]+)@@/',
             function ($m) {
-                $class = $m[1] !== '' ? ' class="' . htmlspecialchars($m[1], ENT_QUOTES, 'UTF-8') . '"' : '';
-                $code = htmlspecialchars(base64_decode($m[2]), ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
+                $rawClass = $m[1];
+                $raw = base64_decode($m[2]);
+
+                $code = match ($this->detectCodeLang($rawClass)) {
+                    'php' => $this->highlightPhp($raw),
+                    'bash' => $this->highlightBash($raw),
+                    default => htmlspecialchars($raw, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8'),
+                };
+
+                $class = $rawClass !== '' ? ' class="' . htmlspecialchars($rawClass, ENT_QUOTES, 'UTF-8') . '"' : '';
                 return "<pre><code$class>$code</code></pre>";
             },
             $html
         );
+    }
+
+    protected function detectCodeLang(string $class): string
+    {
+        if (str_contains($class, 'php')) return 'php';
+        if (str_contains($class, 'bash') || str_contains($class, 'sh')) return 'bash';
+        return '';
+    }
+
+    protected function highlightPhp(string $code): string
+    {
+        $tokens = @token_get_all("<?php\n$code");
+
+        $keywords = [
+            T_CLASS,
+            T_FUNCTION,
+            T_FN,
+            T_RETURN,
+            T_NEW,
+            T_STATIC,
+            T_PUBLIC,
+            T_PROTECTED,
+            T_PRIVATE,
+            T_USE,
+            T_NAMESPACE,
+            T_IF,
+            T_ELSE,
+            T_ELSEIF,
+            T_FOREACH,
+            T_FOR,
+            T_WHILE,
+            T_DO,
+            T_ECHO,
+            T_ARRAY,
+            T_ABSTRACT,
+            T_EXTENDS,
+            T_IMPLEMENTS,
+            T_INTERFACE,
+            T_TRAIT,
+            T_THROW,
+            T_TRY,
+            T_CATCH,
+            T_FINALLY,
+            T_INSTANCEOF,
+            T_AS,
+            T_MATCH,
+            T_ENUM,
+            T_READONLY,
+            T_FINAL,
+            T_CONST,
+            T_GLOBAL,
+            T_BREAK,
+            T_CONTINUE,
+            T_SWITCH,
+            T_CASE,
+            T_DEFAULT,
+            T_YIELD,
+            T_CLONE,
+            T_PRINT,
+            T_LIST,
+            T_REQUIRE,
+            T_REQUIRE_ONCE,
+            T_INCLUDE,
+            T_INCLUDE_ONCE,
+            T_UNSET,
+            T_ISSET,
+            T_EMPTY,
+            T_VAR,
+            T_CALLABLE,
+        ];
+
+        $out = '';
+        $skippedOpenTag = false;
+
+        foreach ($tokens as $token) {
+            if (is_string($token)) {
+                $out .= htmlspecialchars($token, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
+                continue;
+            }
+
+            list($id, $text) = $token;
+
+            if (!$skippedOpenTag && $id === T_OPEN_TAG) {
+                $skippedOpenTag = true;
+                continue;
+            }
+
+            $escaped = htmlspecialchars($text, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
+
+            $tokenClass = match (true) {
+                $id === T_VARIABLE => 'tok-var',
+                $id === T_COMMENT || $id === T_DOC_COMMENT => 'tok-comment',
+                $id === T_CONSTANT_ENCAPSED_STRING || $id === T_ENCAPSED_AND_WHITESPACE => 'tok-string',
+                $id === T_LNUMBER || $id === T_DNUMBER => 'tok-number',
+                in_array($id, $keywords, true) => 'tok-keyword',
+                $id === T_STRING && in_array(strtolower($text), ['true', 'false', 'null'], true) => 'tok-keyword',
+                default => null,
+            };
+
+            $out .= $tokenClass ? "<span class=\"$tokenClass\">$escaped</span>" : $escaped;
+        }
+
+        return $out;
+    }
+
+    protected function highlightBash(string $code): string
+    {
+        $lines = explode("\n", $code);
+
+        foreach ($lines as &$line) {
+            $line = htmlspecialchars($line, ENT_NOQUOTES | ENT_SUBSTITUTE, 'UTF-8');
+            $line = preg_replace('/"([^"]*)"/', '<span class="tok-string">"$1"</span>', $line);
+        }
+
+        return implode("\n", $lines);
     }
 
     protected function renderPage(string $title, array $project, array $sections, string $content, string $home = '../index.html', string $navBase = ''): string
@@ -200,7 +323,7 @@ return new class {
                 'name' => $this->esc($item['name'] ?? ''),
                 'paramNames' => $this->esc(implode(', ', array_column($params, 'name'))),
                 'description' => $this->esc($this->joinDescription($item['description'] ?? [])),
-                'usage' => $this->codeMarker($this->functionUsage($item['name'] ?? '', $params)),
+                'usage' => $this->codeMarker($this->functionUsage($item['name'] ?? '', $params), 'php'),
                 'params' => $this->renderFunctionParams($params),
                 'return' => $this->esc($item['return'] ?? 'mixed'),
             ]);
@@ -248,7 +371,7 @@ return new class {
 
         $lines = array_map(fn($variation) => trim("php mx $name $variation"), $variations);
 
-        return $this->codeMarker(implode("\n", $lines));
+        return $this->codeMarker(implode("\n", $lines), 'bash');
     }
 
     protected function renderTerminalParams(array $params): string
@@ -435,7 +558,7 @@ return new class {
                 'name' => $this->esc($name),
                 'paramNames' => $this->esc(implode(', ', array_column($params, 'name'))),
                 'description' => $this->esc($this->joinDescription($method['description'] ?? [])),
-                'usage' => $this->codeMarker($usage),
+                'usage' => $this->codeMarker($usage, 'php'),
                 'params' => $this->renderClassMethodParams($params),
                 'return' => $this->esc($method['return'] ?? 'mixed'),
                 'inherited' => $this->inheritedNote($method),

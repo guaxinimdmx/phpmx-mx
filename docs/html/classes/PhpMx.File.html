@@ -14,6 +14,10 @@
 --text-rgb: 245, 245, 247;
 --line-rgb: 255, 255, 255;
 --code-rgb: 20, 20, 22;
+--tok-string-rgb: 206, 145, 120;
+--tok-number-rgb: 181, 206, 168;
+--tok-var-rgb: 156, 220, 254;
+--tok-comment-rgb: 106, 153, 85;
 --php: rgb(var(--php-rgb));
 --base: rgb(var(--base-rgb));
 --text: rgb(var(--text-rgb));
@@ -199,6 +203,21 @@ background: none;
 border: none;
 padding: 0;
 font-size: 0.85em;
+}
+.content pre .tok-keyword {
+color: var(--php);
+}
+.content pre .tok-string {
+color: rgb(var(--tok-string-rgb));
+}
+.content pre .tok-number {
+color: rgb(var(--tok-number-rgb));
+}
+.content pre .tok-var {
+color: rgb(var(--tok-var-rgb));
+}
+.content pre .tok-comment {
+color: rgb(var(--tok-comment-rgb));
 }
 .content .doc-item {
 padding: 24px 0;
@@ -499,8 +518,8 @@ window.addEventListener('resize', hide);
 </h2>
 <p>Cria um arquivo de texto.
 </p>
-<pre><code>File::create($path, $content)
-File::create($path, $content, $recreate)</code></pre>
+<pre><code class="php">File::create(<span class="tok-var">$path</span>, <span class="tok-var">$content</span>)
+File::create(<span class="tok-var">$path</span>, <span class="tok-var">$content</span>, <span class="tok-var">$recreate</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$path
@@ -539,7 +558,7 @@ File::create($path, $content, $recreate)</code></pre>
 </h2>
 <p>Remove um arquivo físico.
 </p>
-<pre><code>File::remove($path)</code></pre>
+<pre><code class="php">File::remove(<span class="tok-var">$path</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$path
@@ -562,8 +581,8 @@ File::create($path, $content, $recreate)</code></pre>
 </h2>
 <p>Cria uma cópia de um arquivo.
 </p>
-<pre><code>File::copy($path_from, $path_to)
-File::copy($path_from, $path_to, $replace)</code></pre>
+<pre><code class="php">File::copy(<span class="tok-var">$path_from</span>, <span class="tok-var">$path_to</span>)
+File::copy(<span class="tok-var">$path_from</span>, <span class="tok-var">$path_to</span>, <span class="tok-var">$replace</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$path_from
@@ -602,8 +621,8 @@ File::copy($path_from, $path_to, $replace)</code></pre>
 </h2>
 <p>Altera o local ou o nome de um arquivo (move/rename).
 </p>
-<pre><code>File::move($path_from, $path_to)
-File::move($path_from, $path_to, $replace)</code></pre>
+<pre><code class="php">File::move(<span class="tok-var">$path_from</span>, <span class="tok-var">$path_to</span>)
+File::move(<span class="tok-var">$path_from</span>, <span class="tok-var">$path_to</span>, <span class="tok-var">$replace</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$path_from
@@ -642,7 +661,7 @@ File::move($path_from, $path_to, $replace)</code></pre>
 </h2>
 <p>Retorna apenas o nome do arquivo com a sua respectiva extensão.
 </p>
-<pre><code>File::getOnly($path)</code></pre>
+<pre><code class="php">File::getOnly(<span class="tok-var">$path</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$path
@@ -665,7 +684,7 @@ File::move($path_from, $path_to, $replace)</code></pre>
 </h2>
 <p>Retorna apenas o nome do arquivo, removendo a extensão.
 </p>
-<pre><code>File::getName($path)</code></pre>
+<pre><code class="php">File::getName(<span class="tok-var">$path</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$path
@@ -688,7 +707,7 @@ File::move($path_from, $path_to, $replace)</code></pre>
 </h2>
 <p>Retorna apenas a extensão do arquivo em letras minúsculas.
 </p>
-<pre><code>File::getEx($path)</code></pre>
+<pre><code class="php">File::getEx(<span class="tok-var">$path</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$path
@@ -711,8 +730,8 @@ File::move($path_from, $path_to, $replace)</code></pre>
 </h2>
 <p>Define ou altera a extensão de um caminho de arquivo.
 </p>
-<pre><code>File::setEx($path)
-File::setEx($path, $extension)</code></pre>
+<pre><code class="php">File::setEx(<span class="tok-var">$path</span>)
+File::setEx(<span class="tok-var">$path</span>, <span class="tok-var">$extension</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$path
@@ -743,7 +762,7 @@ File::setEx($path, $extension)</code></pre>
 </h2>
 <p>Verifica se um arquivo existe no caminho especificado.
 </p>
-<pre><code>File::check($path)</code></pre>
+<pre><code class="php">File::check(<span class="tok-var">$path</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$path
@@ -766,8 +785,8 @@ File::setEx($path, $extension)</code></pre>
 </h2>
 <p>Retorna o tamanho do arquivo em bytes ou formato legível (human-readable).
 </p>
-<pre><code>File::getSize($path)
-File::getSize($path, $human)</code></pre>
+<pre><code class="php">File::getSize(<span class="tok-var">$path</span>)
+File::getSize(<span class="tok-var">$path</span>, <span class="tok-var">$human</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$path
@@ -798,7 +817,7 @@ File::getSize($path, $human)</code></pre>
 </h2>
 <p>Retorna o timestamp da última modificação do arquivo.
 </p>
-<pre><code>File::getLastModified($path)</code></pre>
+<pre><code class="php">File::getLastModified(<span class="tok-var">$path</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$path

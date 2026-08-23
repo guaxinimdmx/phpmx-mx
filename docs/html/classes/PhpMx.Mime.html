@@ -14,6 +14,10 @@
 --text-rgb: 245, 245, 247;
 --line-rgb: 255, 255, 255;
 --code-rgb: 20, 20, 22;
+--tok-string-rgb: 206, 145, 120;
+--tok-number-rgb: 181, 206, 168;
+--tok-var-rgb: 156, 220, 254;
+--tok-comment-rgb: 106, 153, 85;
 --php: rgb(var(--php-rgb));
 --base: rgb(var(--base-rgb));
 --text: rgb(var(--text-rgb));
@@ -199,6 +203,21 @@ background: none;
 border: none;
 padding: 0;
 font-size: 0.85em;
+}
+.content pre .tok-keyword {
+color: var(--php);
+}
+.content pre .tok-string {
+color: rgb(var(--tok-string-rgb));
+}
+.content pre .tok-number {
+color: rgb(var(--tok-number-rgb));
+}
+.content pre .tok-var {
+color: rgb(var(--tok-var-rgb));
+}
+.content pre .tok-comment {
+color: rgb(var(--tok-comment-rgb));
 }
 .content .doc-item {
 padding: 24px 0;
@@ -511,7 +530,7 @@ window.addEventListener('resize', hide);
 </h2>
 <p>Retorna a extensão correspondente a um MIME type.
 </p>
-<pre><code>Mime::getExMime($mime)</code></pre>
+<pre><code class="php">Mime::getExMime(<span class="tok-var">$mime</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$mime
@@ -534,7 +553,7 @@ window.addEventListener('resize', hide);
 </h2>
 <p>Retorna o MIME type correspondente a uma extensão.
 </p>
-<pre><code>Mime::getMimeEx($ex)</code></pre>
+<pre><code class="php">Mime::getMimeEx(<span class="tok-var">$ex</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$ex
@@ -557,7 +576,7 @@ window.addEventListener('resize', hide);
 </h2>
 <p>Identifica o MIME type de um arquivo físico baseado em seu conteúdo.
 </p>
-<pre><code>Mime::getMimeFile($file)</code></pre>
+<pre><code class="php">Mime::getMimeFile(<span class="tok-var">$file</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$file
@@ -580,8 +599,8 @@ window.addEventListener('resize', hide);
 </h2>
 <p>Verifica se uma extensão corresponde a um ou mais MIME types ou outras extensões.
 </p>
-<pre><code>Mime::checkMimeEx($ex)
-Mime::checkMimeEx($ex, ...$compare)</code></pre>
+<pre><code class="php">Mime::checkMimeEx(<span class="tok-var">$ex</span>)
+Mime::checkMimeEx(<span class="tok-var">$ex</span>, ...<span class="tok-var">$compare</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$ex
@@ -612,8 +631,8 @@ Mime::checkMimeEx($ex, ...$compare)</code></pre>
 </h2>
 <p>Compara um MIME type contra uma lista de outros MIME types ou extensões.
 </p>
-<pre><code>Mime::checkMimeMime($mime)
-Mime::checkMimeMime($mime, ...$compare)</code></pre>
+<pre><code class="php">Mime::checkMimeMime(<span class="tok-var">$mime</span>)
+Mime::checkMimeMime(<span class="tok-var">$mime</span>, ...<span class="tok-var">$compare</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$mime
@@ -644,8 +663,8 @@ Mime::checkMimeMime($mime, ...$compare)</code></pre>
 </h2>
 <p>Verifica se o MIME type real de um arquivo corresponde aos tipos fornecidos.
 </p>
-<pre><code>Mime::checkMimeFile($file)
-Mime::checkMimeFile($file, ...$compare)</code></pre>
+<pre><code class="php">Mime::checkMimeFile(<span class="tok-var">$file</span>)
+Mime::checkMimeFile(<span class="tok-var">$file</span>, ...<span class="tok-var">$compare</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$file

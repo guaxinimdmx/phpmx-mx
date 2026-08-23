@@ -14,6 +14,10 @@
 --text-rgb: 245, 245, 247;
 --line-rgb: 255, 255, 255;
 --code-rgb: 20, 20, 22;
+--tok-string-rgb: 206, 145, 120;
+--tok-number-rgb: 181, 206, 168;
+--tok-var-rgb: 156, 220, 254;
+--tok-comment-rgb: 106, 153, 85;
 --php: rgb(var(--php-rgb));
 --base: rgb(var(--base-rgb));
 --text: rgb(var(--text-rgb));
@@ -199,6 +203,21 @@ background: none;
 border: none;
 padding: 0;
 font-size: 0.85em;
+}
+.content pre .tok-keyword {
+color: var(--php);
+}
+.content pre .tok-string {
+color: rgb(var(--tok-string-rgb));
+}
+.content pre .tok-number {
+color: rgb(var(--tok-number-rgb));
+}
+.content pre .tok-var {
+color: rgb(var(--tok-var-rgb));
+}
+.content pre .tok-comment {
+color: rgb(var(--tok-comment-rgb));
 }
 .content .doc-item {
 padding: 24px 0;
@@ -591,7 +610,7 @@ window.addEventListener('resize', hide);
 </em>
 <p>Define se na próxima consulta os dados maracados como removidos deve ser exibidos.
 </p>
-<pre><code>$tableUserGroup-&gt;showDeleted($showDeleted)</code></pre>
+<pre><code class="php"><span class="tok-var">$tableUserGroup</span>-&gt;showDeleted(<span class="tok-var">$showDeleted</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$showDeleted
@@ -618,9 +637,9 @@ window.addEventListener('resize', hide);
 </em>
 <p>Retorna os esquemas dos registros encontrados pela consulta.
 </p>
-<pre><code>$tableUserGroup-&gt;getAll_scheme()
-$tableUserGroup-&gt;getAll_scheme($scheme)
-$tableUserGroup-&gt;getAll_scheme($scheme, ...$args)</code></pre>
+<pre><code class="php"><span class="tok-var">$tableUserGroup</span>-&gt;getAll_scheme()
+<span class="tok-var">$tableUserGroup</span>-&gt;getAll_scheme(<span class="tok-var">$scheme</span>)
+<span class="tok-var">$tableUserGroup</span>-&gt;getAll_scheme(<span class="tok-var">$scheme</span>, ...<span class="tok-var">$args</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$scheme
@@ -655,9 +674,9 @@ $tableUserGroup-&gt;getAll_scheme($scheme, ...$args)</code></pre>
 </em>
 <p>Retorna o esquema de um único registro encontrado pela consulta.
 </p>
-<pre><code>$tableUserGroup-&gt;getOne_scheme()
-$tableUserGroup-&gt;getOne_scheme($scheme)
-$tableUserGroup-&gt;getOne_scheme($scheme, ...$args)</code></pre>
+<pre><code class="php"><span class="tok-var">$tableUserGroup</span>-&gt;getOne_scheme()
+<span class="tok-var">$tableUserGroup</span>-&gt;getOne_scheme(<span class="tok-var">$scheme</span>)
+<span class="tok-var">$tableUserGroup</span>-&gt;getOne_scheme(<span class="tok-var">$scheme</span>, ...<span class="tok-var">$args</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$scheme
@@ -692,11 +711,11 @@ $tableUserGroup-&gt;getOne_scheme($scheme, ...$args)</code></pre>
 </em>
 <p>Retorna o esquema de um registro buscado por idKey.
 </p>
-<pre><code>$tableUserGroup-&gt;getOneKey_scheme()
-$tableUserGroup-&gt;getOneKey_scheme($scheme)
-$tableUserGroup-&gt;getOneKey_scheme($scheme, $idKey)
-$tableUserGroup-&gt;getOneKey_scheme($scheme, $idKey, $errMessage)
-$tableUserGroup-&gt;getOneKey_scheme($scheme, $idKey, $errMessage, $errCode)</code></pre>
+<pre><code class="php"><span class="tok-var">$tableUserGroup</span>-&gt;getOneKey_scheme()
+<span class="tok-var">$tableUserGroup</span>-&gt;getOneKey_scheme(<span class="tok-var">$scheme</span>)
+<span class="tok-var">$tableUserGroup</span>-&gt;getOneKey_scheme(<span class="tok-var">$scheme</span>, <span class="tok-var">$idKey</span>)
+<span class="tok-var">$tableUserGroup</span>-&gt;getOneKey_scheme(<span class="tok-var">$scheme</span>, <span class="tok-var">$idKey</span>, <span class="tok-var">$errMessage</span>)
+<span class="tok-var">$tableUserGroup</span>-&gt;getOneKey_scheme(<span class="tok-var">$scheme</span>, <span class="tok-var">$idKey</span>, <span class="tok-var">$errMessage</span>, <span class="tok-var">$errCode</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$scheme
@@ -747,9 +766,9 @@ $tableUserGroup-&gt;getOneKey_scheme($scheme, $idKey, $errMessage, $errCode)</co
 </em>
 <p>Retorna os esquemas completos dos registros encontrados pela consulta.
 </p>
-<pre><code>$tableUserGroup-&gt;getAll_schemeAll()
-$tableUserGroup-&gt;getAll_schemeAll($fieldsRemove)
-$tableUserGroup-&gt;getAll_schemeAll($fieldsRemove, ...$args)</code></pre>
+<pre><code class="php"><span class="tok-var">$tableUserGroup</span>-&gt;getAll_schemeAll()
+<span class="tok-var">$tableUserGroup</span>-&gt;getAll_schemeAll(<span class="tok-var">$fieldsRemove</span>)
+<span class="tok-var">$tableUserGroup</span>-&gt;getAll_schemeAll(<span class="tok-var">$fieldsRemove</span>, ...<span class="tok-var">$args</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$fieldsRemove
@@ -784,9 +803,9 @@ $tableUserGroup-&gt;getAll_schemeAll($fieldsRemove, ...$args)</code></pre>
 </em>
 <p>Retorna o esquema completo de um único registro encontrado pela consulta.
 </p>
-<pre><code>$tableUserGroup-&gt;getOne_schemeAll()
-$tableUserGroup-&gt;getOne_schemeAll($fieldsRemove)
-$tableUserGroup-&gt;getOne_schemeAll($fieldsRemove, ...$args)</code></pre>
+<pre><code class="php"><span class="tok-var">$tableUserGroup</span>-&gt;getOne_schemeAll()
+<span class="tok-var">$tableUserGroup</span>-&gt;getOne_schemeAll(<span class="tok-var">$fieldsRemove</span>)
+<span class="tok-var">$tableUserGroup</span>-&gt;getOne_schemeAll(<span class="tok-var">$fieldsRemove</span>, ...<span class="tok-var">$args</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$fieldsRemove
@@ -821,11 +840,11 @@ $tableUserGroup-&gt;getOne_schemeAll($fieldsRemove, ...$args)</code></pre>
 </em>
 <p>Retorna o esquema completo de um registro buscado por idKey.
 </p>
-<pre><code>$tableUserGroup-&gt;getOneKey_schemeAll()
-$tableUserGroup-&gt;getOneKey_schemeAll($fieldsRemove)
-$tableUserGroup-&gt;getOneKey_schemeAll($fieldsRemove, $idKey)
-$tableUserGroup-&gt;getOneKey_schemeAll($fieldsRemove, $idKey, $errMessage)
-$tableUserGroup-&gt;getOneKey_schemeAll($fieldsRemove, $idKey, $errMessage, $errCode)</code></pre>
+<pre><code class="php"><span class="tok-var">$tableUserGroup</span>-&gt;getOneKey_schemeAll()
+<span class="tok-var">$tableUserGroup</span>-&gt;getOneKey_schemeAll(<span class="tok-var">$fieldsRemove</span>)
+<span class="tok-var">$tableUserGroup</span>-&gt;getOneKey_schemeAll(<span class="tok-var">$fieldsRemove</span>, <span class="tok-var">$idKey</span>)
+<span class="tok-var">$tableUserGroup</span>-&gt;getOneKey_schemeAll(<span class="tok-var">$fieldsRemove</span>, <span class="tok-var">$idKey</span>, <span class="tok-var">$errMessage</span>)
+<span class="tok-var">$tableUserGroup</span>-&gt;getOneKey_schemeAll(<span class="tok-var">$fieldsRemove</span>, <span class="tok-var">$idKey</span>, <span class="tok-var">$errMessage</span>, <span class="tok-var">$errCode</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$fieldsRemove
@@ -876,8 +895,8 @@ $tableUserGroup-&gt;getOneKey_schemeAll($fieldsRemove, $idKey, $errMessage, $err
 </em>
 <p>Retorna ou define o registro marcado como ativo na tabela.
 </p>
-<pre><code>$tableUserGroup-&gt;active()
-$tableUserGroup-&gt;active($record)</code></pre>
+<pre><code class="php"><span class="tok-var">$tableUserGroup</span>-&gt;active()
+<span class="tok-var">$tableUserGroup</span>-&gt;active(<span class="tok-var">$record</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$record
@@ -904,8 +923,8 @@ $tableUserGroup-&gt;active($record)</code></pre>
 </em>
 <p>Retorna o número de registros encontrados pela consulta.
 </p>
-<pre><code>$tableUserGroup-&gt;count()
-$tableUserGroup-&gt;count(...$args)</code></pre>
+<pre><code class="php"><span class="tok-var">$tableUserGroup</span>-&gt;count()
+<span class="tok-var">$tableUserGroup</span>-&gt;count(...<span class="tok-var">$args</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$args
@@ -932,8 +951,8 @@ $tableUserGroup-&gt;count(...$args)</code></pre>
 </em>
 <p>Verifica se existe ao menos um registro que corresponde à consulta.
 </p>
-<pre><code>$tableUserGroup-&gt;check()
-$tableUserGroup-&gt;check(...$args)</code></pre>
+<pre><code class="php"><span class="tok-var">$tableUserGroup</span>-&gt;check()
+<span class="tok-var">$tableUserGroup</span>-&gt;check(...<span class="tok-var">$args</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$args
@@ -960,8 +979,8 @@ $tableUserGroup-&gt;check(...$args)</code></pre>
 </em>
 <p>Retorna um array de objetos de registro encontrados pela consulta.
 </p>
-<pre><code>$tableUserGroup-&gt;getAll()
-$tableUserGroup-&gt;getAll(...$args)</code></pre>
+<pre><code class="php"><span class="tok-var">$tableUserGroup</span>-&gt;getAll()
+<span class="tok-var">$tableUserGroup</span>-&gt;getAll(...<span class="tok-var">$args</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$args
@@ -988,8 +1007,8 @@ $tableUserGroup-&gt;getAll(...$args)</code></pre>
 </em>
 <p>Retorna um único objeto de registro encontrado pela consulta. Aceita: sem args (novo), null/false (nulo), true (ativo), idKey, id numérico, where string ou array.
 </p>
-<pre><code>$tableUserGroup-&gt;getOne()
-$tableUserGroup-&gt;getOne(...$args)</code></pre>
+<pre><code class="php"><span class="tok-var">$tableUserGroup</span>-&gt;getOne()
+<span class="tok-var">$tableUserGroup</span>-&gt;getOne(...<span class="tok-var">$args</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$args
@@ -1016,10 +1035,10 @@ $tableUserGroup-&gt;getOne(...$args)</code></pre>
 </em>
 <p>Retorna um registro buscado por idKey, lançando Exception se não encontrado e errMessage for informado.
 </p>
-<pre><code>$tableUserGroup-&gt;getOneKey()
-$tableUserGroup-&gt;getOneKey($idKey)
-$tableUserGroup-&gt;getOneKey($idKey, $errMessage)
-$tableUserGroup-&gt;getOneKey($idKey, $errMessage, $errCode)</code></pre>
+<pre><code class="php"><span class="tok-var">$tableUserGroup</span>-&gt;getOneKey()
+<span class="tok-var">$tableUserGroup</span>-&gt;getOneKey(<span class="tok-var">$idKey</span>)
+<span class="tok-var">$tableUserGroup</span>-&gt;getOneKey(<span class="tok-var">$idKey</span>, <span class="tok-var">$errMessage</span>)
+<span class="tok-var">$tableUserGroup</span>-&gt;getOneKey(<span class="tok-var">$idKey</span>, <span class="tok-var">$errMessage</span>, <span class="tok-var">$errCode</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$idKey
@@ -1062,7 +1081,7 @@ $tableUserGroup-&gt;getOneKey($idKey, $errMessage, $errCode)</code></pre>
 </em>
 <p>Retorna um objeto de registro novo (id = 0).
 </p>
-<pre><code>$tableUserGroup-&gt;getNew()</code></pre>
+<pre><code class="php"><span class="tok-var">$tableUserGroup</span>-&gt;getNew()</code></pre>
 <ul class="param-list">
 </ul>
 <p class="returns">
@@ -1081,7 +1100,7 @@ $tableUserGroup-&gt;getOneKey($idKey, $errMessage, $errCode)</code></pre>
 </em>
 <p>Retorna um objeto de registro nulo (id = null).
 </p>
-<pre><code>$tableUserGroup-&gt;getNull()</code></pre>
+<pre><code class="php"><span class="tok-var">$tableUserGroup</span>-&gt;getNull()</code></pre>
 <ul class="param-list">
 </ul>
 <p class="returns">
@@ -1100,7 +1119,7 @@ $tableUserGroup-&gt;getOneKey($idKey, $errMessage, $errCode)</code></pre>
 </em>
 <p>Converte um ID numérico em idKey cifrado.
 </p>
-<pre><code>$tableUserGroup-&gt;idToIdkey($id)</code></pre>
+<pre><code class="php"><span class="tok-var">$tableUserGroup</span>-&gt;idToIdkey(<span class="tok-var">$id</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$id
@@ -1127,7 +1146,7 @@ $tableUserGroup-&gt;getOneKey($idKey, $errMessage, $errCode)</code></pre>
 </em>
 <p>Converte um idKey cifrado em ID numérico.
 </p>
-<pre><code>$tableUserGroup-&gt;idKeyToId($idKey)</code></pre>
+<pre><code class="php"><span class="tok-var">$tableUserGroup</span>-&gt;idKeyToId(<span class="tok-var">$idKey</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$idKey
@@ -1154,7 +1173,7 @@ $tableUserGroup-&gt;getOneKey($idKey, $errMessage, $errCode)</code></pre>
 </em>
 <p>Converte um array de resultados de consulta em um array de objetos de registro.
 </p>
-<pre><code>$tableUserGroup-&gt;_convert($arrayRecord)</code></pre>
+<pre><code class="php"><span class="tok-var">$tableUserGroup</span>-&gt;_convert(<span class="tok-var">$arrayRecord</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$arrayRecord
@@ -1181,7 +1200,7 @@ $tableUserGroup-&gt;getOneKey($idKey, $errMessage, $errCode)</code></pre>
 </em>
 <p>Ativa ou desativa o uso do cache na tabela.
 </p>
-<pre><code>$tableUserGroup-&gt;_cacheStatus($status)</code></pre>
+<pre><code class="php"><span class="tok-var">$tableUserGroup</span>-&gt;_cacheStatus(<span class="tok-var">$status</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$status

@@ -14,6 +14,10 @@
 --text-rgb: 245, 245, 247;
 --line-rgb: 255, 255, 255;
 --code-rgb: 20, 20, 22;
+--tok-string-rgb: 206, 145, 120;
+--tok-number-rgb: 181, 206, 168;
+--tok-var-rgb: 156, 220, 254;
+--tok-comment-rgb: 106, 153, 85;
 --php: rgb(var(--php-rgb));
 --base: rgb(var(--base-rgb));
 --text: rgb(var(--text-rgb));
@@ -199,6 +203,21 @@ background: none;
 border: none;
 padding: 0;
 font-size: 0.85em;
+}
+.content pre .tok-keyword {
+color: var(--php);
+}
+.content pre .tok-string {
+color: rgb(var(--tok-string-rgb));
+}
+.content pre .tok-number {
+color: rgb(var(--tok-number-rgb));
+}
+.content pre .tok-var {
+color: rgb(var(--tok-var-rgb));
+}
+.content pre .tok-comment {
+color: rgb(var(--tok-comment-rgb));
 }
 .content .doc-item {
 padding: 24px 0;
@@ -565,9 +584,9 @@ window.addEventListener('resize', hide);
 </h2>
 <p>Cria uma nova imagem monocromática.
 </p>
-<pre><code>DImage::_color()
-DImage::_color($color)
-DImage::_color($color, $size)</code></pre>
+<pre><code class="php">DImage::_color()
+DImage::_color(<span class="tok-var">$color</span>)
+DImage::_color(<span class="tok-var">$color</span>, <span class="tok-var">$size</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$color
@@ -598,7 +617,7 @@ DImage::_color($color, $size)</code></pre>
 </h2>
 <p>Instancia a classe a partir de uma URL ou caminho remoto.
 </p>
-<pre><code>DImage::_url($url)</code></pre>
+<pre><code class="php">DImage::_url(<span class="tok-var">$url</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$url
@@ -621,7 +640,7 @@ DImage::_color($color, $size)</code></pre>
 </h2>
 <p>Carrega uma imagem a partir de um arquivo local, corrigindo a rotação via metadados EXIF.
 </p>
-<pre><code>DImage::_file($path)</code></pre>
+<pre><code class="php">DImage::_file(<span class="tok-var">$path</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$path
@@ -644,8 +663,8 @@ DImage::_color($color, $size)</code></pre>
 </h2>
 <p>Exporta e salva a imagem no disco utilizando o formato e qualidade definidos.
 </p>
-<pre><code>$dImage-&gt;save()
-$dImage-&gt;save($path)</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;save()
+<span class="tok-var">$dImage</span>-&gt;save(<span class="tok-var">$path</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$path
@@ -668,7 +687,7 @@ $dImage-&gt;save($path)</code></pre>
 </h2>
 <p>Gera uma cópia independente (clone) do objeto de imagem atual.
 </p>
-<pre><code>$dImage-&gt;copy()</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;copy()</code></pre>
 <ul class="param-list">
 </ul>
 <p class="returns">
@@ -683,8 +702,8 @@ $dImage-&gt;save($path)</code></pre>
 </h2>
 <p>Retorna o nome da imagem, opcionalmente incluindo a extensão.
 </p>
-<pre><code>$dImage-&gt;getName()
-$dImage-&gt;getName($ex)</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;getName()
+<span class="tok-var">$dImage</span>-&gt;getName(<span class="tok-var">$ex</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$ex
@@ -707,7 +726,7 @@ $dImage-&gt;getName($ex)</code></pre>
 </h2>
 <p>Retorna o caminho da imagem no disco
 </p>
-<pre><code>$dImage-&gt;getPath()</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;getPath()</code></pre>
 <ul class="param-list">
 </ul>
 <p class="returns">
@@ -722,7 +741,7 @@ $dImage-&gt;getName($ex)</code></pre>
 </h2>
 <p>Retorna a imagem GD gerada pela classe
 </p>
-<pre><code>$dImage-&gt;getGd()</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;getGd()</code></pre>
 <ul class="param-list">
 </ul>
 <p class="returns">
@@ -737,7 +756,7 @@ $dImage-&gt;getName($ex)</code></pre>
 </h2>
 <p>Retorna o array de dimensão da imagem
 </p>
-<pre><code>$dImage-&gt;getSize()</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;getSize()</code></pre>
 <ul class="param-list">
 </ul>
 <p class="returns">
@@ -752,7 +771,7 @@ $dImage-&gt;getName($ex)</code></pre>
 </h2>
 <p>Retorna a largura da imagem
 </p>
-<pre><code>$dImage-&gt;getWidth()</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;getWidth()</code></pre>
 <ul class="param-list">
 </ul>
 <p class="returns">
@@ -767,7 +786,7 @@ $dImage-&gt;getName($ex)</code></pre>
 </h2>
 <p>Retorna a altura da imagem
 </p>
-<pre><code>$dImage-&gt;getHeight()</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;getHeight()</code></pre>
 <ul class="param-list">
 </ul>
 <p class="returns">
@@ -782,7 +801,7 @@ $dImage-&gt;getName($ex)</code></pre>
 </h2>
 <p>Retorna a extensao da imagem
 </p>
-<pre><code>$dImage-&gt;getExtension()</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;getExtension()</code></pre>
 <ul class="param-list">
 </ul>
 <p class="returns">
@@ -797,7 +816,7 @@ $dImage-&gt;getName($ex)</code></pre>
 </h2>
 <p>Retorna o tamanho do arquivo da imagem
 </p>
-<pre><code>$dImage-&gt;getFileSize()</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;getFileSize()</code></pre>
 <ul class="param-list">
 </ul>
 <p class="returns">
@@ -812,7 +831,7 @@ $dImage-&gt;getName($ex)</code></pre>
 </h2>
 <p>Captura o Hash Md5 gerado pelo binario da imagem
 </p>
-<pre><code>$dImage-&gt;getHash()</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;getHash()</code></pre>
 <ul class="param-list">
 </ul>
 <p class="returns">
@@ -827,7 +846,7 @@ $dImage-&gt;getName($ex)</code></pre>
 </h2>
 <p>Retorna o binario da imagem
 </p>
-<pre><code>$dImage-&gt;getBin()</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;getBin()</code></pre>
 <ul class="param-list">
 </ul>
 <p class="returns">
@@ -842,7 +861,7 @@ $dImage-&gt;getName($ex)</code></pre>
 </h2>
 <p>Retorna a imagem codificada em base64
 </p>
-<pre><code>$dImage-&gt;getB64()</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;getB64()</code></pre>
 <ul class="param-list">
 </ul>
 <p class="returns">
@@ -857,7 +876,7 @@ $dImage-&gt;getName($ex)</code></pre>
 </h2>
 <p>Ajusta o nível de compressão/qualidade da imagem (0 a 100).
 </p>
-<pre><code>$dImage-&gt;quality($quality)</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;quality(<span class="tok-var">$quality</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$quality
@@ -880,7 +899,7 @@ $dImage-&gt;getName($ex)</code></pre>
 </h2>
 <p>Define o nome do arquivo, removendo automaticamente extensões pré-existentes.
 </p>
-<pre><code>$dImage-&gt;rename($name)</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;rename(<span class="tok-var">$name</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$name
@@ -903,7 +922,7 @@ $dImage-&gt;getName($ex)</code></pre>
 </h2>
 <p>Define o diretório de destino aceitando múltiplos argumentos para compor o caminho.
 </p>
-<pre><code>$dImage-&gt;path()</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;path()</code></pre>
 <ul class="param-list">
 </ul>
 <p class="returns">
@@ -918,7 +937,7 @@ $dImage-&gt;getName($ex)</code></pre>
 </h2>
 <p>Define a cor base ou de preenchimento para operações na imagem.
 </p>
-<pre><code>$dImage-&gt;color($color)</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;color(<span class="tok-var">$color</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$color
@@ -941,9 +960,9 @@ $dImage-&gt;getName($ex)</code></pre>
 </h2>
 <p>Recorta a imagem para um aspect-ratio específico (ex: 1.1 para 1:1, 16.9 para 16:9).
 </p>
-<pre><code>$dImage-&gt;ratio()
-$dImage-&gt;ratio($ratio)
-$dImage-&gt;ratio($ratio, $position)</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;ratio()
+<span class="tok-var">$dImage</span>-&gt;ratio(<span class="tok-var">$ratio</span>)
+<span class="tok-var">$dImage</span>-&gt;ratio(<span class="tok-var">$ratio</span>, <span class="tok-var">$position</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$ratio
@@ -974,7 +993,7 @@ $dImage-&gt;ratio($ratio, $position)</code></pre>
 </h2>
 <p>Converte o formato de saída da imagem (jpg, png, webp, etc) e gerencia a transparência.
 </p>
-<pre><code>$dImage-&gt;convert($ex)</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;convert(<span class="tok-var">$ex</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$ex
@@ -997,7 +1016,7 @@ $dImage-&gt;ratio($ratio, $position)</code></pre>
 </h2>
 <p>Redimensiona mantendo a proporção. Valores negativos definem o limite mínimo.
 </p>
-<pre><code>$dImage-&gt;resize($size)</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;resize(<span class="tok-var">$size</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$size
@@ -1020,7 +1039,7 @@ $dImage-&gt;ratio($ratio, $position)</code></pre>
 </h2>
 <p>Redimensiona a imagem ignorando a proporção original (distorção controlada).
 </p>
-<pre><code>$dImage-&gt;resizeFree($size)</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;resizeFree(<span class="tok-var">$size</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$size
@@ -1043,8 +1062,8 @@ $dImage-&gt;ratio($ratio, $position)</code></pre>
 </h2>
 <p>Rotaciona a imagem no sentido horário.
 </p>
-<pre><code>$dImage-&gt;rotate($graus)
-$dImage-&gt;rotate($graus, $transparent)</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;rotate(<span class="tok-var">$graus</span>)
+<span class="tok-var">$dImage</span>-&gt;rotate(<span class="tok-var">$graus</span>, <span class="tok-var">$transparent</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$graus
@@ -1075,7 +1094,7 @@ $dImage-&gt;rotate($graus, $transparent)</code></pre>
 </h2>
 <p>Inverte a imagem horizontalmente (espelhamento lateral).
 </p>
-<pre><code>$dImage-&gt;flipH()</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;flipH()</code></pre>
 <ul class="param-list">
 </ul>
 <p class="returns">
@@ -1090,7 +1109,7 @@ $dImage-&gt;rotate($graus, $transparent)</code></pre>
 </h2>
 <p>Inverte a imagem verticalmente (de ponta-cabeça).
 </p>
-<pre><code>$dImage-&gt;flipV()</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;flipV()</code></pre>
 <ul class="param-list">
 </ul>
 <p class="returns">
@@ -1105,8 +1124,8 @@ $dImage-&gt;rotate($graus, $transparent)</code></pre>
 </h2>
 <p>Sobrepõe uma outra instância de DImage sobre a imagem atual (Marca d&#039;água).
 </p>
-<pre><code>$dImage-&gt;stamp($imgSpamt)
-$dImage-&gt;stamp($imgSpamt, $position)</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;stamp(<span class="tok-var">$imgSpamt</span>)
+<span class="tok-var">$dImage</span>-&gt;stamp(<span class="tok-var">$imgSpamt</span>, <span class="tok-var">$position</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$imgSpamt
@@ -1137,8 +1156,8 @@ $dImage-&gt;stamp($imgSpamt, $position)</code></pre>
 </h2>
 <p>Corta uma área específica da imagem com base em uma posição.
 </p>
-<pre><code>$dImage-&gt;crop($size)
-$dImage-&gt;crop($size, $position)</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;crop(<span class="tok-var">$size</span>)
+<span class="tok-var">$dImage</span>-&gt;crop(<span class="tok-var">$size</span>, <span class="tok-var">$position</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$size
@@ -1169,7 +1188,7 @@ $dImage-&gt;crop($size, $position)</code></pre>
 </h2>
 <p>Redimensiona e centraliza a imagem dentro de um novo quadro preenchido com a cor base.
 </p>
-<pre><code>$dImage-&gt;framing($size)</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;framing(<span class="tok-var">$size</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$size
@@ -1192,7 +1211,7 @@ $dImage-&gt;crop($size, $position)</code></pre>
 </h2>
 <p>Aplica um filtro nativo do PHP GD à imagem.
 </p>
-<pre><code>$dImage-&gt;filter($filter)</code></pre>
+<pre><code class="php"><span class="tok-var">$dImage</span>-&gt;filter(<span class="tok-var">$filter</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$filter

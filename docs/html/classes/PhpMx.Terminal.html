@@ -14,6 +14,10 @@
 --text-rgb: 245, 245, 247;
 --line-rgb: 255, 255, 255;
 --code-rgb: 20, 20, 22;
+--tok-string-rgb: 206, 145, 120;
+--tok-number-rgb: 181, 206, 168;
+--tok-var-rgb: 156, 220, 254;
+--tok-comment-rgb: 106, 153, 85;
 --php: rgb(var(--php-rgb));
 --base: rgb(var(--base-rgb));
 --text: rgb(var(--text-rgb));
@@ -199,6 +203,21 @@ background: none;
 border: none;
 padding: 0;
 font-size: 0.85em;
+}
+.content pre .tok-keyword {
+color: var(--php);
+}
+.content pre .tok-string {
+color: rgb(var(--tok-string-rgb));
+}
+.content pre .tok-number {
+color: rgb(var(--tok-number-rgb));
+}
+.content pre .tok-var {
+color: rgb(var(--tok-var-rgb));
+}
+.content pre .tok-comment {
+color: rgb(var(--tok-comment-rgb));
 }
 .content .doc-item {
 padding: 24px 0;
@@ -505,8 +524,8 @@ window.addEventListener('resize', hide);
 </h2>
 <p>Executa uma linha de comando
 </p>
-<pre><code>Terminal::run()
-Terminal::run(...$commandLine)</code></pre>
+<pre><code class="php">Terminal::run()
+Terminal::run(...<span class="tok-var">$commandLine</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$commandLine
@@ -529,7 +548,7 @@ Terminal::run(...$commandLine)</code></pre>
 </h2>
 <p>Executa um comando no terminal do sistema.
 </p>
-<pre><code>Terminal::exec($commandLine)</code></pre>
+<pre><code class="php">Terminal::exec(<span class="tok-var">$commandLine</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$commandLine
@@ -552,9 +571,9 @@ Terminal::run(...$commandLine)</code></pre>
 </h2>
 <p>Exibe uma linha de texto no terminal com quebra de linha.
 </p>
-<pre><code>Terminal::echol()
-Terminal::echol($text)
-Terminal::echol($text, $prepare)</code></pre>
+<pre><code class="php">Terminal::echol()
+Terminal::echol(<span class="tok-var">$text</span>)
+Terminal::echol(<span class="tok-var">$text</span>, <span class="tok-var">$prepare</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$text
@@ -585,9 +604,9 @@ Terminal::echol($text, $prepare)</code></pre>
 </h2>
 <p>Exibe uma linha de texto dinâmica, substituindo a escrita anterior do echod. Guardar o tamanho do último texto exibido para limpar corretamente na próxima chamada.
 </p>
-<pre><code>Terminal::echod()
-Terminal::echod($text)
-Terminal::echod($text, $prepare)</code></pre>
+<pre><code class="php">Terminal::echod()
+Terminal::echod(<span class="tok-var">$text</span>)
+Terminal::echod(<span class="tok-var">$text</span>, <span class="tok-var">$prepare</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$text
@@ -618,9 +637,9 @@ Terminal::echod($text, $prepare)</code></pre>
 </h2>
 <p>Exibe uma linha de texto no terminal sem quebra de linha.
 </p>
-<pre><code>Terminal::echo()
-Terminal::echo($text)
-Terminal::echo($text, $prepare)</code></pre>
+<pre><code class="php">Terminal::<span class="tok-keyword">echo</span>()
+Terminal::<span class="tok-keyword">echo</span>(<span class="tok-var">$text</span>)
+Terminal::<span class="tok-keyword">echo</span>(<span class="tok-var">$text</span>, <span class="tok-var">$prepare</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$text
@@ -651,10 +670,10 @@ Terminal::echo($text, $prepare)</code></pre>
 </h2>
 <p>Solicita confirmação do usuário (y/n)
 </p>
-<pre><code>Terminal::confirm()
-Terminal::confirm($text)
-Terminal::confirm($text, $prepare)
-Terminal::confirm($text, $prepare, $default)</code></pre>
+<pre><code class="php">Terminal::confirm()
+Terminal::confirm(<span class="tok-var">$text</span>)
+Terminal::confirm(<span class="tok-var">$text</span>, <span class="tok-var">$prepare</span>)
+Terminal::confirm(<span class="tok-var">$text</span>, <span class="tok-var">$prepare</span>, <span class="tok-var">$default</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$text
@@ -693,11 +712,11 @@ Terminal::confirm($text, $prepare, $default)</code></pre>
 </h2>
 <p>Solicita entrada de texto do usuário
 </p>
-<pre><code>Terminal::input()
-Terminal::input($text)
-Terminal::input($text, $prepare)
-Terminal::input($text, $prepare, $default)
-Terminal::input($text, $prepare, $default, $required)</code></pre>
+<pre><code class="php">Terminal::input()
+Terminal::input(<span class="tok-var">$text</span>)
+Terminal::input(<span class="tok-var">$text</span>, <span class="tok-var">$prepare</span>)
+Terminal::input(<span class="tok-var">$text</span>, <span class="tok-var">$prepare</span>, <span class="tok-var">$default</span>)
+Terminal::input(<span class="tok-var">$text</span>, <span class="tok-var">$prepare</span>, <span class="tok-var">$default</span>, <span class="tok-var">$required</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$text
@@ -744,11 +763,11 @@ Terminal::input($text, $prepare, $default, $required)</code></pre>
 </h2>
 <p>Solicita entrada de senha (texto oculto)
 </p>
-<pre><code>Terminal::password()
-Terminal::password($text)
-Terminal::password($text, $prepare)
-Terminal::password($text, $prepare, $expected)
-Terminal::password($text, $prepare, $expected, $required)</code></pre>
+<pre><code class="php">Terminal::password()
+Terminal::password(<span class="tok-var">$text</span>)
+Terminal::password(<span class="tok-var">$text</span>, <span class="tok-var">$prepare</span>)
+Terminal::password(<span class="tok-var">$text</span>, <span class="tok-var">$prepare</span>, <span class="tok-var">$expected</span>)
+Terminal::password(<span class="tok-var">$text</span>, <span class="tok-var">$prepare</span>, <span class="tok-var">$expected</span>, <span class="tok-var">$required</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$text
@@ -795,11 +814,11 @@ Terminal::password($text, $prepare, $expected, $required)</code></pre>
 </h2>
 <p>Solicita uma escolha entre opções numeradas
 </p>
-<pre><code>Terminal::select()
-Terminal::select($text)
-Terminal::select($text, $prepare)
-Terminal::select($text, $prepare, $options)
-Terminal::select($text, $prepare, $options, $default)</code></pre>
+<pre><code class="php">Terminal::select()
+Terminal::select(<span class="tok-var">$text</span>)
+Terminal::select(<span class="tok-var">$text</span>, <span class="tok-var">$prepare</span>)
+Terminal::select(<span class="tok-var">$text</span>, <span class="tok-var">$prepare</span>, <span class="tok-var">$options</span>)
+Terminal::select(<span class="tok-var">$text</span>, <span class="tok-var">$prepare</span>, <span class="tok-var">$options</span>, <span class="tok-var">$default</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$text
@@ -846,11 +865,11 @@ Terminal::select($text, $prepare, $options, $default)</code></pre>
 </h2>
 <p>Exibe uma barra de progresso
 </p>
-<pre><code>Terminal::progress()
-Terminal::progress($text)
-Terminal::progress($text, $prepare)
-Terminal::progress($text, $prepare, $current)
-Terminal::progress($text, $prepare, $current, $total)</code></pre>
+<pre><code class="php">Terminal::progress()
+Terminal::progress(<span class="tok-var">$text</span>)
+Terminal::progress(<span class="tok-var">$text</span>, <span class="tok-var">$prepare</span>)
+Terminal::progress(<span class="tok-var">$text</span>, <span class="tok-var">$prepare</span>, <span class="tok-var">$current</span>)
+Terminal::progress(<span class="tok-var">$text</span>, <span class="tok-var">$prepare</span>, <span class="tok-var">$current</span>, <span class="tok-var">$total</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$text
@@ -897,8 +916,8 @@ Terminal::progress($text, $prepare, $current, $total)</code></pre>
 </h2>
 <p>Exibe uma tabela a partir de uma matriz
 </p>
-<pre><code>Terminal::table($data)
-Terminal::table($data, $hasHeader)</code></pre>
+<pre><code class="php">Terminal::table(<span class="tok-var">$data</span>)
+Terminal::table(<span class="tok-var">$data</span>, <span class="tok-var">$hasHeader</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$data
@@ -929,7 +948,7 @@ Terminal::table($data, $hasHeader)</code></pre>
 </h2>
 <p>Exibe os detalhes de uma exception (tipo, mensagem e stack trace).
 </p>
-<pre><code>Terminal::echoThrow($e)</code></pre>
+<pre><code class="php">Terminal::echoThrow(<span class="tok-var">$e</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$e

@@ -14,6 +14,10 @@
 --text-rgb: 245, 245, 247;
 --line-rgb: 255, 255, 255;
 --code-rgb: 20, 20, 22;
+--tok-string-rgb: 206, 145, 120;
+--tok-number-rgb: 181, 206, 168;
+--tok-var-rgb: 156, 220, 254;
+--tok-comment-rgb: 106, 153, 85;
 --php: rgb(var(--php-rgb));
 --base: rgb(var(--base-rgb));
 --text: rgb(var(--text-rgb));
@@ -199,6 +203,21 @@ background: none;
 border: none;
 padding: 0;
 font-size: 0.85em;
+}
+.content pre .tok-keyword {
+color: var(--php);
+}
+.content pre .tok-string {
+color: rgb(var(--tok-string-rgb));
+}
+.content pre .tok-number {
+color: rgb(var(--tok-number-rgb));
+}
+.content pre .tok-var {
+color: rgb(var(--tok-var-rgb));
+}
+.content pre .tok-comment {
+color: rgb(var(--tok-comment-rgb));
 }
 .content .doc-item {
 padding: 24px 0;
@@ -639,7 +658,7 @@ window.addEventListener('resize', hide);
 </em>
 <p>Nome do grupo
 </p>
-<pre><code>$recordUserGroup-&gt;name()</code></pre>
+<pre><code class="php"><span class="tok-var">$recordUserGroup</span>-&gt;name()</code></pre>
 <ul class="param-list">
 </ul>
 <p class="returns">
@@ -658,7 +677,7 @@ window.addEventListener('resize', hide);
 </em>
 <p>Retorna a chave de identificação numérica do registro.
 </p>
-<pre><code>$recordUserGroup-&gt;id()</code></pre>
+<pre><code class="php"><span class="tok-var">$recordUserGroup</span>-&gt;id()</code></pre>
 <ul class="param-list">
 </ul>
 <p class="returns">
@@ -677,7 +696,7 @@ window.addEventListener('resize', hide);
 </em>
 <p>Retorna a chave de identificação cifrada (idKey) do registro.
 </p>
-<pre><code>$recordUserGroup-&gt;idKey()</code></pre>
+<pre><code class="php"><span class="tok-var">$recordUserGroup</span>-&gt;idKey()</code></pre>
 <ul class="param-list">
 </ul>
 <p class="returns">
@@ -696,7 +715,7 @@ window.addEventListener('resize', hide);
 </em>
 <p>Retorna o momento em que o registro foi criado.
 </p>
-<pre><code>$recordUserGroup-&gt;_created()</code></pre>
+<pre><code class="php"><span class="tok-var">$recordUserGroup</span>-&gt;_created()</code></pre>
 <ul class="param-list">
 </ul>
 <p class="returns">
@@ -715,7 +734,7 @@ window.addEventListener('resize', hide);
 </em>
 <p>Retorna o momento da última atualização do registro.
 </p>
-<pre><code>$recordUserGroup-&gt;_updated()</code></pre>
+<pre><code class="php"><span class="tok-var">$recordUserGroup</span>-&gt;_updated()</code></pre>
 <ul class="param-list">
 </ul>
 <p class="returns">
@@ -734,7 +753,7 @@ window.addEventListener('resize', hide);
 </em>
 <p>Retorna o momento da última mudança do registro (criação ou atualização).
 </p>
-<pre><code>$recordUserGroup-&gt;_changed()</code></pre>
+<pre><code class="php"><span class="tok-var">$recordUserGroup</span>-&gt;_changed()</code></pre>
 <ul class="param-list">
 </ul>
 <p class="returns">
@@ -753,7 +772,7 @@ window.addEventListener('resize', hide);
 </em>
 <p>Retorna o momento em que o registro foi marcado como removido.
 </p>
-<pre><code>$recordUserGroup-&gt;_deleted()</code></pre>
+<pre><code class="php"><span class="tok-var">$recordUserGroup</span>-&gt;_deleted()</code></pre>
 <ul class="param-list">
 </ul>
 <p class="returns">
@@ -772,7 +791,7 @@ window.addEventListener('resize', hide);
 </em>
 <p>Retorna o valor do esquema de um campo do registro.
 </p>
-<pre><code>$recordUserGroup-&gt;_schemeValue($field)</code></pre>
+<pre><code class="php"><span class="tok-var">$recordUserGroup</span>-&gt;_schemeValue(<span class="tok-var">$field</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$field
@@ -799,7 +818,7 @@ window.addEventListener('resize', hide);
 </em>
 <p>Retorna os campos solicitados do registro tratados em forma de array de esquema.
 </p>
-<pre><code>$recordUserGroup-&gt;_scheme($fields)</code></pre>
+<pre><code class="php"><span class="tok-var">$recordUserGroup</span>-&gt;_scheme(<span class="tok-var">$fields</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$fields
@@ -826,8 +845,8 @@ window.addEventListener('resize', hide);
 </em>
 <p>Retorna todos os campos e esquemas personalizados do registro em forma de array.
 </p>
-<pre><code>$recordUserGroup-&gt;_schemeAll()
-$recordUserGroup-&gt;_schemeAll($fieldsRemove)</code></pre>
+<pre><code class="php"><span class="tok-var">$recordUserGroup</span>-&gt;_schemeAll()
+<span class="tok-var">$recordUserGroup</span>-&gt;_schemeAll(<span class="tok-var">$fieldsRemove</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$fieldsRemove
@@ -854,7 +873,7 @@ $recordUserGroup-&gt;_schemeAll($fieldsRemove)</code></pre>
 </em>
 <p>Marca o registro como ativo na tabela correspondente.
 </p>
-<pre><code>$recordUserGroup-&gt;_makeActive()</code></pre>
+<pre><code class="php"><span class="tok-var">$recordUserGroup</span>-&gt;_makeActive()</code></pre>
 <ul class="param-list">
 </ul>
 <p class="returns">
@@ -873,8 +892,8 @@ $recordUserGroup-&gt;_schemeAll($fieldsRemove)</code></pre>
 </em>
 <p>Retorna os campos do registro em forma de array.
 </p>
-<pre><code>$recordUserGroup-&gt;_array()
-$recordUserGroup-&gt;_array(...$fields)</code></pre>
+<pre><code class="php"><span class="tok-var">$recordUserGroup</span>-&gt;_array()
+<span class="tok-var">$recordUserGroup</span>-&gt;_array(...<span class="tok-var">$fields</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$fields
@@ -901,7 +920,7 @@ $recordUserGroup-&gt;_array(...$fields)</code></pre>
 </em>
 <p>Define os valores dos campos do registro com base em um array.
 </p>
-<pre><code>$recordUserGroup-&gt;_arraySet($scheme)</code></pre>
+<pre><code class="php"><span class="tok-var">$recordUserGroup</span>-&gt;_arraySet(<span class="tok-var">$scheme</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$scheme
@@ -928,7 +947,7 @@ $recordUserGroup-&gt;_array(...$fields)</code></pre>
 </em>
 <p>Aplica um array de mudanças incrementais aos campos do registro.
 </p>
-<pre><code>$recordUserGroup-&gt;_arrayChange($changes)</code></pre>
+<pre><code class="php"><span class="tok-var">$recordUserGroup</span>-&gt;_arrayChange(<span class="tok-var">$changes</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$changes
@@ -955,8 +974,8 @@ $recordUserGroup-&gt;_array(...$fields)</code></pre>
 </em>
 <p>Verifica se o registro existe no banco de dados (id &gt; 0).
 </p>
-<pre><code>$recordUserGroup-&gt;_checkInDb()
-$recordUserGroup-&gt;_checkInDb($deleted)</code></pre>
+<pre><code class="php"><span class="tok-var">$recordUserGroup</span>-&gt;_checkInDb()
+<span class="tok-var">$recordUserGroup</span>-&gt;_checkInDb(<span class="tok-var">$deleted</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$deleted
@@ -983,8 +1002,8 @@ $recordUserGroup-&gt;_checkInDb($deleted)</code></pre>
 </em>
 <p>Verifica se algum dos campos fornecidos foi alterado desde o último carregamento.
 </p>
-<pre><code>$recordUserGroup-&gt;_checkChange()
-$recordUserGroup-&gt;_checkChange(...$fields)</code></pre>
+<pre><code class="php"><span class="tok-var">$recordUserGroup</span>-&gt;_checkChange()
+<span class="tok-var">$recordUserGroup</span>-&gt;_checkChange(...<span class="tok-var">$fields</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$fields
@@ -1011,7 +1030,7 @@ $recordUserGroup-&gt;_checkChange(...$fields)</code></pre>
 </em>
 <p>Verifica se o registro pode ser salvo no banco de dados (id não nulo).
 </p>
-<pre><code>$recordUserGroup-&gt;_checkSave()</code></pre>
+<pre><code class="php"><span class="tok-var">$recordUserGroup</span>-&gt;_checkSave()</code></pre>
 <ul class="param-list">
 </ul>
 <p class="returns">
@@ -1030,7 +1049,7 @@ $recordUserGroup-&gt;_checkChange(...$fields)</code></pre>
 </em>
 <p>Prepara o registro para ser marcado como excluído no próximo _save().
 </p>
-<pre><code>$recordUserGroup-&gt;_delete($delete)</code></pre>
+<pre><code class="php"><span class="tok-var">$recordUserGroup</span>-&gt;_delete(<span class="tok-var">$delete</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$delete
@@ -1057,7 +1076,7 @@ $recordUserGroup-&gt;_checkChange(...$fields)</code></pre>
 </em>
 <p>Prepara o registro para ser desmarcado como excluído no próximo _save().
 </p>
-<pre><code>$recordUserGroup-&gt;_undelete($undelete)</code></pre>
+<pre><code class="php"><span class="tok-var">$recordUserGroup</span>-&gt;_undelete(<span class="tok-var">$undelete</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$undelete
@@ -1084,7 +1103,7 @@ $recordUserGroup-&gt;_checkChange(...$fields)</code></pre>
 </em>
 <p>Prepara o registro para ser removido permanentemente do banco no próximo _save().
 </p>
-<pre><code>$recordUserGroup-&gt;_hardDelete($hardDelete)</code></pre>
+<pre><code class="php"><span class="tok-var">$recordUserGroup</span>-&gt;_hardDelete(<span class="tok-var">$hardDelete</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$hardDelete
@@ -1111,8 +1130,8 @@ $recordUserGroup-&gt;_checkChange(...$fields)</code></pre>
 </em>
 <p>Salva o registro no banco de dados, disparando create, update, delete ou undelete conforme o estado atual (definido por _delete(), _undelete() e _hardDelete()). Não faz nada se o registro for nulo.
 </p>
-<pre><code>$recordUserGroup-&gt;_save()
-$recordUserGroup-&gt;_save($forceUpdate)</code></pre>
+<pre><code class="php"><span class="tok-var">$recordUserGroup</span>-&gt;_save()
+<span class="tok-var">$recordUserGroup</span>-&gt;_save(<span class="tok-var">$forceUpdate</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$forceUpdate

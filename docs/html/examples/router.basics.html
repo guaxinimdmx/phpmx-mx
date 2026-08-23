@@ -14,6 +14,10 @@
 --text-rgb: 245, 245, 247;
 --line-rgb: 255, 255, 255;
 --code-rgb: 20, 20, 22;
+--tok-string-rgb: 206, 145, 120;
+--tok-number-rgb: 181, 206, 168;
+--tok-var-rgb: 156, 220, 254;
+--tok-comment-rgb: 106, 153, 85;
 --php: rgb(var(--php-rgb));
 --base: rgb(var(--base-rgb));
 --text: rgb(var(--text-rgb));
@@ -199,6 +203,21 @@ background: none;
 border: none;
 padding: 0;
 font-size: 0.85em;
+}
+.content pre .tok-keyword {
+color: var(--php);
+}
+.content pre .tok-string {
+color: rgb(var(--tok-string-rgb));
+}
+.content pre .tok-number {
+color: rgb(var(--tok-number-rgb));
+}
+.content pre .tok-var {
+color: rgb(var(--tok-var-rgb));
+}
+.content pre .tok-comment {
+color: rgb(var(--tok-comment-rgb));
 }
 .content .doc-item {
 padding: 24px 0;
@@ -482,99 +501,200 @@ window.addEventListener('resize', hide);
 <main class="content">
 <h1>Router
 </h1>
-<p>
-<code>Router
-</code> é estático, como quase tudo no framework. Ele guarda as rotas declaradas, resolve qual delas corresponde à requisição atual e executa a fila de middlewares e o controller.
-</p>
-<h2>Declarando rotas
+<h2>Exemplos
 </h2>
-<p>Basta criar um arquivo em 
-<code>system/router
-</code>, qualquer nome, e você pode ter quantos arquivos quiser, organizados como preferir.
+<p>Rotas ficam em 
+<code>system/router/*
+</code>, qualquer nome de arquivo, quantos arquivos você quiser, organizados como preferir. Pelo terminal, cria a rota direto no arquivo, e ainda oferece gerar o controller junto:
 </p>
-<pre><code class="language-php">use PhpMx\Router;
+<pre><code class="language-bash">php mx make.route get <span class="tok-string">"users/[#id]"</span> User.show
+</code></pre>
+<p>Ou declara direto, um método HTTP por vez:
+</p>
+<pre><code class="language-php"><span class="tok-keyword">use</span> PhpMx\Router;
 
-Router::get('users/[#id]', [\Controller\User::class, 'show']);
-Router::post('users', \Controller\User::class);
-Router::full('health', STS_OK);
+Router::get(<span class="tok-string">'users/[#id]'</span>, [\Controller\User::<span class="tok-keyword">class</span>, <span class="tok-string">'show'</span>]);
+Router::post(<span class="tok-string">'users'</span>, \Controller\User::<span class="tok-keyword">class</span>);
+Router::put(<span class="tok-string">'users/[#id]'</span>, [\Controller\User::<span class="tok-keyword">class</span>, <span class="tok-string">'update'</span>]);
+Router::delete(<span class="tok-string">'users/[#id]'</span>, [\Controller\User::<span class="tok-keyword">class</span>, <span class="tok-string">'destroy'</span>]);
+</code></pre>
+<pre><code class="language-php"><span class="tok-comment">// add() é atalho pra GET + POST</span>
+Router::add(<span class="tok-string">'contact'</span>, \Controller\Contact::<span class="tok-keyword">class</span>);
+
+<span class="tok-comment">// full() é atalho pra GET + POST + PUT + DELETE</span>
+Router::full(<span class="tok-string">'posts/[#id]'</span>, \Controller\Post::<span class="tok-keyword">class</span>);
+
+<span class="tok-comment">// a resposta também pode ser só um status HTTP, sem controller nenhum</span>
+Router::get(<span class="tok-string">'health'</span>, STS_OK);
+</code></pre>
+<p>Middleware direto na rota, terceiro argumento:
+</p>
+<pre><code class="language-php">Router::get(<span class="tok-string">'perfil'</span>, \Controller\Profile::<span class="tok-keyword">class</span>, [<span class="tok-string">'auth.token'</span>]);
 </code></pre>
 <p>
-<code>get
-</code>, 
-<code>post
-</code>, 
-<code>put
-</code> e 
-<code>delete
-</code> registram pra um método HTTP só. 
-<code>full()
-</code> é atalho pra registrar os quatro de uma vez.
+<code>path()
+</code> prefixa o caminho de tudo que for declarado dentro do Closure:
 </p>
-<p>Pelo terminal, 
-<code>make.route
-</code> cria a rota direto em 
-<code>system/router/autorouter.php
-</code> e ainda pergunta se você quer gerar o controller junto:
-</p>
-<pre><code class="language-bash">php mx make.route get "users/[#id]" User.show
+<pre><code class="language-php">Router::path(<span class="tok-string">'api'</span>, <span class="tok-keyword">function</span> () {
+    Router::get(<span class="tok-string">'ping'</span>, \Controller\Ping::<span class="tok-keyword">class</span>);
+    Router::get(<span class="tok-string">'users'</span>, \Controller\User::<span class="tok-keyword">class</span>);
+});
+<span class="tok-comment">// registra: api/ping e api/users</span>
 </code></pre>
-<h2>Middlewares
-</h2>
-<p>Direto na rota (terceiro argumento) ou em grupo com 
-<code>Router::group()
-</code>/
-<code>Router::middleware()
-</code>.
+<p>
+<code>middleware()
+</code> aplica os middlewares a tudo que for declarado dentro do Closure:
 </p>
-<h2>Parâmetros injetados por nome
-</h2>
-<p>O dado da requisição (rota, query, body) é passado pro controller 
-<strong>por nome de parâmetro
-</strong>. Se o método precisa de um 
-<code>id
-</code>, basta declarar 
-<code>$id
+<pre><code class="language-php">Router::middleware([<span class="tok-string">'cors'</span>], <span class="tok-keyword">function</span> () {
+    Router::get(<span class="tok-string">'users'</span>, \Controller\User::<span class="tok-keyword">class</span>);
+    Router::post(<span class="tok-string">'users'</span>, \Controller\User::<span class="tok-keyword">class</span>);
+});
+<span class="tok-comment">// as duas rotas recebem 'cors', sem precisar repetir no terceiro argumento</span>
+</code></pre>
+<p>
+<code>group()
+</code> é 
+<code>path()
+</code> + 
+<code>middleware()
+</code> num só:
+</p>
+<pre><code class="language-php">Router::group(<span class="tok-string">'api'</span>, [<span class="tok-string">'cors'</span>], <span class="tok-keyword">function</span> () {
+    Router::get(<span class="tok-string">'ping'</span>, \Controller\Ping::<span class="tok-keyword">class</span>);
+});
+</code></pre>
+<p>Exatamente equivalente a:
+</p>
+<pre><code class="language-php">Router::path(<span class="tok-string">'api'</span>, <span class="tok-keyword">function</span> () {
+    Router::middleware([<span class="tok-string">'cors'</span>], <span class="tok-keyword">function</span> () {
+        Router::get(<span class="tok-string">'ping'</span>, \Controller\Ping::<span class="tok-keyword">class</span>);
+    });
+});
+</code></pre>
+<p>
+<code>path()
+</code>, 
+<code>middleware()
+</code> e 
+<code>group()
+</code> aninham livremente, em qualquer ordem e profundidade:
+</p>
+<pre><code class="language-php">Router::group(<span class="tok-string">'api'</span>, [<span class="tok-string">'cors'</span>], <span class="tok-keyword">function</span> () {
+
+    Router::get(<span class="tok-string">'ping'</span>, \Controller\Ping::<span class="tok-keyword">class</span>);
+
+    <span class="tok-comment">// middleware() dentro de group(): herda 'cors' e soma 'auth.token'</span>
+    Router::middleware([<span class="tok-string">'auth.token'</span>], <span class="tok-keyword">function</span> () {
+        Router::path(<span class="tok-string">'users'</span>, <span class="tok-keyword">function</span> () {
+            Router::get(<span class="tok-string">''</span>, \Controller\User::<span class="tok-keyword">class</span>);
+            Router::get(<span class="tok-string">'[#id]'</span>, [\Controller\User::<span class="tok-keyword">class</span>, <span class="tok-string">'show'</span>], [<span class="tok-string">'throttle'</span>]);
+        });
+    });
+
+    <span class="tok-comment">// path() dentro de group(), com middleware() dentro dele</span>
+    Router::path(<span class="tok-string">'admin'</span>, <span class="tok-keyword">function</span> () {
+        Router::middleware([<span class="tok-string">'auth.admin'</span>], <span class="tok-keyword">function</span> () {
+            Router::get(<span class="tok-string">'stats'</span>, \Controller\Stats::<span class="tok-keyword">class</span>);
+        });
+    });
+
+    <span class="tok-comment">// group() dentro de group(): soma caminho e middleware dos dois níveis</span>
+    Router::group(<span class="tok-string">'reports'</span>, [<span class="tok-string">'log.access'</span>], <span class="tok-keyword">function</span> () {
+        Router::get(<span class="tok-string">'daily'</span>, \Controller\ReportDaily::<span class="tok-keyword">class</span>);
+    });
+});
+</code></pre>
+<p>Resultado, testado ao vivo (rota, middlewares finais):
+</p>
+<pre><code class="language-php"><span class="tok-comment">// api/ping                =&gt; ['cors']</span>
+<span class="tok-comment">// api/users               =&gt; ['cors', 'auth.token']</span>
+<span class="tok-comment">// api/users/[#id]         =&gt; ['cors', 'auth.token', 'throttle']</span>
+<span class="tok-comment">// api/admin/stats         =&gt; ['cors', 'auth.admin']</span>
+<span class="tok-comment">// api/reports/daily       =&gt; ['cors', 'log.access']</span>
+</code></pre>
+<p>Captura livre com 
+<code>...
 </code>:
 </p>
-<pre><code class="language-php">class User
+<pre><code class="language-php">Router::get(<span class="tok-string">'blog'</span>, \Controller\Blog::<span class="tok-keyword">class</span>);     <span class="tok-comment">// casa só '/blog'</span>
+Router::get(<span class="tok-string">'blog...'</span>, \Controller\Blog::<span class="tok-keyword">class</span>);  <span class="tok-comment">// casa '/blog' e qualquer coisa depois</span>
+</code></pre>
+<p>O dado da requisição é injetado pelo nome do parâmetro, não pela posição:
+</p>
+<pre><code class="language-php"><span class="tok-keyword">class</span> User
 {
-    function show($id)
+    <span class="tok-keyword">function</span> show(<span class="tok-var">$id</span>)
     {
-        // $id já vem preenchido com o valor de [#id] na URL
+        <span class="tok-comment">// $id já vem preenchido com o valor de [#id] na URL</span>
     }
 }
 </code></pre>
-<h2>Ordem não importa (quase nunca)
-</h2>
-<p>As rotas são organizadas automaticamente por especificidade: a ordem em que você declara não afeta qual rota casa com qual URL, exceto quando duas rotas realmente se sobrepõem (aí a mais específica ganha).
-</p>
-<h2>Pacotes também declaram rotas
-</h2>
-<p>Qualquer pacote instalado pode ter seu próprio 
-<code>system/router
-</code>. Rotas do seu projeto têm prioridade: se o seu projeto declarar o mesmo template de rota que um pacote, a sua sobrescreve a dele. Veja todas as rotas registradas (do projeto e dos pacotes) com:
+<p>Lista todas as rotas registradas, do projeto e de pacotes instalados:
 </p>
 <pre><code class="language-bash">php mx helper.router
 </code></pre>
-<h2>Cache em produção
+<h2>Considerações
 </h2>
+<p>
+<code>add()
+</code> e 
+<code>full()
+</code> só chamam os métodos individuais por baixo, 
+<code>get
+</code>/
+<code>post
+</code> ou 
+<code>get
+</code>/
+<code>post
+</code>/
+<code>put
+</code>/
+<code>delete
+</code>, na mesma ordem. Não existe comportamento extra além disso.
+</p>
+<p>
+<code>group($path, $middlewares, $wrapper)
+</code> é literalmente 
+<code>path($path, fn() =&gt; middleware($middlewares, $wrapper))
+</code> por dentro, não tem lógica própria além de combinar os dois.
+</p>
+<p>Dentro de 
+<code>path()
+</code>/
+<code>middleware()
+</code>/
+<code>group()
+</code> aninhados, os efeitos acumulam: o caminho final é a concatenação de todos os prefixos ativos, e a lista de middlewares final é sempre 
+<code>[..middlewares herdados de fora pra dentro, ..middleware próprio da rota]
+</code>, nessa ordem. Uma rota declarada fora de qualquer 
+<code>path
+</code>/
+<code>middleware
+</code>/
+<code>group
+</code> não herda nada deles.
+</p>
+<p>O parâmetro do controller é injetado pelo nome do parâmetro (via Reflection), não pela posição. Se o método espera 
+<code>$id
+</code>, o nome tem que bater com o 
+<code>[#id]
+</code> da rota.
+</p>
+<p>Ordem de declaração das rotas quase nunca importa: elas são reorganizadas automaticamente por especificidade antes de resolver a requisição. Só importa quando duas rotas realmente colidem no mesmo padrão, aí a mais específica ganha.
+</p>
+<p>Pacotes instalados também podem ter seu próprio 
+<code>system/router
+</code>. Se o projeto declarar o mesmo template que um pacote, a rota do projeto sobrescreve a dele.
+</p>
 <p>Fora de modo 
 <code>DEV
-</code>, as rotas escaneadas ficam em cache num JSON (
+</code>, as rotas escaneadas ficam em cache (
 <code>library/cache/routes.json
-</code>), evitando reescanear todos os arquivos de rota a cada requisição. Em 
+</code>), evitando reescanear os arquivos a cada requisição. Em 
 <code>DEV
-</code>, o cache é ignorado e as rotas são sempre escaneadas de novo. O script de deploy deste projeto já limpa 
-<code>library/cache
-</code> a cada deploy.
+</code> o cache é sempre ignorado.
 </p>
-<h2>Captura livre com 
-<code>...
-</code>
-</h2>
-<pre><code class="language-php">Router::get('blog', \Controller\Blog::class);       // casa só '/blog'
-Router::get('blog...', \Controller\Blog::class);     // casa '/blog' e qualquer coisa depois
-</code></pre>
 </main>
 </div>
 </body>

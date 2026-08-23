@@ -2,35 +2,127 @@
 
 # Router
 
-`Router` é estático, como quase tudo no framework. Ele guarda as rotas declaradas, resolve qual delas corresponde à requisição atual e executa a fila de middlewares e o controller.
+## Exemplos
 
-## Declarando rotas
+Rotas ficam em `system/router/*`, qualquer nome de arquivo, quantos arquivos você quiser, organizados como preferir. Pelo terminal, cria a rota direto no arquivo, e ainda oferece gerar o controller junto:
 
-Basta criar um arquivo em `system/router`, qualquer nome, e você pode ter quantos arquivos quiser, organizados como preferir.
+```bash
+php mx make.route get "users/[#id]" User.show
+```
+
+Ou declara direto, um método HTTP por vez:
 
 ```php
 use PhpMx\Router;
 
 Router::get('users/[#id]', [\Controller\User::class, 'show']);
 Router::post('users', \Controller\User::class);
-Router::full('health', STS_OK);
+Router::put('users/[#id]', [\Controller\User::class, 'update']);
+Router::delete('users/[#id]', [\Controller\User::class, 'destroy']);
 ```
 
-`get`, `post`, `put` e `delete` registram pra um método HTTP só. `full()` é atalho pra registrar os quatro de uma vez.
+```php
+// add() é atalho pra GET + POST
+Router::add('contact', \Controller\Contact::class);
 
-Pelo terminal, `make.route` cria a rota direto em `system/router/autorouter.php` e ainda pergunta se você quer gerar o controller junto:
+// full() é atalho pra GET + POST + PUT + DELETE
+Router::full('posts/[#id]', \Controller\Post::class);
 
-```bash
-php mx make.route get "users/[#id]" User.show
+// a resposta também pode ser só um status HTTP, sem controller nenhum
+Router::get('health', STS_OK);
 ```
 
-## Middlewares
+Middleware direto na rota, terceiro argumento:
 
-Direto na rota (terceiro argumento) ou em grupo com `Router::group()`/`Router::middleware()`.
+```php
+Router::get('perfil', \Controller\Profile::class, ['auth.token']);
+```
 
-## Parâmetros injetados por nome
+`path()` prefixa o caminho de tudo que for declarado dentro do Closure:
 
-O dado da requisição (rota, query, body) é passado pro controller **por nome de parâmetro**. Se o método precisa de um `id`, basta declarar `$id`:
+```php
+Router::path('api', function () {
+    Router::get('ping', \Controller\Ping::class);
+    Router::get('users', \Controller\User::class);
+});
+// registra: api/ping e api/users
+```
+
+`middleware()` aplica os middlewares a tudo que for declarado dentro do Closure:
+
+```php
+Router::middleware(['cors'], function () {
+    Router::get('users', \Controller\User::class);
+    Router::post('users', \Controller\User::class);
+});
+// as duas rotas recebem 'cors', sem precisar repetir no terceiro argumento
+```
+
+`group()` é `path()` + `middleware()` num só:
+
+```php
+Router::group('api', ['cors'], function () {
+    Router::get('ping', \Controller\Ping::class);
+});
+```
+
+Exatamente equivalente a:
+
+```php
+Router::path('api', function () {
+    Router::middleware(['cors'], function () {
+        Router::get('ping', \Controller\Ping::class);
+    });
+});
+```
+
+`path()`, `middleware()` e `group()` aninham livremente, em qualquer ordem e profundidade:
+
+```php
+Router::group('api', ['cors'], function () {
+
+    Router::get('ping', \Controller\Ping::class);
+
+    // middleware() dentro de group(): herda 'cors' e soma 'auth.token'
+    Router::middleware(['auth.token'], function () {
+        Router::path('users', function () {
+            Router::get('', \Controller\User::class);
+            Router::get('[#id]', [\Controller\User::class, 'show'], ['throttle']);
+        });
+    });
+
+    // path() dentro de group(), com middleware() dentro dele
+    Router::path('admin', function () {
+        Router::middleware(['auth.admin'], function () {
+            Router::get('stats', \Controller\Stats::class);
+        });
+    });
+
+    // group() dentro de group(): soma caminho e middleware dos dois níveis
+    Router::group('reports', ['log.access'], function () {
+        Router::get('daily', \Controller\ReportDaily::class);
+    });
+});
+```
+
+Resultado, testado ao vivo (rota, middlewares finais):
+
+```php
+// api/ping                => ['cors']
+// api/users               => ['cors', 'auth.token']
+// api/users/[#id]         => ['cors', 'auth.token', 'throttle']
+// api/admin/stats         => ['cors', 'auth.admin']
+// api/reports/daily       => ['cors', 'log.access']
+```
+
+Captura livre com `...`:
+
+```php
+Router::get('blog', \Controller\Blog::class);     // casa só '/blog'
+Router::get('blog...', \Controller\Blog::class);  // casa '/blog' e qualquer coisa depois
+```
+
+O dado da requisição é injetado pelo nome do parâmetro, não pela posição:
 
 ```php
 class User
@@ -42,25 +134,24 @@ class User
 }
 ```
 
-## Ordem não importa (quase nunca)
-
-As rotas são organizadas automaticamente por especificidade: a ordem em que você declara não afeta qual rota casa com qual URL, exceto quando duas rotas realmente se sobrepõem (aí a mais específica ganha).
-
-## Pacotes também declaram rotas
-
-Qualquer pacote instalado pode ter seu próprio `system/router`. Rotas do seu projeto têm prioridade: se o seu projeto declarar o mesmo template de rota que um pacote, a sua sobrescreve a dele. Veja todas as rotas registradas (do projeto e dos pacotes) com:
+Lista todas as rotas registradas, do projeto e de pacotes instalados:
 
 ```bash
 php mx helper.router
 ```
 
-## Cache em produção
+## Considerações
 
-Fora de modo `DEV`, as rotas escaneadas ficam em cache num JSON (`library/cache/routes.json`), evitando reescanear todos os arquivos de rota a cada requisição. Em `DEV`, o cache é ignorado e as rotas são sempre escaneadas de novo. O script de deploy deste projeto já limpa `library/cache` a cada deploy.
+`add()` e `full()` só chamam os métodos individuais por baixo, `get`/`post` ou `get`/`post`/`put`/`delete`, na mesma ordem. Não existe comportamento extra além disso.
 
-## Captura livre com `...`
+`group($path, $middlewares, $wrapper)` é literalmente `path($path, fn() => middleware($middlewares, $wrapper))` por dentro, não tem lógica própria além de combinar os dois.
 
-```php
-Router::get('blog', \Controller\Blog::class);       // casa só '/blog'
-Router::get('blog...', \Controller\Blog::class);     // casa '/blog' e qualquer coisa depois
-```
+Dentro de `path()`/`middleware()`/`group()` aninhados, os efeitos acumulam: o caminho final é a concatenação de todos os prefixos ativos, e a lista de middlewares final é sempre `[..middlewares herdados de fora pra dentro, ..middleware próprio da rota]`, nessa ordem. Uma rota declarada fora de qualquer `path`/`middleware`/`group` não herda nada deles.
+
+O parâmetro do controller é injetado pelo nome do parâmetro (via Reflection), não pela posição. Se o método espera `$id`, o nome tem que bater com o `[#id]` da rota.
+
+Ordem de declaração das rotas quase nunca importa: elas são reorganizadas automaticamente por especificidade antes de resolver a requisição. Só importa quando duas rotas realmente colidem no mesmo padrão, aí a mais específica ganha.
+
+Pacotes instalados também podem ter seu próprio `system/router`. Se o projeto declarar o mesmo template que um pacote, a rota do projeto sobrescreve a dele.
+
+Fora de modo `DEV`, as rotas escaneadas ficam em cache (`library/cache/routes.json`), evitando reescanear os arquivos a cada requisição. Em `DEV` o cache é sempre ignorado.

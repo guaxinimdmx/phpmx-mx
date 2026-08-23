@@ -14,6 +14,10 @@
 --text-rgb: 245, 245, 247;
 --line-rgb: 255, 255, 255;
 --code-rgb: 20, 20, 22;
+--tok-string-rgb: 206, 145, 120;
+--tok-number-rgb: 181, 206, 168;
+--tok-var-rgb: 156, 220, 254;
+--tok-comment-rgb: 106, 153, 85;
 --php: rgb(var(--php-rgb));
 --base: rgb(var(--base-rgb));
 --text: rgb(var(--text-rgb));
@@ -199,6 +203,21 @@ background: none;
 border: none;
 padding: 0;
 font-size: 0.85em;
+}
+.content pre .tok-keyword {
+color: var(--php);
+}
+.content pre .tok-string {
+color: rgb(var(--tok-string-rgb));
+}
+.content pre .tok-number {
+color: rgb(var(--tok-number-rgb));
+}
+.content pre .tok-var {
+color: rgb(var(--tok-var-rgb));
+}
+.content pre .tok-comment {
+color: rgb(var(--tok-comment-rgb));
 }
 .content .doc-item {
 padding: 24px 0;
@@ -511,9 +530,9 @@ window.addEventListener('resize', hide);
 </h2>
 <p>Renderiza uma view e retorna seu conteúdo em forma de string.
 </p>
-<pre><code>View::render($ref)
-View::render($ref, $data)
-View::render($ref, $data, $params)</code></pre>
+<pre><code class="php">View::render(<span class="tok-var">$ref</span>)
+View::render(<span class="tok-var">$ref</span>, <span class="tok-var">$data</span>)
+View::render(<span class="tok-var">$ref</span>, <span class="tok-var">$data</span>, <span class="tok-var">$params</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$ref
@@ -552,8 +571,8 @@ View::render($ref, $data, $params)</code></pre>
 </h2>
 <p>Renderiza uma string aplicando os prepares globais.
 </p>
-<pre><code>View::renderString($viewContent)
-View::renderString($viewContent, $data)</code></pre>
+<pre><code class="php">View::renderString(<span class="tok-var">$viewContent</span>)
+View::renderString(<span class="tok-var">$viewContent</span>, <span class="tok-var">$data</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$viewContent
@@ -584,7 +603,7 @@ View::renderString($viewContent, $data)</code></pre>
 </h2>
 <p>Define media queries dinâmicas para folhas de estilo.
 </p>
-<pre><code>View::mediaStyle($media, $queries)</code></pre>
+<pre><code class="php">View::mediaStyle(<span class="tok-var">$media</span>, <span class="tok-var">$queries</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$media
@@ -615,7 +634,7 @@ View::renderString($viewContent, $data)</code></pre>
 </h2>
 <p>Define uma tag de prepare disponível em todas as views.
 </p>
-<pre><code>View::globalPrepare($tag, $action)</code></pre>
+<pre><code class="php">View::globalPrepare(<span class="tok-var">$tag</span>, <span class="tok-var">$action</span>)</code></pre>
 <ul class="param-list">
 <li>
 <code>$tag
