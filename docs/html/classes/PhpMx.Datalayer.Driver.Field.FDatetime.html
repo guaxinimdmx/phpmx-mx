@@ -6,6 +6,7 @@
 <meta name="description" content="Framework base para aplicações modernas em PHP">
 <title>PhpMx\Datalayer\Driver\Field\FDatetime · phpmx/mx
 </title>
+<script src="../search-index.js"></script>
 <style>
 :root {
 --php-rgb: 120, 124, 180;
@@ -38,6 +39,12 @@ line-height: 1.6;
 a {
 color: inherit;
 }
+.search-overlay {
+position: fixed;
+inset: 0;
+background: rgba(0, 0, 0, 0.6);
+z-index: 90;
+}
 .topbar {
 height: var(--topbar-height);
 display: flex;
@@ -63,6 +70,10 @@ flex-shrink: 0;
 padding: 16px;
 border-bottom: 1px solid var(--line);
 }
+.sidebar .search {
+position: relative;
+z-index: 95;
+}
 .sidebar .search input {
 width: 100%;
 padding: 8px 12px;
@@ -76,6 +87,43 @@ font-size: 0.9rem;
 .sidebar .search input:focus {
 outline: none;
 border-color: var(--php);
+}
+.sidebar .search .search-results {
+position: fixed;
+width: max-content;
+background: var(--code);
+border: 1px solid var(--line);
+border-radius: 6px;
+max-height: 320px;
+overflow-y: auto;
+box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+z-index: 100;
+}
+.sidebar .search .search-results a {
+display: flex;
+justify-content: space-between;
+align-items: baseline;
+gap: 16px;
+padding: 8px 10px;
+font-size: 0.85rem;
+text-decoration: none;
+color: var(--text);
+border-bottom: 1px solid var(--line);
+}
+.sidebar .search .search-results a:last-child {
+border-bottom: none;
+}
+.sidebar .search .search-results a:hover {
+background: rgba(var(--php-rgb), 0.15);
+}
+.sidebar .search .search-results .result-key {
+font-family: var(--font-mono);
+white-space: nowrap;
+}
+.sidebar .search .search-results .result-type {
+flex-shrink: 0;
+color: rgba(var(--text-rgb), 0.5);
+font-size: 0.75rem;
 }
 .sidebar .nav {
 margin-top: 16px;
@@ -242,6 +290,7 @@ flex-direction: row;
 width: var(--sidebar-width);
 position: sticky;
 top: var(--topbar-height);
+z-index: 91;
 height: calc(100vh - var(--topbar-height));
 overflow-y: auto;
 border-bottom: none;
@@ -260,8 +309,88 @@ padding: 0;
 }
 }
 </style>
+<script>
+var MX_BASE = "../";
+document.addEventListener('DOMContentLoaded', function () {
+var input = document.querySelector('.search input');
+var results = document.querySelector('.search-results');
+var overlay = document.querySelector('.search-overlay');
+if (!input || !results || typeof MX_SEARCH === 'undefined') return;
+var base = typeof MX_BASE === 'undefined' ? '' : MX_BASE;
+var labels = {
+constant: 'Constant',
+function: 'Function',
+environment: 'Environment',
+middleware: 'Middleware',
+terminal: 'Terminal',
+route: 'Route',
+class: 'Class',
+method: 'Method',
+property: 'Property',
+example: 'Example',
+database: 'Database',
+field: 'Field',
+};
+function hide() {
+results.hidden = true;
+results.innerHTML = '';
+if (overlay) overlay.hidden = true;
+document.body.style.overflow = '';
+}
+function position() {
+var rect = input.getBoundingClientRect();
+results.style.top = (rect.bottom + 4) + 'px';
+results.style.left = rect.left + 'px';
+}
+function render(matches) {
+results.innerHTML = '';
+if (!matches.length) {
+hide();
+return;
+}
+position();
+matches.slice(0, 20).forEach(function (item) {
+var a = document.createElement('a');
+a.href = base + item.link;
+var key = document.createElement('span');
+key.className = 'result-key';
+key.textContent = item.key;
+var type = document.createElement('span');
+type.className = 'result-type';
+type.textContent = labels[item.type] || item.type;
+a.appendChild(key);
+a.appendChild(type);
+results.appendChild(a);
+});
+results.hidden = false;
+if (overlay) overlay.hidden = false;
+document.body.style.overflow = 'hidden';
+}
+input.addEventListener('input', function () {
+var q = input.value.trim().toLowerCase();
+if (!q) {
+hide();
+return;
+}
+var matches = MX_SEARCH.filter(function (item) {
+return item.key.toLowerCase().indexOf(q) !== -1;
+});
+render(matches);
+});
+document.addEventListener('click', function (ev) {
+if (ev.target !== input && !results.contains(ev.target)) hide();
+});
+window.addEventListener('scroll', function (ev) {
+if (results.contains(ev.target)) return;
+hide();
+}, true);
+window.addEventListener('resize', hide);
+});
+</script>
 </head>
 <body>
+<div class="search-overlay" hidden>
+</div>
 <header class="topbar">
 <a class="brand" href="../../index.html">phpmx/mx
 </a>
@@ -270,6 +399,8 @@ padding: 0;
 <aside class="sidebar">
 <div class="search">
 <input type="search" placeholder="Buscar na documentação" aria-label="Buscar na documentação">
+<div class="search-results" hidden>
+</div>
 </div>
 <nav class="nav">
 <ul>

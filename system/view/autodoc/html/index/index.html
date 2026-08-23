@@ -9,6 +9,8 @@
 </head>
 
 <body>
+    <div class="search-overlay" hidden></div>
+
     <header class="topbar">
         <a class="brand" href="[#home]">[#project.name]</a>
     </header>
@@ -17,6 +19,7 @@
         <aside class="sidebar">
             <div class="search">
                 <input type="search" placeholder="Buscar na documentação" aria-label="Buscar na documentação">
+                <div class="search-results" hidden></div>
             </div>
 
             <nav class="nav">
@@ -30,6 +33,9 @@
             <!-- [#content] -->
         </main>
     </div>
+
+    <script>var MX_BASE = "[#searchBase]";</script>
+    <script src="[#searchIndex]"></script>
 </body>
 
 </html>

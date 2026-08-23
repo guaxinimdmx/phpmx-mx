@@ -47,6 +47,8 @@ return new class {
             'title' => $project['name'] ?? '',
             'home' => 'index.html',
             'nav' => $this->renderNav($sections, 'html/'),
+            'searchIndex' => 'html/search-index.js',
+            'searchBase' => 'html/',
             'content' => '<h1>' . $project['name'] . '</h1><p>' . $project['description'] . '</p>',
         ]);
         $this->save('docs/index.html', $index);
@@ -102,6 +104,8 @@ return new class {
 
         $this->writeDatabasePages($database, $project, $sections);
 
+        $this->writeSearchIndex($constants, $functions, $environment, $middleware, $terminal, $routes, $classes, $examples, $database);
+
         Terminal::echol('Exported to [#c:p,#]', 'docs/');
     }
 
@@ -151,6 +155,8 @@ return new class {
             'title' => $title . ' · ' . ($project['name'] ?? ''),
             'home' => $home,
             'nav' => $this->renderNav($sections, $navBase),
+            'searchIndex' => $navBase . 'search-index.js',
+            'searchBase' => $navBase,
             'content' => $content,
         ]);
     }
@@ -613,6 +619,74 @@ return new class {
         if (is_null($default)) return '-';
         if ($type === 'boolean') return boolval($default) ? 'true' : 'false';
         return (string) $default;
+    }
+
+    protected function writeSearchIndex(
+        array $constants,
+        array $functions,
+        array $environment,
+        array $middleware,
+        array $terminal,
+        array $routes,
+        array $classes,
+        array $examples,
+        array $database
+    ): void {
+        $index = [];
+
+        foreach ($examples as $item) {
+            $name = $item['name'] ?? '';
+            $title = $this->exampleSummary($item['content'] ?? '') ?: $name;
+            $index[] = ['key' => $title, 'type' => 'example', 'link' => 'examples/' . $this->exampleFilename($name)];
+        }
+
+        foreach ($constants as $item)
+            $index[] = ['key' => $item['name'] ?? '', 'type' => 'constant', 'link' => 'constants.html'];
+
+        foreach ($functions as $item)
+            $index[] = ['key' => $item['name'] ?? '', 'type' => 'function', 'link' => 'functions.html'];
+
+        foreach ($environment as $item)
+            $index[] = ['key' => $item['name'] ?? '', 'type' => 'environment', 'link' => 'environment.html'];
+
+        foreach ($middleware as $item)
+            $index[] = ['key' => $item['name'] ?? '', 'type' => 'middleware', 'link' => 'middleware.html'];
+
+        foreach ($terminal as $item)
+            $index[] = ['key' => $item['name'] ?? '', 'type' => 'terminal', 'link' => 'terminal.html'];
+
+        foreach ($routes as $item)
+            $index[] = ['key' => trim(($item['method'] ?? '') . ' ' . ($item['path'] ?? '')), 'type' => 'route', 'link' => 'routes.html'];
+
+        foreach ($classes as $item) {
+            $name = $item['name'] ?? '';
+            $link = 'classes/' . $this->classFilename($name, 'html');
+
+            $index[] = ['key' => $name, 'type' => 'class', 'link' => $link];
+
+            foreach ($item['constants'] ?? [] as $const)
+                $index[] = ['key' => $name . '::' . ($const['name'] ?? ''), 'type' => 'constant', 'link' => $link];
+
+            foreach ($item['properties'] ?? [] as $prop)
+                $index[] = ['key' => $name . '::$' . ($prop['name'] ?? ''), 'type' => 'property', 'link' => $link];
+
+            foreach ($item['methods'] ?? [] as $method)
+                $index[] = ['key' => $name . '::' . ($method['name'] ?? '') . '()', 'type' => 'method', 'link' => $link];
+        }
+
+        foreach ($database as $dbName => $db) {
+            foreach ($db['tables'] ?? [] as $tableName => $table) {
+                $link = 'database/' . $this->databaseFilename($dbName, $tableName);
+
+                $index[] = ['key' => $tableName, 'type' => 'database', 'link' => $link];
+
+                foreach ($table['fields'] ?? [] as $fieldName => $field)
+                    $index[] = ['key' => "$tableName.$fieldName", 'type' => 'field', 'link' => $link];
+            }
+        }
+
+        $json = json_encode($index, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        $this->save('docs/html/search-index.js', "var MX_SEARCH = $json;\n");
     }
 
 };

@@ -37,6 +37,13 @@ a {
     color: inherit;
 }
 
+.search-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 90;
+}
+
 .topbar {
     height: var(--topbar-height);
     display: flex;
@@ -65,19 +72,67 @@ a {
     padding: 16px;
     border-bottom: 1px solid var(--line);
 
-    .search input {
-        width: 100%;
-        padding: 8px 12px;
-        background: var(--code);
-        border: 1px solid var(--line);
-        border-radius: 6px;
-        color: var(--text);
-        font-family: var(--font-sans);
-        font-size: 0.9rem;
+    .search {
+        position: relative;
+        z-index: 95;
 
-        &:focus {
-            outline: none;
-            border-color: var(--php);
+        input {
+            width: 100%;
+            padding: 8px 12px;
+            background: var(--code);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            color: var(--text);
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+
+            &:focus {
+                outline: none;
+                border-color: var(--php);
+            }
+        }
+
+        .search-results {
+            position: fixed;
+            width: max-content;
+            background: var(--code);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            max-height: 320px;
+            overflow-y: auto;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            z-index: 100;
+
+            a {
+                display: flex;
+                justify-content: space-between;
+                align-items: baseline;
+                gap: 16px;
+                padding: 8px 10px;
+                font-size: 0.85rem;
+                text-decoration: none;
+                color: var(--text);
+                border-bottom: 1px solid var(--line);
+
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                &:hover {
+                    background: rgba(var(--php-rgb), 0.15);
+                }
+            }
+
+            .result-key {
+                font-family: var(--font-mono);
+                white-space: nowrap;
+            }
+
+            .result-type {
+                flex-shrink: 0;
+                color: rgba(var(--text-rgb), 0.5);
+                font-size: 0.75rem;
+            }
         }
     }
 
@@ -282,6 +337,7 @@ a {
         width: var(--sidebar-width);
         position: sticky;
         top: var(--topbar-height);
+        z-index: 91;
         height: calc(100vh - var(--topbar-height));
         overflow-y: auto;
         border-bottom: none;
