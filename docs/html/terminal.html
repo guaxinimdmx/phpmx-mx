@@ -183,6 +183,15 @@ text-decoration: none;
 .content p a:hover {
 text-decoration: underline;
 }
+.content img {
+max-width: 250px;
+max-height: 250px;
+width: auto;
+height: auto;
+border-radius: 6px;
+border: 1px solid var(--line);
+vertical-align: top;
+}
 .content code {
 font-family: var(--font-mono);
 background: var(--code);
@@ -443,7 +452,7 @@ window.addEventListener('resize', hide);
 <a class="nav-link" href="environment.html">
 <span class="nav-label">Environment
 </span>
-<span class="nav-count">48
+<span class="nav-count">47
 </span>
 </a>
 </li>
@@ -459,7 +468,7 @@ window.addEventListener('resize', hide);
 <a class="nav-link" href="terminal.html">
 <span class="nav-label">Terminal Commands
 </span>
-<span class="nav-count">44
+<span class="nav-count">42
 </span>
 </a>
 </li>
@@ -475,23 +484,7 @@ window.addEventListener('resize', hide);
 <a class="nav-link" href="classes.html">
 <span class="nav-label">Classes
 </span>
-<span class="nav-count">80
-</span>
-</a>
-</li>
-<li>
-<a class="nav-link" href="examples.html">
-<span class="nav-label">Examples
-</span>
-<span class="nav-count">6
-</span>
-</a>
-</li>
-<li>
-<a class="nav-link" href="database.html">
-<span class="nav-label">Database
-</span>
-<span class="nav-count">2
+<span class="nav-count">75
 </span>
 </a>
 </li>
@@ -701,24 +694,6 @@ php mx helper.constant &lt;filter&gt;</code></pre>
 <span class="type">?string
 </span>
 <span class="description">Nome ou parte do nome de uma constante para filtrar a busca.
-</span>
-</li>
-</ul>
-</section>
-<section class="doc-item">
-<h2>helper.example
-</h2>
-<p>Lista todos os arquivos de exemplo do projeto.
-</p>
-<pre><code class="bash">php mx helper.example
-php mx helper.example &lt;filter&gt;</code></pre>
-<ul class="param-list">
-<li>
-<code>$filter
-</code>
-<span class="type">?string
-</span>
-<span class="description">Parte do nome do arquivo para filtrar a busca.
 </span>
 </li>
 </ul>
@@ -961,23 +936,6 @@ php mx make.controller &lt;controller&gt; &lt;method&gt;</code></pre>
 </p>
 <pre><code class="bash">php mx make.deploy</code></pre>
 <ul class="param-list">
-</ul>
-</section>
-<section class="doc-item">
-<h2>make.example
-</h2>
-<p>Gera um novo arquivo de exemplo em library/example.
-</p>
-<pre><code class="bash">php mx make.example &lt;name&gt;</code></pre>
-<ul class="param-list">
-<li>
-<code>$name
-</code>
-<span class="type">string
-</span>
-<span class="description">Nome do exemplo, use pontos para subpastas (ex: router.basicRoutes).
-</span>
-</li>
 </ul>
 </section>
 <section class="doc-item">

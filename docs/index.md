@@ -8,16 +8,12 @@ Framework base para aplicações modernas em PHP
 
 - [Functions](md/functions.md) (57)
 
-- [Environment](md/environment.md) (48)
+- [Environment](md/environment.md) (47)
 
 - [Middleware](md/middleware.md) (2)
 
-- [Terminal Commands](md/terminal.md) (44)
+- [Terminal Commands](md/terminal.md) (42)
 
 - [Routes](md/routes.md) (7)
 
-- [Classes](md/classes.md) (80)
-
-- [Examples](md/examples.md) (6)
-
-- [Database](md/database.md) (2)
+- [Classes](md/classes.md) (75)

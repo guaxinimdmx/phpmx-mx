@@ -206,6 +206,16 @@ a {
         }
     }
 
+    img {
+        max-width: 250px;
+        max-height: 250px;
+        width: auto;
+        height: auto;
+        border-radius: 6px;
+        border: 1px solid var(--line);
+        vertical-align: top;
+    }
+
     code {
         font-family: var(--font-mono);
         background: var(--code);

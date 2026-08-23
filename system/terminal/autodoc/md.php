@@ -23,7 +23,6 @@ return new class {
         $terminal = $this->exportTerminal();
         $routes = $this->exportRoutes();
         $classes = $this->exportClasses();
-        $examples = $this->exportExamples();
         $database = $this->exportDatabase();
 
         $index = View::render('autodoc/md/index.md', [
@@ -36,7 +35,6 @@ return new class {
                 ['label' => 'Terminal Commands', 'link' => 'md/terminal.md', 'count' => count($terminal)],
                 ['label' => 'Routes', 'link' => 'md/routes.md', 'count' => count($routes)],
                 ['label' => 'Classes', 'link' => 'md/classes.md', 'count' => count($classes)],
-                ['label' => 'Examples', 'link' => 'md/examples.md', 'count' => count($examples)],
                 ['label' => 'Database', 'link' => 'md/database.md', 'count' => count($database)],
             ]),
         ]);
@@ -78,13 +76,6 @@ return new class {
         $this->save('docs/md/classes.md', $classesPage);
 
         $this->writeClassPages($classes);
-
-        $examplesPage = View::render('autodoc/md/examples.md', [
-            'examples' => $this->renderExamplesIndex($examples),
-        ]);
-        $this->save('docs/md/examples.md', $examplesPage);
-
-        $this->writeExamplePages($examples);
 
         $databasePage = View::render('autodoc/md/database.md', [
             'database' => $this->renderDatabaseIndex($database),
@@ -418,65 +409,6 @@ return new class {
             ]);
 
         return implode("\n", $lines);
-    }
-
-    protected function renderExamplesIndex(array $items): string
-    {
-        $groups = [];
-
-        foreach ($items as $item) {
-            $name = $item['name'] ?? '';
-            $parts = explode('.', $name);
-            array_pop($parts);
-            $group = implode('.', $parts) ?: '(root)';
-            $groups[$group][] = $item;
-        }
-
-        ksort($groups);
-
-        $blocks = [];
-        foreach ($groups as $group => $examples) {
-            $lines = ["### $group", ''];
-
-            foreach ($examples as $item) {
-                $name = $item['name'] ?? '';
-
-                $lines[] = View::render('autodoc/md/examples/link.md', [
-                    'name' => $name,
-                    'link' => 'examples/' . $this->exampleFilename($name),
-                    'description' => $this->exampleSummary($item['content'] ?? ''),
-                ]);
-            }
-
-            $blocks[] = implode("\n", $lines);
-        }
-
-        return implode("\n\n", $blocks);
-    }
-
-    protected function exampleSummary(string $content): string
-    {
-        $first = strtok($content, "\n") ?: '';
-
-        return trim(ltrim(trim($first), '# '));
-    }
-
-    protected function writeExamplePages(array $items): void
-    {
-        foreach ($items as $item) {
-            $name = $item['name'] ?? '';
-
-            $content = View::render('autodoc/md/examples/item.md', [
-                'content' => $item['content'] ?? '',
-            ]);
-
-            $this->save('docs/md/examples/' . $this->exampleFilename($name), $content);
-        }
-    }
-
-    protected function exampleFilename(string $name): string
-    {
-        return "$name.md";
     }
 
     protected function renderDatabaseIndex(array $database): string

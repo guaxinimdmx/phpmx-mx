@@ -48,5 +48,4 @@
 - `AUTODOC_TERMINAL` — Inclui comandos de terminal na documentação gerada pelo autodoc
 - `AUTODOC_ROUTES` — Inclui rotas na documentação gerada pelo autodoc
 - `AUTODOC_CLASSES` — Inclui classes públicas na documentação gerada pelo autodoc
-- `AUTODOC_EXAMPLES` — Inclui exemplos na documentação gerada pelo autodoc
 - `AUTODOC_DATABASE` — Inclui o esquema do banco de dados na documentação gerada pelo autodoc (expõe nomes de tabela, campo e relacionamentos)

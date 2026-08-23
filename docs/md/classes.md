@@ -11,20 +11,6 @@
 - [Controller\MxServer\Robots](classes/Controller.MxServer.Robots.md) — Entrega de robots.txt padrão
 - [Controller\MxServer\Sitemap](classes/Controller.MxServer.Sitemap.md) — Entrega de sitemap.xml padrão
 
-### Model\DbMain
-
-- [Model\DbMain\DbMain](classes/Model.DbMain.DbMain.md) — Ponto de entrada estático para as tabelas do banco de dados main.
-
-### Model\DbMain\Record
-
-- [Model\DbMain\Record\RecordUserGroup](classes/Model.DbMain.Record.RecordUserGroup.md) — Grupos de permissão de usuário
-- [Model\DbMain\Record\RecordUsers](classes/Model.DbMain.Record.RecordUsers.md) — Usuários cadastrados no sistema
-
-### Model\DbMain\Table
-
-- [Model\DbMain\Table\TableUserGroup](classes/Model.DbMain.Table.TableUserGroup.md) — Grupos de permissão de usuário
-- [Model\DbMain\Table\TableUsers](classes/Model.DbMain.Table.TableUsers.md) — Usuários cadastrados no sistema
-
 ### PhpMx
 
 - [PhpMx\Assets](classes/PhpMx.Assets.md) — Classe utilitária para envio e download de arquivos via resposta HTTP.

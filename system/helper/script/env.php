@@ -144,8 +144,5 @@ Env::default('AUTODOC_ROUTES', true);
 /** Inclui classes públicas na documentação gerada pelo autodoc */
 Env::default('AUTODOC_CLASSES', true);
 
-/** Inclui exemplos na documentação gerada pelo autodoc */
-Env::default('AUTODOC_EXAMPLES', true);
-
 /** Inclui o esquema do banco de dados na documentação gerada pelo autodoc (expõe nomes de tabela, campo e relacionamentos) */
 Env::default('AUTODOC_DATABASE', false);

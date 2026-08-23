@@ -64,16 +64,6 @@ trait AutodocTrait
         return $scheme;
     }
 
-    protected function getExampleFiles()
-    {
-        $scheme = [];
-
-        foreach (Dir::seekForFile('library/example', true) as $file)
-            $scheme[] = path('library/example', $file);
-
-        return $scheme;
-    }
-
     protected function getTestFiles()
     {
         $scheme = [];
@@ -433,29 +423,6 @@ trait AutodocTrait
             if (!empty($item) && $this->isPublic($item))
                 $result[] = $this->pick($item, ['name', 'file' => '_file', 'description']);
         }
-
-        return $result;
-    }
-
-    protected function exampleName(string $file): string
-    {
-        $name = explode('library/example/', str_replace('\\', '/', $file));
-        $name = substr(array_pop($name), 0, -3);
-        return str_replace('/', '.', $name);
-    }
-
-    protected function exportExamples(): array
-    {
-        $result = [];
-
-        if (!env('AUTODOC_EXAMPLES')) return $result;
-
-        foreach ($this->getExampleFiles() as $file)
-            $result[] = [
-                'name' => $this->exampleName($file),
-                'file' => path($file),
-                'content' => Import::content($file),
-            ];
 
         return $result;
     }

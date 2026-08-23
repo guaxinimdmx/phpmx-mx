@@ -21,7 +21,6 @@ return new class {
             'routes' => $this->exportRoutes(),
             'classes' => $this->exportClasses(),
             'tests' => $this->exportTests(),
-            'examples' => $this->exportExamples(),
             'database' => $this->exportDatabase(),
         ]);
 

@@ -159,19 +159,6 @@ php mx helper.constant <filter>
 
 ---
 
-### `helper.example`
-
-Lista todos os arquivos de exemplo do projeto.
-
-```bash
-php mx helper.example
-php mx helper.example <filter>
-```
-
-- `$filter` `?string` — Parte do nome do arquivo para filtrar a busca.
-
----
-
 ### `helper.function`
 
 Lista todas as helpers de funções registradas no sistema.
@@ -343,18 +330,6 @@ Cria o arquivo de script "deploy" na raiz do projeto para automatizar rotinas de
 ```bash
 php mx make.deploy
 ```
-
----
-
-### `make.example`
-
-Gera um novo arquivo de exemplo em library/example.
-
-```bash
-php mx make.example <name>
-```
-
-- `$name` `string` — Nome do exemplo, use pontos para subpastas (ex: router.basicRoutes).
 
 ---
 

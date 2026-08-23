@@ -1,7 +1,6 @@
 <?php
 
 use PhpMx\Datalayer\Scheme\SchemeMap;
-use PhpMx\Import;
 use PhpMx\Reflection\ReflectionCommandFile;
 use PhpMx\Reflection\ReflectionHelperFile;
 use PhpMx\Reflection\ReflectionMiddlewareFile;
@@ -27,7 +26,6 @@ return new class {
         $this->scanPsr4();
         $this->scanDatabase();
         $this->scanTest();
-        $this->scanExample();
 
         Terminal::progress('documentation', current: $this->count, total: count($this->error) + $this->count);
 
@@ -40,15 +38,6 @@ return new class {
             list($type, $name, $file, $line) = $error;
             $file = !is_blank($line) ? "$file:$line" : $file;
             Terminal::echol("[#c:dd,#] [#c:p,#] [#c:wd,#]", [$type, $name, $file]);
-        }
-    }
-
-    function scanExample()
-    {
-        foreach ($this->getExampleFiles() as $file) {
-            $name = $this->exampleName($file);
-            $content = trim(Import::content($file));
-            $this->check_simpleMode(['description' => $content], 'example', $name, $file);
         }
     }
 

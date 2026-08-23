@@ -27,7 +27,6 @@ return new class {
         $terminal = $this->exportTerminal();
         $routes = $this->exportRoutes();
         $classes = $this->exportClasses();
-        $examples = $this->exportExamples();
         $database = $this->exportDatabase();
 
         $sections = [
@@ -38,7 +37,6 @@ return new class {
             ['label' => 'Terminal Commands', 'link' => 'terminal.html', 'count' => count($terminal)],
             ['label' => 'Routes', 'link' => 'routes.html', 'count' => count($routes)],
             ['label' => 'Classes', 'link' => 'classes.html', 'count' => count($classes)],
-            ['label' => 'Examples', 'link' => 'examples.html', 'count' => count($examples)],
             ['label' => 'Database', 'link' => 'database.html', 'count' => count($database)],
         ];
 
@@ -90,13 +88,6 @@ return new class {
 
         $this->writeClassPages($classes, $project, $sections);
 
-        $examplesContent = View::render('autodoc/html/examples', [
-            'examples' => $this->renderExamplesIndex($examples),
-        ]);
-        $this->save('docs/html/examples.html', $this->renderPage('Examples', $project, $sections, $examplesContent));
-
-        $this->writeExamplePages($examples, $project, $sections);
-
         $databaseContent = View::render('autodoc/html/database', [
             'database' => $this->renderDatabaseIndex($database),
         ]);
@@ -104,7 +95,7 @@ return new class {
 
         $this->writeDatabasePages($database, $project, $sections);
 
-        $this->writeSearchIndex($constants, $functions, $environment, $middleware, $terminal, $routes, $classes, $examples, $database);
+        $this->writeSearchIndex($constants, $functions, $environment, $middleware, $terminal, $routes, $classes, $database);
 
         Terminal::echol('Exported to [#c:p,#]', 'docs/');
     }
@@ -587,84 +578,6 @@ return new class {
         return str_replace('\\', '.', $name) . ".$ex";
     }
 
-    protected function renderExamplesIndex(array $items): string
-    {
-        $groups = [];
-
-        foreach ($items as $item) {
-            $name = $item['name'] ?? '';
-            $parts = explode('.', $name);
-            array_pop($parts);
-            $group = implode('.', $parts) ?: '(root)';
-            $groups[$group][] = $item;
-        }
-
-        ksort($groups);
-
-        $blocks = [];
-        foreach ($groups as $group => $examples) {
-            $lines = ['<h2>' . $this->esc($group) . '</h2>', '<ul class="item-list">'];
-
-            foreach ($examples as $item) {
-                $name = $item['name'] ?? '';
-
-                $lines[] = View::render('autodoc/html/examples/link.html', [
-                    'name' => $this->esc($name),
-                    'link' => 'examples/' . $this->exampleFilename($name),
-                    'description' => $this->esc($this->exampleSummary($item['content'] ?? '')),
-                ]);
-            }
-
-            $lines[] = '</ul>';
-
-            $blocks[] = implode("\n", $lines);
-        }
-
-        return implode("\n", $blocks);
-    }
-
-    protected function exampleSummary(string $content): string
-    {
-        $first = strtok($content, "\n") ?: '';
-
-        return trim(ltrim(trim($first), '# '));
-    }
-
-    protected function writeExamplePages(array $items, array $project, array $sections): void
-    {
-        foreach ($items as $item) {
-            $name = $item['name'] ?? '';
-
-            $htmlContent = $this->markMdCodeBlocks(mdToHtml($item['content'] ?? ''));
-
-            $content = View::render('autodoc/html/examples/item.html', [
-                'content' => $htmlContent,
-            ]);
-
-            $title = $this->exampleSummary($item['content'] ?? '');
-            $this->save('docs/html/examples/' . $this->exampleFilename($name), $this->renderPage($title, $project, $sections, $content, '../../index.html', '../'));
-        }
-    }
-
-    protected function markMdCodeBlocks(string $html): string
-    {
-        return preg_replace_callback(
-            '#<pre[^>]*><code([^>]*)>(.*?)</code></pre>#is',
-            function ($m) {
-                preg_match('/class="([^"]*)"/', $m[1], $classMatch);
-                $class = $classMatch[1] ?? '';
-                $raw = html_entity_decode($m[2], ENT_QUOTES, 'UTF-8');
-                return $this->codeMarker($raw, $class);
-            },
-            $html
-        );
-    }
-
-    protected function exampleFilename(string $name): string
-    {
-        return "$name.html";
-    }
-
     protected function renderDatabaseIndex(array $database): string
     {
         $blocks = [];
@@ -752,16 +665,9 @@ return new class {
         array $terminal,
         array $routes,
         array $classes,
-        array $examples,
         array $database
     ): void {
         $index = [];
-
-        foreach ($examples as $item) {
-            $name = $item['name'] ?? '';
-            $title = $this->exampleSummary($item['content'] ?? '') ?: $name;
-            $index[] = ['key' => $title, 'type' => 'example', 'link' => 'examples/' . $this->exampleFilename($name)];
-        }
 
         foreach ($constants as $item)
             $index[] = ['key' => $item['name'] ?? '', 'type' => 'constant', 'link' => 'constants.html'];
