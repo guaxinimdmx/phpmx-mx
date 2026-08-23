@@ -1,5 +1,7 @@
 # PHPMX MX
 
+[![PHP Composer](https://github.com/guaxinimdmx/phpmx-mx/actions/workflows/tests.yml/badge.svg)](https://github.com/guaxinimdmx/phpmx-mx/actions/workflows/tests.yml)
+
 Framework base para aplicações modernas em PHP
 
 ```bash
