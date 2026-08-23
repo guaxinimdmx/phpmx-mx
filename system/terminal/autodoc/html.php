@@ -47,48 +47,41 @@ return new class {
             'title' => $project['name'] ?? '',
             'home' => 'index.html',
             'nav' => $this->renderNav($sections, 'html/'),
-            'content' => '',
+            'content' => '<h1>' . $project['name'] . '</h1><p>' . $project['description'] . '</p>',
         ]);
         $this->save('docs/index.html', $index);
 
         $constantsContent = View::render('autodoc/html/constants', [
-            'home' => '../index.html',
             'constants' => $this->renderSimpleList($constants, 'autodoc/html/constants/item.html'),
         ]);
         $this->save('docs/html/constants.html', $this->renderPage('Constants', $project, $sections, $constantsContent));
 
         $functionsContent = View::render('autodoc/html/functions', [
-            'home' => '../index.html',
             'functions' => $this->renderFunctions($functions),
         ]);
         $this->save('docs/html/functions.html', $this->renderPage('Functions', $project, $sections, $functionsContent));
 
         $environmentContent = View::render('autodoc/html/environment', [
-            'home' => '../index.html',
             'environment' => $this->renderSimpleList($environment, 'autodoc/html/environment/item.html'),
         ]);
         $this->save('docs/html/environment.html', $this->renderPage('Environment', $project, $sections, $environmentContent));
 
         $middlewareContent = View::render('autodoc/html/middleware', [
-            'home' => '../index.html',
             'middleware' => $this->renderSimpleList($middleware, 'autodoc/html/middleware/item.html'),
         ]);
         $this->save('docs/html/middleware.html', $this->renderPage('Middleware', $project, $sections, $middlewareContent));
 
         $terminalContent = View::render('autodoc/html/terminal', [
-            'home' => '../index.html',
             'terminal' => $this->renderTerminal($terminal),
         ]);
         $this->save('docs/html/terminal.html', $this->renderPage('Terminal Commands', $project, $sections, $terminalContent));
 
         $routesContent = View::render('autodoc/html/routes', [
-            'home' => '../index.html',
             'routes' => $this->renderRoutes($routes),
         ]);
         $this->save('docs/html/routes.html', $this->renderPage('Routes', $project, $sections, $routesContent));
 
         $classesContent = View::render('autodoc/html/classes', [
-            'home' => '../index.html',
             'classes' => $this->renderClassesIndex($classes),
         ]);
         $this->save('docs/html/classes.html', $this->renderPage('Classes', $project, $sections, $classesContent));
@@ -96,7 +89,6 @@ return new class {
         $this->writeClassPages($classes, $project, $sections);
 
         $examplesContent = View::render('autodoc/html/examples', [
-            'home' => '../index.html',
             'examples' => $this->renderExamplesIndex($examples),
         ]);
         $this->save('docs/html/examples.html', $this->renderPage('Examples', $project, $sections, $examplesContent));
@@ -104,7 +96,6 @@ return new class {
         $this->writeExamplePages($examples, $project, $sections);
 
         $databaseContent = View::render('autodoc/html/database', [
-            'home' => '../index.html',
             'database' => $this->renderDatabaseIndex($database),
         ]);
         $this->save('docs/html/database.html', $this->renderPage('Database', $project, $sections, $databaseContent));
@@ -347,8 +338,6 @@ return new class {
 
             $content = View::render('autodoc/html/classes/item.html', [
                 'name' => $this->esc($name),
-                'classesLink' => '../classes.html',
-                'home' => '../../index.html',
                 'badge' => $this->esc($badge),
                 'description' => $this->esc($this->joinDescription($item['description'] ?? [])),
                 'extends' => !empty($item['extends']) ? '<p><strong>Extends:</strong> <code>' . $this->esc($item['extends']) . '</code></p>' : '',
@@ -520,8 +509,6 @@ return new class {
             $htmlContent = $this->markMdCodeBlocks(mdToHtml($item['content'] ?? ''));
 
             $content = View::render('autodoc/html/examples/item.html', [
-                'examplesLink' => '../examples.html',
-                'home' => '../../index.html',
                 'content' => $htmlContent,
             ]);
 
@@ -577,8 +564,6 @@ return new class {
             foreach ($db['tables'] ?? [] as $tableName => $table) {
                 $content = View::render('autodoc/html/database/table.html', [
                     'name' => $this->esc($tableName),
-                    'databaseLink' => '../database.html',
-                    'home' => '../../index.html',
                     'comment' => $this->esc($table['comment'] ?? ''),
                     'fields' => $this->renderDatabaseFields($table['fields'] ?? [], $dbName),
                 ]);
