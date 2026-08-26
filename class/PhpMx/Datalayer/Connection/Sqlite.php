@@ -22,6 +22,12 @@ class Sqlite extends BaseConnection
 
         $file = $this->data['file'] ?? env("DB_{$envName}_FILE") ?? $this->dbName;
 
+        if ($file === ':memory:') {
+            $this->data['file'] = ':memory:';
+            $this->instancePDO = ["sqlite::memory:"];
+            return;
+        }
+
         if (!str_starts_with($file, '.')) $file = "library/sqlite/$file";
 
         $file = trim($file, '.');
@@ -52,9 +58,14 @@ class Sqlite extends BaseConnection
     {
         if (is_array($this->instancePDO)) {
             Trace::add('datalayer.start', prepare('[#] sqlite', Datalayer::externalName($this->dbName, 'Db')), function () {
-                if (!File::check($this->data['file']))
+                if ($this->data['file'] !== ':memory:' && !File::check($this->data['file']))
                     Dir::create($this->data['file']);
+
                 $this->instancePDO = new PDO(...(array) $this->instancePDO);
+
+                // Padrão para evitar erros de "database is locked" em escrita concorrente.
+                $this->instancePDO->exec('PRAGMA busy_timeout = 5000');
+                $this->instancePDO->exec('PRAGMA journal_mode = WAL');
             });
         }
         return $this->instancePDO;
